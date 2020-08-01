@@ -7,6 +7,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -60,26 +67,46 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="21" key="#Notifications/0.0.1366.728@0.0.1366.728" timestamp="1596265949455" />
+    <state x="455" y="166" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596291497142">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="455" y="166" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1596291497142" />
     <state x="463" y="118" key="FileChooserDialogImpl" timestamp="1596218938614">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="118" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1596218938614" />
-    <state width="1322" height="225" key="GridCell.Tab.0.bottom" timestamp="1596272210919">
+    <state width="1322" height="216" key="GridCell.Tab.0.bottom" timestamp="1596302544896">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="225" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1596272210919" />
-    <state width="1322" height="225" key="GridCell.Tab.0.center" timestamp="1596272210919">
+    <state width="1322" height="216" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1596302544896" />
+    <state width="1322" height="216" key="GridCell.Tab.0.center" timestamp="1596302544895">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="225" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1596272210919" />
-    <state width="1322" height="225" key="GridCell.Tab.0.left" timestamp="1596272210918">
+    <state width="1322" height="216" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1596302544895" />
+    <state width="1322" height="216" key="GridCell.Tab.0.left" timestamp="1596302544895">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="225" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1596272210918" />
-    <state width="1322" height="225" key="GridCell.Tab.0.right" timestamp="1596272210919">
+    <state width="1322" height="216" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1596302544895" />
+    <state width="1322" height="216" key="GridCell.Tab.0.right" timestamp="1596302544896">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="225" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1596272210919" />
+    <state width="1322" height="216" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1596302544896" />
+    <state width="1322" height="216" key="GridCell.Tab.1.bottom" timestamp="1596302544896">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="216" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1596302544896" />
+    <state width="1322" height="216" key="GridCell.Tab.1.center" timestamp="1596302544896">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="216" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1596302544896" />
+    <state width="1322" height="216" key="GridCell.Tab.1.left" timestamp="1596302544896">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="216" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1596302544896" />
+    <state width="1322" height="216" key="GridCell.Tab.1.right" timestamp="1596302544896">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="216" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1596302544896" />
     <state x="213" y="18" key="Maven.ArtifactSearchDialog" timestamp="1596257178511">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -92,5 +119,16 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="378" y="186" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1596251619770" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ql/khachsan/controllers/LoginController.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

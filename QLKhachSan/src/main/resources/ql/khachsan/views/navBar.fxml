@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="container" prefHeight="57.0" prefWidth="998.0" style="-fx-background-color: dodgerblue;"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ql.khachsan.controllers.NavBarController">
+    <children>
+        <Label layoutX="14.0" layoutY="8.0" text="Quản lý Khách sạn" textFill="WHITE">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Label>
+        <HBox fx:id="btnContainer" alignment="TOP_RIGHT" layoutX="379.0" layoutY="9.0" prefHeight="40.0"
+              prefWidth="597.0" AnchorPane.rightAnchor="22.0">
+            <children>
+                <Button fx:id="taiKhoan" contentDisplay="CENTER" mnemonicParsing="false" onAction="#taiKhoan_Clicked"
+                        prefHeight="53.0" prefWidth="150.0"
+                        style="-fx-background-color: #47c736; -fx-background-radius: 5;" textFill="WHITE">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                    <graphic>
+                        <AnchorPane prefHeight="26.0" prefWidth="140.0">
+                            <children>
+                                <GridPane layoutX="38.0" layoutY="5.0" prefHeight="45.0" prefWidth="125.0"
+                                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="53.0" minWidth="10.0"
+                                                           prefWidth="43.0"/>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="82.0" minWidth="10.0"
+                                                           prefWidth="82.0"/>
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                    </rowConstraints>
+                                    <children>
+                                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../../assets/img/user.png"/>
+                                            </image>
+                                        </ImageView>
+                                        <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER"
+                                               prefHeight="17.0" prefWidth="85.0" text="Label" textAlignment="CENTER"
+                                               textFill="WHITE" GridPane.columnIndex="1">
+                                            <font>
+                                                <Font name="System Bold" size="15.0"/>
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </AnchorPane>
+                    </graphic>
+                    <HBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="dangXuat" mnemonicParsing="false" onAction="#dangXuat_Clicked" prefHeight="38.0"
+                        prefWidth="108.0" style="-fx-background-color: #f59931; -fx-background-radius: 5;"
+                        text="Đăng xuất" textFill="WHITE">
+                    <font>
+                        <Font size="17.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets left="5.0" right="5.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

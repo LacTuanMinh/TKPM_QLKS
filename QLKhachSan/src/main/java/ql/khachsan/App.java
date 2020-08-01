@@ -19,9 +19,9 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-    private static Scene scene;
+    public static Scene scene;
     public static Stage homeStage;
-    private static LoginController controller;
+    public static LoginController controller;
     public static SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
     public static ObjectProperty<NhanVien> nhanvien = new SimpleObjectProperty<>();
 

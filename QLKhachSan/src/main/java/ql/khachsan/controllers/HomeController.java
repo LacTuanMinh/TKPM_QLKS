@@ -15,14 +15,14 @@ public class HomeController {
     public void homeWindow() throws IOException {
         FXMLLoader loader = App.getFXMLLoader("home");
         Parent root = loader.load();
-        Scene scene = new Scene(root, 1120, 420);
-        Stage stage = new Stage();
-        stage.setTitle("Trang chủ");
-        stage.setScene(scene);
-        stage.setResizable(false);
+        Scene scene = new Scene(root);
+//        Stage stage = new Stage();
+        App.homeStage.setTitle("Trang chủ");
+        App.homeStage.setScene(scene);
+        App.homeStage.setResizable(false);
         // Wait until this stage is complete
 //        stage.initModality(Modality.APPLICATION_MODAL);
 //        stage.initOwner(App.homeStage);
-        stage.show();
+        App.homeStage.show();
     }
 }
