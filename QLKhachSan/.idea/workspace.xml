@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0980de24-d413-4c9f-b6d2-5579cffcc4d6" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1fSkVnzU5h7D91qkAA386fBVtVP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RunManager">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ql.khachsan.App" />
+      <module name="QLKhachSan" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ql.khachsan.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0980de24-d413-4c9f-b6d2-5579cffcc4d6" name="Default Changelist" comment="" />
+      <created>1596218907680</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1596218907680</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="275" y="21" key="#Notifications" timestamp="1596265949455">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="21" key="#Notifications/0.0.1366.728@0.0.1366.728" timestamp="1596265949455" />
+    <state x="463" y="118" key="FileChooserDialogImpl" timestamp="1596218938614">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="463" y="118" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1596218938614" />
+    <state width="1322" height="225" key="GridCell.Tab.0.bottom" timestamp="1596272210919">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="225" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1596272210919" />
+    <state width="1322" height="225" key="GridCell.Tab.0.center" timestamp="1596272210919">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="225" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1596272210919" />
+    <state width="1322" height="225" key="GridCell.Tab.0.left" timestamp="1596272210918">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="225" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1596272210918" />
+    <state width="1322" height="225" key="GridCell.Tab.0.right" timestamp="1596272210919">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1322" height="225" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1596272210919" />
+    <state x="213" y="18" key="Maven.ArtifactSearchDialog" timestamp="1596257178511">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="213" y="18" key="Maven.ArtifactSearchDialog/0.0.1366.728@0.0.1366.728" timestamp="1596257178511" />
+    <state x="184" y="0" key="SettingsEditor" timestamp="1596265979879">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1596265979879" />
+    <state x="378" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1596251619770">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="378" y="186" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1596251619770" />
+  </component>
+</project>

@@ -10,7 +10,7 @@ module ql.khachsan {
     requires java.xml.bind;
     requires com.sun.xml.bind;
     requires com.fasterxml.classmate;
-    //requires jbcrypt;
+    requires jbcrypt;
     //requires slf4j.api;
     //requires java.desktop;
     //requires javafx.swing;
