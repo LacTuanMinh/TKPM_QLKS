@@ -21,7 +21,7 @@ public class NhanVienDAO {
             session.getTransaction().rollback();
         } finally {
             session.close();
-            return objects == null ? null : objects.get(0);
+            return objects.size() == 0 ? null : objects.get(0);
         }
     }
 

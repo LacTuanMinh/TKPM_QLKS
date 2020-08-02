@@ -15,13 +15,13 @@
 
         <fx:include fx:id="navBar" source="navBar.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                     AnchorPane.topAnchor="0.0"/>
-<!--        <ScrollPane fx:id="scrollPane" fitToWidth="true" layoutX="10.0" layoutY="98.0" prefHeight="415.0"-->
-<!--                    prefWidth="860.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="10.0"-->
-<!--                    AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="98.0">-->
-<!--            <content>-->
-<!--                <FlowPane fx:id="cardView" prefHeight="421.0" prefWidth="860.0"/>-->
-<!--            </content>-->
-<!--        </ScrollPane>-->
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" layoutX="10.0" layoutY="98.0" prefHeight="415.0"
+                    prefWidth="860.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="10.0"
+                    AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="98.0">
+            <content>
+                <FlowPane fx:id="cardView" prefHeight="421.0" prefWidth="860.0"/>
+            </content>
+        </ScrollPane>
 <!--        <ToolBar fx:id="searchField" layoutX="14.0" layoutY="100.0" prefHeight="45.0" prefWidth="350.0"-->
 <!--                 style="-fx-background-color: #4287f5;">-->
 <!--            <items>-->
