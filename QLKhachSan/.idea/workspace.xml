@@ -71,30 +71,30 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="455" y="166" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1596291497142" />
-    <state x="488" y="72" key="#com.intellij.ide.util.MemberChooser" timestamp="1596384731492">
+    <state x="488" y="72" key="#com.intellij.ide.util.MemberChooser" timestamp="1596428788375">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="72" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1596384731492" />
+    <state x="488" y="72" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1596428788375" />
     <state x="463" y="118" key="FileChooserDialogImpl" timestamp="1596218938614">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="118" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1596218938614" />
-    <state width="1322" height="216" key="GridCell.Tab.0.bottom" timestamp="1596389572507">
+    <state width="1322" height="226" key="GridCell.Tab.0.bottom" timestamp="1596436811382">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="216" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1596389572507" />
-    <state width="1322" height="216" key="GridCell.Tab.0.center" timestamp="1596389572507">
+    <state width="1322" height="226" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1596436811382" />
+    <state width="1322" height="226" key="GridCell.Tab.0.center" timestamp="1596436811382">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="216" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1596389572507" />
-    <state width="1322" height="216" key="GridCell.Tab.0.left" timestamp="1596389572507">
+    <state width="1322" height="226" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1596436811382" />
+    <state width="1322" height="226" key="GridCell.Tab.0.left" timestamp="1596436811382">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="216" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1596389572507" />
-    <state width="1322" height="216" key="GridCell.Tab.0.right" timestamp="1596389572507">
+    <state width="1322" height="226" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1596436811382" />
+    <state width="1322" height="226" key="GridCell.Tab.0.right" timestamp="1596436811382">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1322" height="216" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1596389572507" />
+    <state width="1322" height="226" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1596436811382" />
     <state width="1322" height="216" key="GridCell.Tab.1.bottom" timestamp="1596389572508">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -119,10 +119,14 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1596265979879" />
-    <state x="378" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1596339288809">
+    <state x="378" y="186" key="com.intellij.ide.util.TipDialog" timestamp="1596425854073">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="378" y="186" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1596339288809" />
+    <state x="378" y="186" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1596425854073" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1596426668176">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1596426668176" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

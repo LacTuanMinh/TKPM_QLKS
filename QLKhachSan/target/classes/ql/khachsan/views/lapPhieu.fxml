@@ -4,8 +4,6 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -53,42 +51,42 @@
       </TextField>
       <DatePicker fx:id="ngayThue" layoutX="182.0" layoutY="230.0" prefHeight="31.0" prefWidth="209.0" />
       <DatePicker fx:id="ngayTra" layoutX="182.0" layoutY="279.0" prefHeight="31.0" prefWidth="209.0" />
-      <Label layoutX="450.0" layoutY="189.0" text="Tên khách hàng">
+      <Label layoutX="480.0" layoutY="137.0" text="Tên khách hàng">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="451.0" layoutY="139.0" text="CMND">
+      <Label layoutX="481.0" layoutY="281.0" text="CMND">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="452.0" layoutY="237.0" text="Số điện thoại">
+      <Label layoutX="482.0" layoutY="185.0" text="Số điện thoại">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="452.0" layoutY="284.0" text="Địa chỉ">
+      <Label layoutX="482.0" layoutY="232.0" text="Địa chỉ">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="tenKhach" disable="true" editable="false" layoutX="593.0" layoutY="188.0" prefHeight="31.0" prefWidth="209.0">
+      <TextField fx:id="tenKhach" editable="false" layoutX="623.0" layoutY="136.0" prefHeight="31.0" prefWidth="209.0">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="cmnd" editable="false" layoutX="593.0" layoutY="135.0" prefHeight="31.0" prefWidth="209.0">
+      <TextField fx:id="cmnd" editable="false" layoutX="623.0" layoutY="279.0" prefHeight="31.0" prefWidth="209.0">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="diaChi" disable="true" editable="false" layoutX="593.0" layoutY="282.0" prefHeight="31.0" prefWidth="209.0">
+      <TextField fx:id="diaChi" editable="false" layoutX="623.0" layoutY="230.0" prefHeight="31.0" prefWidth="209.0">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="soDienThoai" disable="true" editable="false" layoutX="593.0" layoutY="237.0" prefHeight="31.0" prefWidth="209.0">
+      <TextField fx:id="soDienThoai" editable="false" layoutX="623.0" layoutY="185.0" prefHeight="31.0" prefWidth="209.0">
          <font>
             <Font size="15.0" />
          </font>
@@ -98,7 +96,7 @@
             <Font size="15.0" />
          </font>
       </TextField>
-      <Button fx:id="themPhieu" layoutX="301.0" layoutY="416.0" mnemonicParsing="false" onAction="#themPhieuBtn_Clicked" text="Thêm phiếu">
+      <Button fx:id="themPhieu" onAction="#themPhieuBtn_Clicked" layoutX="301.0" layoutY="416.0" mnemonicParsing="false" text="Thêm phiếu">
          <font>
             <Font size="18.0" />
          </font>
@@ -112,15 +110,6 @@
          <font>
             <Font size="18.0" />
          </font>
-      </Button>
-      <Button fx:id="searchKhachHang" layoutX="812.0" layoutY="134.0" mnemonicParsing="false" onAction="#searchBtn_Clicked" prefHeight="31.0" prefWidth="33.0">
-         <graphic>
-            <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../assets/img/search.png" />
-               </image>
-            </ImageView>
-         </graphic>
       </Button>
    </children>
 </AnchorPane>
