@@ -30,7 +30,7 @@ public class KhachHang {
         this.tenKhachHang = tenKhachHang;
     }
 
-    @Column(name = "CMND")
+    @Column(name = "CMND", unique = true)
     private String cmnd;
 
     public void setCmnd(String cmnd) {

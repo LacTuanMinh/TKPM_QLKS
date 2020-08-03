@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -81,12 +82,12 @@ public class LapPhieuController implements Initializable {
         this.ngayThue.setValue(LocalDate.now());
         this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
 
-        if (phong.getTrangThai() == 1)
-        {
+        if (phong.getTrangThai() == 1) {
             themPhieu.setDisable(false);
             luuThayDoi.setDisable(true);
             lapHoaDon.setDisable(true);
-        }else {
+        }
+        else {
             themPhieu.setDisable(true);
             luuThayDoi.setDisable(false);
             lapHoaDon.setDisable(false);
@@ -96,6 +97,7 @@ public class LapPhieuController implements Initializable {
     private boolean existEmptyField(){
         return true;
     }
+
     public void LapPhieuWindow(Phong phong) throws IOException {
         this.phong = phong;
         FXMLLoader loader = App.getFXMLLoader("lapPhieu");

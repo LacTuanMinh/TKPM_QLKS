@@ -30,6 +30,17 @@ public class LoaiPhong {
         this.tenLoaiPhong = tenLoaiPhong;
     }
 
+    @Column(name = "SoNguoiToiDa")
+    private int soNguoiToiDa;
+
+    public int getSoNguoiToiDa() {
+        return soNguoiToiDa;
+    }
+
+    public void setSoNguoiToiDa(int soNguoiToiDa) {
+        this.soNguoiToiDa = soNguoiToiDa;
+    }
+
     @Column(name = "Gia")
     private float gia;
 
