@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -106,7 +107,8 @@ public class LapPhieuController implements Initializable {
             themPhieu.setDisable(false);
             luuThayDoi.setDisable(true);
             lapHoaDon.setDisable(true);
-        } else {
+        }
+        else {
             themPhieu.setDisable(true);
             luuThayDoi.setDisable(false);
             lapHoaDon.setDisable(false);

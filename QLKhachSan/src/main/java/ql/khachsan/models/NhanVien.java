@@ -53,6 +53,17 @@ public class NhanVien {
         this.soDienThoai = soDienThoai;
     }
 
+    @Column(name = "GioiTinh", columnDefinition = "VARCHAR(3)")
+    private String gioiTinh;
+
+    public String getGioiTinh() {
+        return gioiTinh;
+    }
+
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
+
     @Column(name = "TenTaiKhoan")
     private String tenTaiKhoan;
 
