@@ -47,6 +47,11 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         list = PhongDAO.getPhong();
+        displayCardView();
+    }
+
+    public void displayCardView() {
+        cardView.getChildren().removeAll();
         for (int i = 0; i < list.size(); i++) {
             Phong phong_i = list.get(i);
             AnchorPane anchorPane = new AnchorPane();
@@ -58,21 +63,8 @@ public class HomeController implements Initializable {
                 img = new Image(getClass().getResourceAsStream("/assets/img/closed.png"), 103, 121, true, true);
             else img = new Image(getClass().getResourceAsStream("/assets/img/repairing.png"), 103, 121, true, true);
 
+
             ImageView imgView = new ImageView();
-//            double w = 0;
-//            double h = 0;
-//            double ratioX = imgView.getFitWidth() / img.getWidth();
-//            double ratioY = imgView.getFitHeight() / img.getHeight();
-//            double reducCoeff = 0;
-//            if (ratioX >= ratioY) {
-//                reducCoeff = ratioY;
-//            } else {
-//                reducCoeff = ratioX;
-//            }
-//            w = img.getWidth() * reducCoeff;
-//            h = img.getHeight() * reducCoeff;
-//            imgView.setX((imgView.getFitWidth() - w) / 2);
-//            imgView.setY((imgView.getFitHeight() - h) / 2);
             imgView.setImage(img);
             imgView.setLayoutX(12);
 
@@ -90,7 +82,7 @@ public class HomeController implements Initializable {
             AnchorPane.setRightAnchor(tenPhong, 55.0);
 
 
-            Label loaiPhong = new Label("Loại: " + phong_i.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
+            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
             loaiPhong.setPrefHeight(25);
             loaiPhong.setPrefWidth(139);
             loaiPhong.setLayoutX(20);
@@ -103,20 +95,21 @@ public class HomeController implements Initializable {
 
             anchorPane.getChildren().addAll(imgView, tenPhong, loaiPhong);
             Button btn = new Button();
+            btn.setId(phong_i.getIdPhong() + "");
             btn.setGraphic(anchorPane);
             btn.setPrefHeight(135);
             btn.setPrefWidth(140);
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-//                    if (phong_i.getTrangThai() == 1) {
+                    if (phong_i.getTrangThai() != 3) {
                         LapPhieuController controller = new LapPhieuController();
                         try {
-                            controller.LapPhieuWindow(phong_i);
+                            controller.LapPhieuWindow(cardView, phong_i);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-//                    }
+                    }
                 }
             });
             FlowPane.setMargin(btn, new Insets(5));

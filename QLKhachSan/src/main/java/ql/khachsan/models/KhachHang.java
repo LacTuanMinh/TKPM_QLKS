@@ -81,4 +81,7 @@ public class KhachHang {
         this.diaChi = diaChi;
         this.dsPhieuDatPhong = dsPhieuDatPhong;
     }
+
+    public KhachHang() {
+    }
 }
