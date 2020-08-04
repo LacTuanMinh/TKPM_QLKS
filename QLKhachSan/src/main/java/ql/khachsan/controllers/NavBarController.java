@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import ql.khachsan.App;
 
 import java.io.IOException;
@@ -60,6 +62,17 @@ public class NavBarController implements Initializable {
     }
 
     public void taiKhoan_Clicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("thongTinCaNhan");
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 720, 370);
+        Stage stage = new Stage();
+        stage.setTitle("Thông tin cá nhân");
+        stage.setScene(scene);
+        stage.setResizable(false);
 
+        // Wait until this stage is complete
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(App.homeStage);
+        stage.show();
     }
 }

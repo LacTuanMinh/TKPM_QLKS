@@ -1,8 +1,12 @@
 package ql.khachsan.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ql.khachsan.App;
 import ql.khachsan.DAO.NhanVienDAO;
@@ -19,6 +23,10 @@ public class LoginController implements Initializable {
     public PasswordField password;
     public Button loginBtn;
     public Label alert;
+
+    public Button qlNhanVienButton;
+    public Button qlPhongButton;
+    public Button qlLoaiPhongButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,5 +64,50 @@ public class LoginController implements Initializable {
                 }
             }
         }
+    }
+
+    public void qlNhanVienButtonClicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("qlNhanVien");
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 1120, 620);
+        Stage stage = new Stage();
+        stage.setTitle("Quản lý nhân viên");
+        stage.setScene(scene);
+        stage.setResizable(false);
+
+        // Wait until this stage is complete
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(App.homeStage);
+        stage.show();
+    }
+
+    public void qlPhongButtonClicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("qlPhong");
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 420, 520);
+        Stage stage = new Stage();
+        stage.setTitle("Quản lý phòng");
+        stage.setScene(scene);
+        stage.setResizable(false);
+
+        // Wait until this stage is complete
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(App.homeStage);
+        stage.show();
+    }
+
+    public void qlLoaiPhongButtonClicked(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = App.getFXMLLoader("qlLoaiPhong");
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 420, 520);
+        Stage stage = new Stage();
+        stage.setTitle("Quản lý loại phòng");
+        stage.setScene(scene);
+        stage.setResizable(false);
+
+        // Wait until this stage is complete
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(App.homeStage);
+        stage.show();
     }
 }

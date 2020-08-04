@@ -2,6 +2,7 @@ package ql.khachsan.DAO;
 
 import org.hibernate.Session;
 import ql.khachsan.App;
+import ql.khachsan.models.LoaiNhanVien;
 import ql.khachsan.models.NhanVien;
 
 import java.util.List;
@@ -30,10 +31,8 @@ public class NhanVienDAO {
         List<NhanVien> list = null;
         try {
             session.getTransaction().begin();
-            list = session.createNativeQuery(
-                    "select * " +
-                            "from nhanvien " +
-                            "where idnhanvien = :id", NhanVien.class).setParameter("id", id).getResultList();
+            String sql = "SELECT NV FROM NhanVien NV JOIN FETCH NV.loaiNhanVien LNV WHERE NV.idNhanVien = :id";
+            list = session.createQuery(sql, NhanVien.class).setParameter("id", id).getResultList();
             session.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -41,6 +40,113 @@ public class NhanVienDAO {
         } finally {
             session.close();
             return list == null ? null : list.get(0);
+        }
+    }
+
+    public static List<NhanVien> getAllNhanVien() {
+        Session session = App.sessionFactory.getCurrentSession();
+        List<NhanVien> list = null;
+        try {
+            session.getTransaction().begin();
+
+            String sql = "SELECT NV FROM NhanVien NV JOIN FETCH NV.loaiNhanVien LNV ORDER BY NV.idNhanVien";
+            list = session.createQuery(sql, NhanVien.class).getResultList();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+            return list;
+        }
+    }
+
+    public static void add(NhanVien nhanVien) {
+        Session session = App.sessionFactory.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+
+            session.persist(nhanVien);
+
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    public static void update(NhanVien nhanVien) {
+        Session session = App.sessionFactory.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+
+            session.update(nhanVien);
+
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    public static void delete(NhanVien nhanVien) {
+        Session session = App.sessionFactory.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+
+            session.delete(nhanVien);
+
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    public static void updateLuongAndChucVu(int id, float luong, LoaiNhanVien loaiNhanVien) {
+        Session session = App.sessionFactory.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+
+            NhanVien nhanVien = session.get(NhanVien.class, id);
+
+            nhanVien.setLuongThang(luong);
+            nhanVien.setLoaiNhanVien(loaiNhanVien);
+
+            session.update(nhanVien);
+
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    public static void updatePassword(int id, String password) {
+        Session session = App.sessionFactory.getCurrentSession();
+        try {
+            session.getTransaction().begin();
+
+            NhanVien nhanVien = session.get(NhanVien.class, id);
+
+            nhanVien.setMatKhau(password);
+
+            session.update(nhanVien);
+
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
         }
     }
 }

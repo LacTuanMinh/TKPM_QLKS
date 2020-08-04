@@ -64,6 +64,39 @@ public class NhanVien {
         this.gioiTinh = gioiTinh;
     }
 
+    @Column(name = "DiaChi")
+    private String diaChi;
+
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+
+    @Column(name = "QueQuan")
+    private String queQuan;
+
+    public String getQueQuan() {
+        return queQuan;
+    }
+
+    public void setQueQuan(String queQuan) {
+        this.queQuan = queQuan;
+    }
+
+    @Column(name = "NgayBatDauDiLam")
+    private Date ngayBatDauDiLam;
+
+    public Date getNgayBatDauDiLam() {
+        return ngayBatDauDiLam;
+    }
+
+    public void setNgayBatDauDiLam(Date ngayBatDauDiLam) {
+        this.ngayBatDauDiLam = ngayBatDauDiLam;
+    }
+
     @Column(name = "TenTaiKhoan")
     private String tenTaiKhoan;
 
