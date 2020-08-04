@@ -31,7 +31,7 @@ public class Phong {
     }
 
     @Column(name = "TrangThai")
-    public int trangThai;
+    private int trangThai;
 
     public void setTrangThai(int trangThai) {
         this.trangThai = trangThai;

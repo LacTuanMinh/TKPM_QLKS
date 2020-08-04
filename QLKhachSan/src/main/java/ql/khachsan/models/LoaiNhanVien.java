@@ -32,4 +32,9 @@ public class LoaiNhanVien {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "loaiNhanVien", cascade = CascadeType.REMOVE)
     private Set<NhanVien> dsNhanVien;
+
+    @Override
+    public String toString() {
+        return this.getTenLoaiNhanVien();
+    }
 }

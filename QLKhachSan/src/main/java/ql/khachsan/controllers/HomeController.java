@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-
     public FlowPane cardView;
 
     @FXML
@@ -46,7 +45,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        list = PhongDAO.getPhong();
+        list = PhongDAO.getAllPhong();
         for (int i = 0; i < list.size(); i++) {
             Phong phong_i = list.get(i);
             AnchorPane anchorPane = new AnchorPane();
@@ -88,7 +87,6 @@ public class HomeController implements Initializable {
             tenPhong.setFont(new Font("System Bold", 15));
             AnchorPane.setLeftAnchor(tenPhong, 4.0);
             AnchorPane.setRightAnchor(tenPhong, 55.0);
-
 
             Label loaiPhong = new Label("Loại: " + phong_i.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
             loaiPhong.setPrefHeight(25);
