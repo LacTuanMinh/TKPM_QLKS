@@ -70,6 +70,17 @@ public class PhieuDatPhong {
         this.ngayThue = ngayThue;
     }
 
+    @Column(name = "NgayTra")
+    private Date ngayTra;
+
+    public Date getNgayTra() {
+        return ngayTra;
+    }
+
+    public void setNgayTra(Date ngayTra) {
+        this.ngayTra = ngayTra;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "phieuDatPhong", cascade = CascadeType.REMOVE)
     private Set<HoaDonThanhToan> dsHoaDonThanhToan;
 }

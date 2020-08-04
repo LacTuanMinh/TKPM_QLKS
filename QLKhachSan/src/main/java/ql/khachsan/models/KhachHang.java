@@ -66,19 +66,4 @@ public class KhachHang {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "khachHang", cascade = CascadeType.REMOVE)
     private Set<PhieuDatPhong> dsPhieuDatPhong;
 
-    public Set<PhieuDatPhong> getDsPhieuDatPhong() {
-        return dsPhieuDatPhong;
-    }
-
-    public void setDsPhieuDatPhong(Set<PhieuDatPhong> dsPhieuDatPhong) {
-        this.dsPhieuDatPhong = dsPhieuDatPhong;
-    }
-
-    public KhachHang(String tenKhachHang, String cmnd, String soDienThoai, String diaChi, Set<PhieuDatPhong> dsPhieuDatPhong) {
-        this.tenKhachHang = tenKhachHang;
-        this.cmnd = cmnd;
-        this.soDienThoai = soDienThoai;
-        this.diaChi = diaChi;
-        this.dsPhieuDatPhong = dsPhieuDatPhong;
-    }
 }

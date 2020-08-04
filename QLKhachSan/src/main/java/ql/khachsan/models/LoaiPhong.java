@@ -54,4 +54,9 @@ public class LoaiPhong {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "loaiPhong", cascade = CascadeType.REMOVE)
     private Set<Phong> dsPhong;
+
+    @Override
+    public String toString() {
+        return this.getTenLoaiPhong();
+    }
 }
