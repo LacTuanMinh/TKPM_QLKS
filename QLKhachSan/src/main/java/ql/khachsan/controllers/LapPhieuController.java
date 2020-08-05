@@ -56,9 +56,12 @@ public class LapPhieuController implements Initializable {
     public Button searchKhachHang;
     public TextField giaPhong;
     public TextField tongTien;
+    public Button refresh;
     private Phong phong = new Phong();
-
+    public static Stage stage = new Stage();
     private KhachHang khachHang = null;
+
+    private PhieuDatPhong phieu = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -150,7 +153,6 @@ public class LapPhieuController implements Initializable {
     }
 
     public static float tongTien(int soNgay, float donGia) {
-        soNgay++;
         if (soNgay < 10)
             return soNgay * donGia;
         if (soNgay < 20)
@@ -168,7 +170,7 @@ public class LapPhieuController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
                 if (t1 != null) {
-                    long dayBetween = DAYS.between(ngayThue.getValue(), ngayTra.getValue());
+                    long dayBetween = 1 + DAYS.between(ngayThue.getValue(), ngayTra.getValue());
                     tongTien.setText(LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia()) + "");
                 } else tongTien.setText("");
             }
@@ -184,9 +186,9 @@ public class LapPhieuController implements Initializable {
 
             themPhieu.setDisable(true);
             luuThayDoi.setDisable(false);
-            lapHoaDon.setDisable(false);
             searchKhachHang.setDisable(true);
-            PhieuDatPhong phieu = PhieuDatPhongDAO.getPhieuDatPhongByIDPhong(phong.getIdPhong());
+            refresh.setDisable(true);
+            phieu = PhieuDatPhongDAO.getPhieuDatPhongByIDPhong(phong.getIdPhong());
 
             assert phieu != null;
             this.khachHang = phieu.getKhachHang();
@@ -207,6 +209,11 @@ public class LapPhieuController implements Initializable {
             tenKhach.setEditable(true);
             diaChi.setEditable(true);
             soDienThoai.setEditable(true);
+            lapHoaDon.setDisable(false);
+//            if (phieu.getNgayTra().before(new Date()))
+//                lapHoaDon.setDisable(false);
+//            else lapHoaDon.setDisable(true);
+
         }
     }
 
@@ -247,12 +254,13 @@ public class LapPhieuController implements Initializable {
         LapPhieuController controller = loader.getController();
         controller.setWindow(phong);
         controller.cardView = cardView;
-        Stage stage = new Stage();
         stage.setTitle("Lập phiếu thuê phòng");
         stage.setScene(new Scene(root));
         stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(App.homeStage);
+        if (stage.getModality() == Modality.NONE)
+            stage.initModality(Modality.APPLICATION_MODAL);
+        if (stage.getOwner() == null)
+            stage.initOwner(App.homeStage);
         stage.show();
     }
 
@@ -280,10 +288,10 @@ public class LapPhieuController implements Initializable {
                 this.phong,
                 App.nhanvien.getValue(),
                 this.khachHang,
-                new Date(),
+                Date.from(ngayThue.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), //new Date(),
                 Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                 null);
-        PhieuDatPhongDAO.addPhieu(phieuDatPhong);
+        PhieuDatPhongDAO.addOrUpdatePhieu(phieuDatPhong);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Thêm phiếu thành công");
@@ -410,6 +418,9 @@ public class LapPhieuController implements Initializable {
         this.khachHang.setSoDienThoai(soDienThoai.getText());
         this.khachHang.setTenKhachHang(tenKhach.getText());
         KhachHangDAO.addOrUpdateKhachHang(khachHang);
+        this.phieu.setNgayTra(Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        PhieuDatPhongDAO.addOrUpdatePhieu(this.phieu);
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Thông báo");
         alert.setContentText("Điều chỉnh thành công");
@@ -422,5 +433,11 @@ public class LapPhieuController implements Initializable {
         cmnd.setText("");
         soDienThoai.setText("");
         diaChi.setText("");
+    }
+
+    public void lapHoaDonBtn_Clicked(ActionEvent actionEvent) throws IOException {
+        HoaDonController controller = new HoaDonController();
+        PhieuDatPhong phieu = PhieuDatPhongDAO.getPhieuDatPhongByIDPhong(phong.getIdPhong());
+        controller.LapHoaDonWindow(this.cardView, phieu);
     }
 }

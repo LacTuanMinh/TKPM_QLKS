@@ -45,7 +45,7 @@ public class HoaDonThanhToan {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDKhuyenMai", nullable = false, referencedColumnName = "IDKhuyenMai",
+    @JoinColumn(name = "IDKhuyenMai", referencedColumnName = "IDKhuyenMai",
             foreignKey = @ForeignKey(name = "FK_HoaDonThanhToan_KhuyenMai"))
     private KhuyenMai khuyenMai;
 
@@ -54,6 +54,15 @@ public class HoaDonThanhToan {
     }
 
     public void setKhuyenMai(KhuyenMai khuyenMai) {
+        this.khuyenMai = khuyenMai;
+    }
+
+    public HoaDonThanhToan() {
+    }
+
+    public HoaDonThanhToan(PhieuDatPhong phieuDatPhong, NhanVien nhanVien, KhuyenMai khuyenMai) {
+        this.phieuDatPhong = phieuDatPhong;
+        this.nhanVien = nhanVien;
         this.khuyenMai = khuyenMai;
     }
 }
