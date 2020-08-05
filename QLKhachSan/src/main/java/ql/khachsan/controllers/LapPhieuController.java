@@ -150,7 +150,7 @@ public class LapPhieuController implements Initializable {
     }
 
     public static float tongTien(int soNgay, float donGia) {
-        int sum = 0;
+        soNgay++;
         if (soNgay < 10)
             return soNgay * donGia;
         if (soNgay < 20)
@@ -170,12 +170,13 @@ public class LapPhieuController implements Initializable {
                 if (t1 != null) {
                     long dayBetween = DAYS.between(ngayThue.getValue(), ngayTra.getValue());
                     tongTien.setText(LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia()) + "");
-                }else tongTien.setText("");
+                } else tongTien.setText("");
             }
         });
 
         if (phong.getTrangThai() == 1) {// phòng trống
             this.ngayThue.setValue(LocalDate.now());
+
             themPhieu.setDisable(false);
             luuThayDoi.setDisable(true);
             lapHoaDon.setDisable(true);
@@ -273,7 +274,7 @@ public class LapPhieuController implements Initializable {
         KhachHangDAO.addOrUpdateKhachHang(this.khachHang);
 
         phong.setTrangThai(2);
-        PhongDAO.updatePhong(phong);
+        PhongDAO.update(phong);
 
         PhieuDatPhong phieuDatPhong = new PhieuDatPhong(
                 this.phong,
@@ -413,5 +414,13 @@ public class LapPhieuController implements Initializable {
         alert.setHeaderText("Thông báo");
         alert.setContentText("Điều chỉnh thành công");
         alert.showAndWait();
+    }
+
+    public void refreshBtn_Clicked(ActionEvent actionEvent) {
+        this.khachHang = null;
+        tenKhach.setText("");
+        cmnd.setText("");
+        soDienThoai.setText("");
+        diaChi.setText("");
     }
 }
