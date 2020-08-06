@@ -1,5 +1,13 @@
 package ql.khachsan.controllers;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.IElement;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,18 +28,24 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import ql.khachsan.App;
 import ql.khachsan.DAO.HoaDonThanhToanDAO;
 import ql.khachsan.DAO.PhongDAO;
 import ql.khachsan.models.*;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class HoaDonController implements Initializable {
@@ -64,8 +79,8 @@ public class HoaDonController implements Initializable {
         alert.setContentText(hoaDon.getIdHoaDon() + "");
         alert.showAndWait();
 
-        ((Stage) luuHoaDon.getScene().getWindow()).close();
-        ((Stage) ((Stage) luuHoaDon.getScene().getWindow()).getOwner()).close();
+        ((Stage)luuHoaDon.getScene().getWindow()).close();
+        ((Stage)((Stage)luuHoaDon.getScene().getWindow()).getOwner()).close();
 
         Button btn = (Button) this.card.lookup("#" + phieuDatPhong.getPhong().getIdPhong() + "");
 
@@ -160,7 +175,8 @@ public class HoaDonController implements Initializable {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         this.ngayThue.setText(df.format(phieu.getNgayThue()));
         this.ngayTra.setText(df.format(phieu.getNgayTra()));
-        int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(), phieu.getNgayTra().toInstant()));
+        int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(),
+                phieu.getNgayTra().toInstant()));
 
         this.tongTien.setText(LapPhieuController.tongTien(soNgay, p.getLoaiPhong().getGia()) + "");
         this.tenPhong.setText(p.getTenPhong());
@@ -168,5 +184,95 @@ public class HoaDonController implements Initializable {
         this.soNgay.setText(soNgay + "");
         this.kyTenKhach.setText(kh.getTenKhachHang());
         this.kyTenNhanvien.setText(nv.getHoTen());
+    }
+
+    private void printPDF(File file) throws FileNotFoundException {
+        if (file != null) {
+            int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
+                    phieuDatPhong.getNgayTra().toInstant()));
+            float tongTien = LapPhieuController.tongTien(soNgay,
+                    phieuDatPhong.getPhong().getLoaiPhong().getGia());
+
+            String str = file.getAbsolutePath();
+            PdfWriter writer = new PdfWriter(str);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            DateFormat format = new SimpleDateFormat("dd/MM/yy");
+            //String path = getClass().getResource("/fonts/arial.ttf").getPath();
+            //PdfFont font = PdfFontFactory.createFont(path, "UTF-8");
+            Paragraph title = new Paragraph("Hóa đơn thanh toán");
+            //title.setFont(font);
+            title.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+
+            document.add(title);
+
+            Paragraph p = new Paragraph("Date created: " + format.format(new Date()));
+            p.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+            document.add(p);
+
+            Table tb1 = new Table(2);
+            tb1.setWidth(500);
+            tb1.addCell("Mã số phiếu: " + phieuDatPhong.getIdPhieuDatPhong());
+            tb1.addCell("Tổng: " + String.format("%.0f", tongTien));
+            tb1.addCell("Người thanh toán: " + phieuDatPhong.getKhachHang().getTenKhachHang());
+            tb1.addCell("Nhân viên lập hóa đơn: " + phieuDatPhong.getNhanVien().getHoTen());
+            tb1.setAutoLayout();
+            tb1.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            tb1.setBorder(Border.NO_BORDER);
+            for (IElement iElement : tb1.getChildren()) {
+                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
+            }
+            document.add(tb1);
+
+            Table tb2 = new Table(6);
+            tb2.addCell("Phòng");
+            tb2.addCell("Loại phòng");
+            tb2.addCell("Ngày đến");
+            tb2.addCell("Ngày đi");
+            tb2.addCell("Số ngày ở");
+            tb2.addCell("Thành tiền");
+            tb2.addCell(phieuDatPhong.getPhong().getTenPhong());
+            tb2.addCell(phieuDatPhong.getPhong().getLoaiPhong().getTenLoaiPhong());
+            tb2.addCell(format.format(phieuDatPhong.getNgayThue()));
+            tb2.addCell(format.format(phieuDatPhong.getNgayTra()));
+            tb2.addCell(Integer.toString(soNgay));
+            tb2.addCell(String.format("%.0f", tongTien));
+            tb1.setAutoLayout();
+            document.add(tb2);
+
+            document.close();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message Here...");
+            alert.setHeaderText("You have created a PDF file");
+            alert.setContentText("File location: " + file.getAbsolutePath());
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
+                }
+            });
+
+            // open PDF file just got created
+            try {
+                Desktop.getDesktop().open(file.getAbsoluteFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Awesome PDF just got created.");
+        }
+    }
+
+    public void xuatHoaDonButtonClicked(ActionEvent actionEvent) throws FileNotFoundException {
+        Button button = (Button)actionEvent.getTarget();
+        Scene scene = button.getScene();
+        Window window = scene.getWindow();
+        FileChooser fc = new FileChooser();
+
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf", "*.PDF"));
+        File file = fc.showSaveDialog(window);
+        printPDF(file);
     }
 }

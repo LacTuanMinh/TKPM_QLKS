@@ -30,22 +30,13 @@ public class PhieuDatPhongDAO {
         try {
             Transaction tx = session.beginTransaction();
 
-//            String sql = "SELECT PDP FROM PhieuDatPhong PDP JOIN FETCH PDP.khachHang KH " +
-//                    "JOIN FETCH PDP.phong P JOIN FETCH PDP.nhanVien NV " +
-//                    "WHERE P.idPhong = :id AND PDP.ngayTra > CURRENT_DATE()";
-//            list = session.createQuery(sql, PhieuDatPhong.class)
-//                    .setParameter("id", id).getResultList();
+            String sql = "SELECT PDP FROM PhieuDatPhong PDP JOIN FETCH PDP.khachHang KH " +
+                    "JOIN FETCH PDP.phong P JOIN FETCH PDP.nhanVien NV JOIN FETCH P.loaiPhong LP " +
+                    "WHERE P.idPhong = :id AND PDP.idPhieuDatPhong = " +
+                    "(SELECT MAX(PDP2.idPhieuDatPhong) FROM PhieuDatPhong PDP2 WHERE PDP.phong = PDP2.phong)";
+            list = session.createQuery(sql, PhieuDatPhong.class)
+                    .setParameter("id", id).getResultList();
 
-
-            list = session.createNativeQuery("select * " +
-                    "from phieudatphong pdp " +
-                    "where pdp.idphong = :id and pdp.idphieudatphong = (select max(pdp2.idphieudatphong) from phieudatphong pdp2 where pdp2.idphong = pdp.idphong)", PhieuDatPhong.class).setParameter("id", id).getResultList();
-            for (PhieuDatPhong p : list) {
-                Hibernate.initialize(p.getKhachHang());
-                Hibernate.initialize(p.getNhanVien());
-                Hibernate.initialize(p.getPhong());
-                Hibernate.initialize(p.getPhong().getLoaiPhong());
-            }
             tx.commit();
         } catch (Exception ex) {
             ex.printStackTrace();

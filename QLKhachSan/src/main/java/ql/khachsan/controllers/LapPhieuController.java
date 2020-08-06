@@ -1,5 +1,14 @@
 package ql.khachsan.controllers;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.IElement;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -10,7 +19,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Window;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -18,9 +31,11 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
 import ql.khachsan.App;
 import ql.khachsan.DAO.KhachHangDAO;
 import ql.khachsan.DAO.PhieuDatPhongDAO;
@@ -29,8 +44,13 @@ import ql.khachsan.models.KhachHang;
 import ql.khachsan.models.PhieuDatPhong;
 import ql.khachsan.models.Phong;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -57,15 +77,17 @@ public class LapPhieuController implements Initializable {
     public TextField giaPhong;
     public TextField tongTien;
     public Button refresh;
+
     private Phong phong = new Phong();
     public static Stage stage = new Stage();
     private KhachHang khachHang = null;
 
     private PhieuDatPhong phieu = null;
 
+    private FlowPane cardView;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         ngayThue.setEditable(false);
         ngayThue.setConverter(new StringConverter<LocalDate>() {
             String pattern = "dd/MM/yyyy";
@@ -91,6 +113,7 @@ public class LapPhieuController implements Initializable {
                 }
             }
         });
+
         ngayThue.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -124,6 +147,7 @@ public class LapPhieuController implements Initializable {
                 }
             }
         });
+
         ngayTra.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -132,6 +156,7 @@ public class LapPhieuController implements Initializable {
                 }
             }
         });
+
         soDienThoai.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -141,6 +166,7 @@ public class LapPhieuController implements Initializable {
                 }
             }
         });
+
         cmnd.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
@@ -166,6 +192,7 @@ public class LapPhieuController implements Initializable {
         this.loaiPhong.setText(phong.getLoaiPhong().getTenLoaiPhong());
         this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
         this.giaPhong.setText(phong.getLoaiPhong().getGia() + "");
+
         ngayTra.valueProperty().addListener(new ChangeListener<LocalDate>() {
             @Override
             public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
@@ -176,14 +203,15 @@ public class LapPhieuController implements Initializable {
             }
         });
 
-        if (phong.getTrangThai() == 1) {// phòng trống
+        if (phong.getTrangThai() == 1) {
+            // phòng trống
             this.ngayThue.setValue(LocalDate.now());
-
             themPhieu.setDisable(false);
             luuThayDoi.setDisable(true);
             lapHoaDon.setDisable(true);
-        } else {// có khách
-
+        }
+        else {
+            // có khách
             themPhieu.setDisable(true);
             luuThayDoi.setDisable(false);
             searchKhachHang.setDisable(true);
@@ -246,8 +274,6 @@ public class LapPhieuController implements Initializable {
         return str.trim().isEmpty();
     }
 
-    private FlowPane cardView;
-
     public void LapPhieuWindow(FlowPane cardView, Phong phong) throws IOException {
         FXMLLoader loader = App.getFXMLLoader("lapPhieu");
         Parent root = loader.load();
@@ -265,7 +291,6 @@ public class LapPhieuController implements Initializable {
     }
 
     public void themPhieuBtn_Clicked(ActionEvent actionEvent) {
-
         if (existEmptyField())
             return;
         if (!isValid())
@@ -302,7 +327,6 @@ public class LapPhieuController implements Initializable {
         lapHoaDon.setDisable(false);
         searchKhachHang.setDisable(true);
 
-
         Button btn = (Button) this.cardView.lookup("#" + phong.getIdPhong() + "");
 
         AnchorPane anchorPane = new AnchorPane();
@@ -323,7 +347,6 @@ public class LapPhieuController implements Initializable {
         tenPhong.setFont(new Font("System Bold", 15));
         AnchorPane.setLeftAnchor(tenPhong, 4.0);
         AnchorPane.setRightAnchor(tenPhong, 55.0);
-
 
         Label loaiPhong = new Label(phong.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
         loaiPhong.setPrefHeight(25);
@@ -369,7 +392,8 @@ public class LapPhieuController implements Initializable {
             alert.setHeaderText("Không tìm thấy khách hàng. Vui lòng nhập thông tin chi tiết");
             alert.showAndWait();
 
-        } else {
+        }
+        else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Đã tìm thấy khách hàng");
             alert.showAndWait();
@@ -386,7 +410,6 @@ public class LapPhieuController implements Initializable {
     }
 
     private boolean isValid() {
-
         StringBuilder warningContent = new StringBuilder("");
         if (ngayThue.getValue().isBefore(LocalDate.now()))
             warningContent.append("Ngày thuê không hợp lệ\n");
@@ -403,9 +426,9 @@ public class LapPhieuController implements Initializable {
     }
 
     public void luuThayDoiBtn_Clicked(ActionEvent actionEvent) {
-
         if (existEmptyField())
             return;
+
         if (ngayTra.getValue().isBefore(LocalDate.now())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Thông báo");
@@ -413,6 +436,7 @@ public class LapPhieuController implements Initializable {
             alert.showAndWait();
             return;
         }
+
         this.khachHang.setCmnd(cmnd.getText());
         this.khachHang.setDiaChi(diaChi.getText());
         this.khachHang.setSoDienThoai(soDienThoai.getText());
@@ -439,5 +463,87 @@ public class LapPhieuController implements Initializable {
         HoaDonController controller = new HoaDonController();
         PhieuDatPhong phieu = PhieuDatPhongDAO.getPhieuDatPhongByIDPhong(phong.getIdPhong());
         controller.LapHoaDonWindow(this.cardView, phieu);
+    }
+
+    private void printPDF(File file) throws FileNotFoundException {
+        if (file != null) {
+            String str = file.getAbsolutePath();
+            PdfWriter writer = new PdfWriter(str);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            DateFormat format = new SimpleDateFormat("dd/MM/yy");
+            //String path = getClass().getResource("/fonts/arial.ttf").getPath();
+            //PdfFont font = PdfFontFactory.createFont(path, "UTF-8");
+            Paragraph title = new Paragraph("Phiếu thuê phòng");
+            //title.setFont(font);
+            title.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+
+            document.add(title);
+
+            Paragraph p = new Paragraph("Date created: " + format.format(new Date()));
+            p.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+            document.add(p);
+
+            Table tb1 = new Table(2);
+            tb1.setWidth(500);
+            tb1.addCell("Mã số phiếu: " + phieu.getIdPhieuDatPhong());
+            tb1.addCell("Ngày thuê: " + format.format(phieu.getNgayThue()));
+            tb1.addCell("Phòng: " + phieu.getPhong().getTenPhong());
+            tb1.addCell("Loại phòng: " + phieu.getPhong().getLoaiPhong().getTenLoaiPhong());
+            tb1.addCell("Nhân viên lập phiếu: " + phieu.getNhanVien().getHoTen());
+            tb1.setAutoLayout();
+            tb1.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            tb1.setBorder(Border.NO_BORDER);
+            for (IElement iElement : tb1.getChildren()) {
+                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
+            }
+            document.add(tb1);
+
+            Table tb2 = new Table(4);
+            tb2.addCell("Tên khách hàng");
+            tb2.addCell("Số điện thoại");
+            tb2.addCell("CMND");
+            tb2.addCell("Địa chỉ");
+            tb2.addCell(phieu.getKhachHang().getTenKhachHang());
+            tb2.addCell(phieu.getKhachHang().getSoDienThoai());
+            tb2.addCell(phieu.getKhachHang().getCmnd());
+            tb2.addCell(phieu.getKhachHang().getDiaChi());
+            tb1.setAutoLayout();
+            document.add(tb2);
+
+            document.close();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message Here...");
+            alert.setHeaderText("You have created a PDF file");
+            alert.setContentText("File location: " + file.getAbsolutePath());
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
+                }
+            });
+
+            // open PDF file just got created
+            try {
+                Desktop.getDesktop().open(file.getAbsoluteFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Awesome PDF just got created.");
+        }
+    }
+
+    public void xuatPhieuButtonClicked(ActionEvent actionEvent) throws FileNotFoundException {
+        Button button = (Button)actionEvent.getTarget();
+        Scene scene = button.getScene();
+        Window window = scene.getWindow();
+        FileChooser fc = new FileChooser();
+
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf", "*.PDF"));
+        File file = fc.showSaveDialog(window);
+        printPDF(file);
     }
 }

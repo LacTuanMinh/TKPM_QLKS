@@ -98,17 +98,17 @@
             <Font size="15.0" />
          </font>
       </TextField>
-      <Button fx:id="themPhieu" layoutX="438.0" layoutY="430.0" mnemonicParsing="false" onAction="#themPhieuBtn_Clicked" text="Thêm phiếu">
+      <Button fx:id="themPhieu" layoutX="506.0" layoutY="447.0" mnemonicParsing="false" onAction="#themPhieuBtn_Clicked" text="Thêm phiếu">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="lapHoaDon" onAction="#lapHoaDonBtn_Clicked" disable="true" layoutX="712.0" layoutY="430.0" mnemonicParsing="false" text="Lập hóa đơn">
+      <Button fx:id="lapHoaDon" disable="true" layoutX="780.0" layoutY="447.0" mnemonicParsing="false" onAction="#lapHoaDonBtn_Clicked" text="Lập hóa đơn">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="luuThayDoi" layoutX="573.0" layoutY="430.0" mnemonicParsing="false" onAction="#luuThayDoiBtn_Clicked" text="Lưu thay đổi">
+      <Button fx:id="luuThayDoi" layoutX="641.0" layoutY="447.0" mnemonicParsing="false" onAction="#luuThayDoiBtn_Clicked" text="Lưu thay đổi">
          <font>
             <Font size="18.0" />
          </font>
@@ -156,6 +156,11 @@
                <Image url="@../../../assets/img/refresh.png" />
             </ImageView>
          </graphic>
+      </Button>
+      <Button layoutX="375.0" layoutY="447.0" mnemonicParsing="false" onAction="#xuatPhieuButtonClicked" text="Xuất phiếu" fx:id="xuatPhieuButton">
+         <font>
+            <Font size="18.0" />
+         </font>
       </Button>
    </children>
 </AnchorPane>

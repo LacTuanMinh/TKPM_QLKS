@@ -11,8 +11,11 @@ module ql.khachsan {
     requires com.sun.xml.bind;
     requires com.fasterxml.classmate;
     requires jbcrypt;
-    //requires slf4j.api;
-    //requires java.desktop;
+
+    requires layout;
+    requires kernel;
+
+    requires java.desktop;
     //requires javafx.swing;
 
     opens ql.khachsan to javafx.fxml;

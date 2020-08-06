@@ -47,7 +47,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="luuHoaDon" layoutX="374.0" layoutY="470.0" mnemonicParsing="false" onAction="#luuHoaDonBtn_Clicked" prefHeight="43.0" prefWidth="125.0" text="Lưu hóa đơn">
+      <Button fx:id="luuHoaDon" layoutX="312.0" layoutY="470.0" mnemonicParsing="false" onAction="#luuHoaDonBtn_Clicked" prefHeight="43.0" prefWidth="125.0" text="Lưu hóa đơn">
          <font>
             <Font size="18.0" />
          </font>
@@ -152,5 +152,10 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Button layoutX="448.0" layoutY="470.0" mnemonicParsing="false" onAction="#xuatHoaDonButtonClicked" prefHeight="43.0" prefWidth="140.0" text="Xuất hóa đơn" fx:id="xuatHoaDonButton">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
