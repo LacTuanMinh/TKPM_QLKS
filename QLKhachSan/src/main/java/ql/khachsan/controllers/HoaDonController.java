@@ -8,6 +8,7 @@ import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -213,10 +214,18 @@ public class HoaDonController implements Initializable {
 
             Table tb1 = new Table(2);
             tb1.setWidth(500);
-            tb1.addCell("Mã số phiếu: " + phieuDatPhong.getIdPhieuDatPhong());
-            tb1.addCell("Tổng: " + String.format("%.0f", tongTien));
-            tb1.addCell("Người thanh toán: " + phieuDatPhong.getKhachHang().getTenKhachHang());
-            tb1.addCell("Nhân viên lập hóa đơn: " + phieuDatPhong.getNhanVien().getHoTen());
+            tb1.addCell("Tên khách hàng: " + phieuDatPhong.getKhachHang().getTenKhachHang());
+            tb1.addCell("Ngày thuê: " + format.format(phieuDatPhong.getNgayThue()));
+            tb1.addCell("CMND: " + phieuDatPhong.getKhachHang().getCmnd());
+            tb1.addCell("Ngày trả: " + format.format(phieuDatPhong.getNgayTra()));
+            tb1.addCell("Số điện thoại: " + phieuDatPhong.getKhachHang().getSoDienThoai());
+            tb1.addCell("Số ngày thuê: " + soNgay + " ngày");
+            tb1.addCell("Tên phòng: " + phieuDatPhong.getPhong().getTenPhong());
+            tb1.addCell("Giá phòng: " + String.format("%.0f", phieuDatPhong.getPhong()
+                    .getLoaiPhong().getGia()) + " VNĐ/ngày");
+            tb1.addCell("Loại phòng: " + phieuDatPhong.getPhong().getLoaiPhong().getTenLoaiPhong());
+            tb1.addCell("Tổng tiền: " + String.format("%.0f", tongTien) + " VNĐ");
+
             tb1.setAutoLayout();
             tb1.setHorizontalAlignment(HorizontalAlignment.CENTER);
             tb1.setBorder(Border.NO_BORDER);
@@ -225,20 +234,22 @@ public class HoaDonController implements Initializable {
             }
             document.add(tb1);
 
-            Table tb2 = new Table(6);
-            tb2.addCell("Phòng");
-            tb2.addCell("Loại phòng");
-            tb2.addCell("Ngày đến");
-            tb2.addCell("Ngày đi");
-            tb2.addCell("Số ngày ở");
-            tb2.addCell("Thành tiền");
-            tb2.addCell(phieuDatPhong.getPhong().getTenPhong());
-            tb2.addCell(phieuDatPhong.getPhong().getLoaiPhong().getTenLoaiPhong());
-            tb2.addCell(format.format(phieuDatPhong.getNgayThue()));
-            tb2.addCell(format.format(phieuDatPhong.getNgayTra()));
-            tb2.addCell(Integer.toString(soNgay));
-            tb2.addCell(String.format("%.0f", tongTien));
-            tb1.setAutoLayout();
+            Table tb2 = new Table(2);
+            tb2.setWidth(500);
+            tb2.addCell("\nKhách");
+            tb2.addCell("\nThu ngân");
+            tb2.addCell("(Ký tên)\n\n\n\n\n");
+            tb2.addCell("(Ký tên)\n\n\n\n\n");
+            tb2.addCell(phieuDatPhong.getKhachHang().getTenKhachHang());
+            tb2.addCell(phieuDatPhong.getNhanVien().getHoTen());
+
+            tb2.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            for (IElement iElement : tb2.getChildren()) {
+                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
+                ((com.itextpdf.layout.element.Cell)iElement).setTextAlignment(
+                        com.itextpdf.layout.property.TextAlignment.CENTER);
+            }
+            tb2.setBorder(Border.NO_BORDER);
             document.add(tb2);
 
             document.close();

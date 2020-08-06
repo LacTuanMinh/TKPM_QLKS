@@ -485,13 +485,26 @@ public class LapPhieuController implements Initializable {
             p.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
             document.add(p);
 
+            Paragraph idPhieu = new Paragraph("Mã số phiếu: " + phieu.getIdPhieuDatPhong());
+            document.add(idPhieu);
+
             Table tb1 = new Table(2);
             tb1.setWidth(500);
-            tb1.addCell("Mã số phiếu: " + phieu.getIdPhieuDatPhong());
-            tb1.addCell("Ngày thuê: " + format.format(phieu.getNgayThue()));
-            tb1.addCell("Phòng: " + phieu.getPhong().getTenPhong());
+            tb1.addCell("Tên phòng: " + phieu.getPhong().getTenPhong());
+            tb1.addCell("CMND: " + phieu.getKhachHang().getCmnd());
             tb1.addCell("Loại phòng: " + phieu.getPhong().getLoaiPhong().getTenLoaiPhong());
+            tb1.addCell("Tên khách hàng: " + phieu.getKhachHang().getTenKhachHang());
+            tb1.addCell("Giá: " + phieu.getPhong().getLoaiPhong().getGia() + " VNĐ/ngày");
+            tb1.addCell("Số điện thoại: " + phieu.getKhachHang().getSoDienThoai());
+            tb1.addCell("Ngày thuê: " + format.format(phieu.getNgayThue()));
+            tb1.addCell("Địa chỉ: " + phieu.getKhachHang().getDiaChi());
+            tb1.addCell("Ngày trả: " + format.format(phieu.getNgayTra()));
+            tb1.addCell("");
             tb1.addCell("Nhân viên lập phiếu: " + phieu.getNhanVien().getHoTen());
+            tb1.addCell("");
+            tb1.addCell("Tổng: " + String.format("%.0f",
+                    Float.parseFloat(tongTien.getText())) + " VNĐ");
+
             tb1.setAutoLayout();
             tb1.setHorizontalAlignment(HorizontalAlignment.CENTER);
             tb1.setBorder(Border.NO_BORDER);
@@ -499,18 +512,6 @@ public class LapPhieuController implements Initializable {
                 ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
             }
             document.add(tb1);
-
-            Table tb2 = new Table(4);
-            tb2.addCell("Tên khách hàng");
-            tb2.addCell("Số điện thoại");
-            tb2.addCell("CMND");
-            tb2.addCell("Địa chỉ");
-            tb2.addCell(phieu.getKhachHang().getTenKhachHang());
-            tb2.addCell(phieu.getKhachHang().getSoDienThoai());
-            tb2.addCell(phieu.getKhachHang().getCmnd());
-            tb2.addCell(phieu.getKhachHang().getDiaChi());
-            tb1.setAutoLayout();
-            document.add(tb2);
 
             document.close();
 
