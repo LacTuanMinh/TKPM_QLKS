@@ -66,20 +66,6 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void qlNhanVienButtonClicked(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = App.getFXMLLoader("qlNhanVien");
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 1120, 620);
-        Stage stage = new Stage();
-        stage.setTitle("Quản lý nhân viên");
-        stage.setScene(scene);
-        stage.setResizable(false);
-
-        // Wait until this stage is complete
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(App.homeStage);
-        stage.show();
-    }
 
     public void qlPhongButtonClicked(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = App.getFXMLLoader("qlPhong");
