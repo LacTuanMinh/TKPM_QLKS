@@ -1,13 +1,11 @@
 package ql.khachsan.controllers;
 
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.borders.Border;
-import com.itextpdf.layout.element.IElement;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -47,6 +45,7 @@ import ql.khachsan.models.Phong;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -191,15 +190,18 @@ public class LapPhieuController implements Initializable {
         this.tenPhong.setText(phong.getTenPhong());
         this.loaiPhong.setText(phong.getLoaiPhong().getTenLoaiPhong());
         this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
-        this.giaPhong.setText(phong.getLoaiPhong().getGia() + "");
+        this.giaPhong.setText(String.format("%.0f", phong.getLoaiPhong().getGia()));
 
         ngayTra.valueProperty().addListener(new ChangeListener<LocalDate>() {
             @Override
             public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
                 if (t1 != null) {
                     long dayBetween = 1 + DAYS.between(ngayThue.getValue(), ngayTra.getValue());
-                    tongTien.setText(LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia()) + "");
-                } else tongTien.setText("");
+                    tongTien.setText(String.format("%.0f",
+                            LapPhieuController.tongTien((int)dayBetween,
+                                    phong.getLoaiPhong().getGia())));
+                }
+                else tongTien.setText("");
             }
         });
 
@@ -238,10 +240,6 @@ public class LapPhieuController implements Initializable {
             diaChi.setEditable(true);
             soDienThoai.setEditable(true);
             lapHoaDon.setDisable(false);
-//            if (phieu.getNgayTra().before(new Date()))
-//                lapHoaDon.setDisable(false);
-//            else lapHoaDon.setDisable(true);
-
         }
     }
 
@@ -465,52 +463,94 @@ public class LapPhieuController implements Initializable {
         controller.LapHoaDonWindow(this.cardView, phieu);
     }
 
-    private void printPDF(File file) throws FileNotFoundException {
+    private void printPDF(File file) throws IOException, DocumentException {
         if (file != null) {
             String str = file.getAbsolutePath();
-            PdfWriter writer = new PdfWriter(str);
-            PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(str));
 
-            DateFormat format = new SimpleDateFormat("dd/MM/yy");
-            //String path = getClass().getResource("/fonts/arial.ttf").getPath();
-            //PdfFont font = PdfFontFactory.createFont(path, "UTF-8");
-            Paragraph title = new Paragraph("Phiếu thuê phòng");
-            //title.setFont(font);
-            title.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+            document.open();
+
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String path = getClass().getResource("/fonts/times.ttf").getPath();
+            BaseFont bf = BaseFont.createFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            com.itextpdf.text.Font bigFont = new com.itextpdf.text.Font(bf, 20);
+            com.itextpdf.text.Font smallFont = new com.itextpdf.text.Font(bf, 14);
+            Paragraph title = new Paragraph("Phiếu thuê phòng", bigFont);
+            title.setAlignment(Element.ALIGN_CENTER);
 
             document.add(title);
 
-            Paragraph p = new Paragraph("Date created: " + format.format(new Date()));
-            p.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+            Paragraph p = new Paragraph("Ngày lập hóa đơn: " +
+                    format.format(new Date()) + "\n", smallFont);
+            p.setAlignment(Element.ALIGN_CENTER);
             document.add(p);
 
-            Paragraph idPhieu = new Paragraph("Mã số phiếu: " + phieu.getIdPhieuDatPhong());
+            Paragraph idPhieu = new Paragraph("Mã số phiếu: " +
+                    phieu.getIdPhieuDatPhong() + "\n", smallFont);
             document.add(idPhieu);
 
-            Table tb1 = new Table(2);
-            tb1.setWidth(500);
-            tb1.addCell("Tên phòng: " + phieu.getPhong().getTenPhong());
-            tb1.addCell("CMND: " + phieu.getKhachHang().getCmnd());
-            tb1.addCell("Loại phòng: " + phieu.getPhong().getLoaiPhong().getTenLoaiPhong());
-            tb1.addCell("Tên khách hàng: " + phieu.getKhachHang().getTenKhachHang());
-            tb1.addCell("Giá: " + phieu.getPhong().getLoaiPhong().getGia() + " VNĐ/ngày");
-            tb1.addCell("Số điện thoại: " + phieu.getKhachHang().getSoDienThoai());
-            tb1.addCell("Ngày thuê: " + format.format(phieu.getNgayThue()));
-            tb1.addCell("Địa chỉ: " + phieu.getKhachHang().getDiaChi());
-            tb1.addCell("Ngày trả: " + format.format(phieu.getNgayTra()));
-            tb1.addCell("");
-            tb1.addCell("Nhân viên lập phiếu: " + phieu.getNhanVien().getHoTen());
-            tb1.addCell("");
-            tb1.addCell("Tổng: " + String.format("%.0f",
-                    Float.parseFloat(tongTien.getText())) + " VNĐ");
+            PdfPTable tb1 = new PdfPTable(2);
+            tb1.setTotalWidth(700);
 
-            tb1.setAutoLayout();
-            tb1.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            tb1.setBorder(Border.NO_BORDER);
-            for (IElement iElement : tb1.getChildren()) {
-                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
-            }
+            PdfPCell cell = new PdfPCell();
+            cell.setBorder(Rectangle.NO_BORDER);
+            cell.setPhrase(new Phrase("Tên phòng: " +
+                    phieu.getPhong().getTenPhong(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("CMND: " +
+                    phieu.getKhachHang().getCmnd(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Loại phòng: " +
+                    phieu.getPhong().getLoaiPhong().getTenLoaiPhong(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Tên khách hàng: " +
+                    phieu.getKhachHang().getTenKhachHang(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Giá: " +
+                    String.format("%.0f", phieu.getPhong()
+                            .getLoaiPhong().getGia()) + " VNĐ/ngày", smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Số điện thoại: " +
+                    phieu.getKhachHang().getSoDienThoai(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Ngày thuê: " +
+                    format.format(phieu.getNgayThue()), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Địa chỉ: " +
+                    phieu.getKhachHang().getDiaChi(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Ngày trả: " +
+                    format.format(phieu.getNgayTra()), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("", smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Nhân viên lập phiếu: " +
+                    phieu.getNhanVien().getHoTen(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("", smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Tổng: " + tongTien.getText() +
+                    " VNĐ", smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("", smallFont));
+            tb1.addCell(cell);
+
+            tb1.setHorizontalAlignment(Element.ALIGN_CENTER);
+
             document.add(tb1);
 
             document.close();
@@ -536,7 +576,7 @@ public class LapPhieuController implements Initializable {
         }
     }
 
-    public void xuatPhieuButtonClicked(ActionEvent actionEvent) throws FileNotFoundException {
+    public void xuatPhieuButtonClicked(ActionEvent actionEvent) throws IOException, DocumentException {
         Button button = (Button)actionEvent.getTarget();
         Scene scene = button.getScene();
         Window window = scene.getWindow();

@@ -43,6 +43,7 @@
         <mapping class="ql.khachsan.models.PhieuDatPhong" />
         <mapping class="ql.khachsan.models.HoaDonThanhToan" />
         <mapping class="ql.khachsan.models.KhuyenMai" />
+        <mapping class="ql.khachsan.models.ThamSo" />
 
     </session-factory>
 </hibernate-configuration>

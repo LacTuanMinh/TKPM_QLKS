@@ -1,21 +1,17 @@
 package ql.khachsan.controllers;
 
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.borders.Border;
-import com.itextpdf.layout.element.IElement;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -41,6 +37,7 @@ import ql.khachsan.models.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -64,6 +61,8 @@ public class HoaDonController implements Initializable {
     public Label ngayTra;
     public Button luuHoaDon;
     public AnchorPane parent;
+
+    private FlowPane card;
 
     private PhieuDatPhong phieuDatPhong;
 
@@ -132,20 +131,11 @@ public class HoaDonController implements Initializable {
         });
         FlowPane.setMargin(btn, new Insets(5));
 
-//        System.out.println("To Printer!");
-//        PrinterJob job = PrinterJob.createPrinterJob();
-//        if (job != null) {
-//            job.showPrintDialog(luuHoaDon.getScene().getWindow());
-//            job.printPage(parent);
-//            job.endJob();
-//        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
-    private FlowPane card;
 
     public void LapHoaDonWindow(FlowPane cardView, PhieuDatPhong phieuDatPhong) throws IOException {
         FXMLLoader loader = App.getFXMLLoader("hoaDon");
@@ -172,14 +162,15 @@ public class HoaDonController implements Initializable {
         this.tenKhach.setText(kh.getTenKhachHang());
         this.cmnd.setText(kh.getCmnd());
         this.soDienThoai.setText(kh.getSoDienThoai());
-        this.giaPhong.setText(p.getLoaiPhong().getGia() + "");
+        this.giaPhong.setText(String.format("%.0f", p.getLoaiPhong().getGia()));
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         this.ngayThue.setText(df.format(phieu.getNgayThue()));
         this.ngayTra.setText(df.format(phieu.getNgayTra()));
         int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(),
                 phieu.getNgayTra().toInstant()));
 
-        this.tongTien.setText(LapPhieuController.tongTien(soNgay, p.getLoaiPhong().getGia()) + "");
+        this.tongTien.setText(String.format("%.0f",
+                LapPhieuController.tongTien(soNgay, p.getLoaiPhong().getGia())));
         this.tenPhong.setText(p.getTenPhong());
         this.loaiPhong.setText(p.getLoaiPhong().getTenLoaiPhong());
         this.soNgay.setText(soNgay + "");
@@ -187,7 +178,7 @@ public class HoaDonController implements Initializable {
         this.kyTenNhanvien.setText(nv.getHoTen());
     }
 
-    private void printPDF(File file) throws FileNotFoundException {
+    private void printPDF(File file) throws IOException, DocumentException {
         if (file != null) {
             int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
                     phieuDatPhong.getNgayTra().toInstant()));
@@ -195,61 +186,100 @@ public class HoaDonController implements Initializable {
                     phieuDatPhong.getPhong().getLoaiPhong().getGia());
 
             String str = file.getAbsolutePath();
-            PdfWriter writer = new PdfWriter(str);
-            PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
+            com.itextpdf.text.Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(str));
 
-            DateFormat format = new SimpleDateFormat("dd/MM/yy");
-            //String path = getClass().getResource("/fonts/arial.ttf").getPath();
-            //PdfFont font = PdfFontFactory.createFont(path, "UTF-8");
-            Paragraph title = new Paragraph("Hóa đơn thanh toán");
-            //title.setFont(font);
-            title.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+            document.open();
 
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String path = getClass().getResource("/fonts/times.ttf").getPath();
+            BaseFont bf = BaseFont.createFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            com.itextpdf.text.Font bigFont = new com.itextpdf.text.Font(bf, 20);
+            com.itextpdf.text.Font smallFont = new com.itextpdf.text.Font(bf, 14);
+
+            Paragraph title = new Paragraph("Hóa đơn thanh toán", bigFont);
+            title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
 
-            Paragraph p = new Paragraph("Date created: " + format.format(new Date()));
-            p.setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER);
+            Paragraph p = new Paragraph("Ngày lập hóa đơn: " +
+                    format.format(new Date()) + "\n", smallFont);
+            p.setAlignment(Element.ALIGN_CENTER);
             document.add(p);
 
-            Table tb1 = new Table(2);
-            tb1.setWidth(500);
-            tb1.addCell("Tên khách hàng: " + phieuDatPhong.getKhachHang().getTenKhachHang());
-            tb1.addCell("Ngày thuê: " + format.format(phieuDatPhong.getNgayThue()));
-            tb1.addCell("CMND: " + phieuDatPhong.getKhachHang().getCmnd());
-            tb1.addCell("Ngày trả: " + format.format(phieuDatPhong.getNgayTra()));
-            tb1.addCell("Số điện thoại: " + phieuDatPhong.getKhachHang().getSoDienThoai());
-            tb1.addCell("Số ngày thuê: " + soNgay + " ngày");
-            tb1.addCell("Tên phòng: " + phieuDatPhong.getPhong().getTenPhong());
-            tb1.addCell("Giá phòng: " + String.format("%.0f", phieuDatPhong.getPhong()
-                    .getLoaiPhong().getGia()) + " VNĐ/ngày");
-            tb1.addCell("Loại phòng: " + phieuDatPhong.getPhong().getLoaiPhong().getTenLoaiPhong());
-            tb1.addCell("Tổng tiền: " + String.format("%.0f", tongTien) + " VNĐ");
+            PdfPTable tb1 = new PdfPTable(2);
+            tb1.setTotalWidth(800);
 
-            tb1.setAutoLayout();
-            tb1.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            tb1.setBorder(Border.NO_BORDER);
-            for (IElement iElement : tb1.getChildren()) {
-                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
-            }
+            PdfPCell cell = new PdfPCell();
+            cell.setBorder(Rectangle.NO_BORDER);
+
+            cell.setPhrase(new Phrase("Tên khách hàng: " +
+                    phieuDatPhong.getKhachHang().getTenKhachHang(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Ngày thuê: " +
+                    format.format(phieuDatPhong.getNgayThue()), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("CMND: " +
+                    phieuDatPhong.getKhachHang().getCmnd(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Ngày trả: " +
+                    format.format(phieuDatPhong.getNgayTra()), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Số điện thoại: " +
+                    phieuDatPhong.getKhachHang().getSoDienThoai(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Số ngày thuê: " +
+                    soNgay + " ngày", smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Tên phòng: " +
+                    phieuDatPhong.getPhong().getTenPhong(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Giá phòng: " +
+                    String.format("%.0f", phieuDatPhong.getPhong()
+                            .getLoaiPhong().getGia()) + " VNĐ/ngày", smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Loại phòng: " +
+                    phieuDatPhong.getPhong().getLoaiPhong().getTenLoaiPhong(), smallFont));
+            tb1.addCell(cell);
+
+            cell.setPhrase(new Phrase("Tổng tiền: " +
+                    String.format("%.0f", tongTien) + " VNĐ", smallFont));
+            tb1.addCell(cell);
+
+            tb1.setHorizontalAlignment(Element.ALIGN_CENTER);
+
             document.add(tb1);
 
-            Table tb2 = new Table(2);
-            tb2.setWidth(500);
-            tb2.addCell("\nKhách");
-            tb2.addCell("\nThu ngân");
-            tb2.addCell("(Ký tên)\n\n\n\n\n");
-            tb2.addCell("(Ký tên)\n\n\n\n\n");
-            tb2.addCell(phieuDatPhong.getKhachHang().getTenKhachHang());
-            tb2.addCell(phieuDatPhong.getNhanVien().getHoTen());
+            PdfPTable tb2 = new PdfPTable(2);
+            tb2.setTotalWidth(500);
 
-            tb2.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            for (IElement iElement : tb2.getChildren()) {
-                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
-                ((com.itextpdf.layout.element.Cell)iElement).setTextAlignment(
-                        com.itextpdf.layout.property.TextAlignment.CENTER);
-            }
-            tb2.setBorder(Border.NO_BORDER);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setPhrase(new Phrase("\nKhách", smallFont));
+            tb2.addCell(cell);
+
+            cell.setPhrase(new Phrase("\nThu ngân", smallFont));
+            tb2.addCell(cell);
+
+            cell.setPhrase(new Phrase("(Ký tên)\n\n\n\n\n"));
+            tb2.addCell(cell);
+            tb2.addCell(cell);
+
+            cell.setPhrase(new Phrase(phieuDatPhong
+                    .getKhachHang().getTenKhachHang(), smallFont));
+            tb2.addCell(cell);
+
+            cell.setPhrase(new Phrase(phieuDatPhong.getNhanVien().getHoTen(), smallFont));
+            tb2.addCell(cell);
+
+            tb2.setHorizontalAlignment(Element.ALIGN_CENTER);
+
             document.add(tb2);
 
             document.close();
@@ -275,7 +305,7 @@ public class HoaDonController implements Initializable {
         }
     }
 
-    public void xuatHoaDonButtonClicked(ActionEvent actionEvent) throws FileNotFoundException {
+    public void xuatHoaDonButtonClicked(ActionEvent actionEvent) throws IOException, DocumentException {
         Button button = (Button)actionEvent.getTarget();
         Scene scene = button.getScene();
         Window window = scene.getWindow();
