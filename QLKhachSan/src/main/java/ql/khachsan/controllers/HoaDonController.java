@@ -8,14 +8,12 @@ import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -46,6 +44,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -64,6 +63,9 @@ public class HoaDonController implements Initializable {
     public Label ngayTra;
     public Button luuHoaDon;
     public AnchorPane parent;
+    public Label ngay;
+    public Label nam;
+    public Label thang;
 
     private PhieuDatPhong phieuDatPhong;
 
@@ -80,8 +82,8 @@ public class HoaDonController implements Initializable {
         alert.setContentText(hoaDon.getIdHoaDon() + "");
         alert.showAndWait();
 
-        ((Stage)luuHoaDon.getScene().getWindow()).close();
-        ((Stage)((Stage)luuHoaDon.getScene().getWindow()).getOwner()).close();
+        ((Stage) luuHoaDon.getScene().getWindow()).close();
+        ((Stage) ((Stage) luuHoaDon.getScene().getWindow()).getOwner()).close();
 
         Button btn = (Button) this.card.lookup("#" + phieuDatPhong.getPhong().getIdPhong() + "");
 
@@ -132,14 +134,8 @@ public class HoaDonController implements Initializable {
         });
         FlowPane.setMargin(btn, new Insets(5));
 
-//        System.out.println("To Printer!");
-//        PrinterJob job = PrinterJob.createPrinterJob();
-//        if (job != null) {
-//            job.showPrintDialog(luuHoaDon.getScene().getWindow());
-//            job.printPage(parent);
-//            job.endJob();
-//        }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -176,7 +172,7 @@ public class HoaDonController implements Initializable {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         this.ngayThue.setText(df.format(phieu.getNgayThue()));
         this.ngayTra.setText(df.format(phieu.getNgayTra()));
-        int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(),
+        int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(),
                 phieu.getNgayTra().toInstant()));
 
         this.tongTien.setText(LapPhieuController.tongTien(soNgay, p.getLoaiPhong().getGia()) + "");
@@ -185,11 +181,22 @@ public class HoaDonController implements Initializable {
         this.soNgay.setText(soNgay + "");
         this.kyTenKhach.setText(kh.getTenKhachHang());
         this.kyTenNhanvien.setText(nv.getHoTen());
+
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+//        now.getDay();
+        this.ngay.setText(String.format("%2d", day));
+        this.thang.setText(String.format("%2d", month+1));
+        this.nam.setText(String.format("%2d", year));
     }
 
     private void printPDF(File file) throws FileNotFoundException {
         if (file != null) {
-            int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
+            int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
                     phieuDatPhong.getNgayTra().toInstant()));
             float tongTien = LapPhieuController.tongTien(soNgay,
                     phieuDatPhong.getPhong().getLoaiPhong().getGia());
@@ -230,7 +237,7 @@ public class HoaDonController implements Initializable {
             tb1.setHorizontalAlignment(HorizontalAlignment.CENTER);
             tb1.setBorder(Border.NO_BORDER);
             for (IElement iElement : tb1.getChildren()) {
-                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
+                ((com.itextpdf.layout.element.Cell) iElement).setBorder(Border.NO_BORDER);
             }
             document.add(tb1);
 
@@ -245,8 +252,8 @@ public class HoaDonController implements Initializable {
 
             tb2.setHorizontalAlignment(HorizontalAlignment.CENTER);
             for (IElement iElement : tb2.getChildren()) {
-                ((com.itextpdf.layout.element.Cell)iElement).setBorder(Border.NO_BORDER);
-                ((com.itextpdf.layout.element.Cell)iElement).setTextAlignment(
+                ((com.itextpdf.layout.element.Cell) iElement).setBorder(Border.NO_BORDER);
+                ((com.itextpdf.layout.element.Cell) iElement).setTextAlignment(
                         com.itextpdf.layout.property.TextAlignment.CENTER);
             }
             tb2.setBorder(Border.NO_BORDER);
@@ -276,7 +283,7 @@ public class HoaDonController implements Initializable {
     }
 
     public void xuatHoaDonButtonClicked(ActionEvent actionEvent) throws FileNotFoundException {
-        Button button = (Button)actionEvent.getTarget();
+        Button button = (Button) actionEvent.getTarget();
         Scene scene = button.getScene();
         Window window = scene.getWindow();
         FileChooser fc = new FileChooser();

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:controller="ql.khachsan.controllers.ThayDoiQuyDinhController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="123.0" layoutY="19.0" text="Thay đổi quy định">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="enable" layoutX="23.0" layoutY="64.0" mnemonicParsing="false" onAction="#enableBtn_Clicked" selected="true" text="Áp dụng ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="disable" layoutX="23.0" layoutY="92.0" mnemonicParsing="false" onAction="#disableBtn_Clicked" text="Tắt">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </RadioButton>
+      <Label layoutX="20.0" layoutY="138.0" text="Chiết khấu cho ngày thuê thứ 10 trở đi:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="174.0" text="Chiết khấu cho ngày thuê thứ 20 trở đi:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="phanTram10Ngay" layoutX="288.0" layoutY="134.0" prefHeight="30.0" prefWidth="67.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="phanTram20Ngay" layoutX="288.0" layoutY="171.0" prefHeight="30.0" prefWidth="67.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Label layoutX="365.0" layoutY="174.0" text="\%">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="365.0" layoutY="139.0" text="\%">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="luuThayDoiBtn" layoutX="270.0" layoutY="220.0" mnemonicParsing="false" text="Lưu thay đổi">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
