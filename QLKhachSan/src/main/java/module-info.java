@@ -12,8 +12,7 @@ module ql.khachsan {
     requires com.fasterxml.classmate;
     requires jbcrypt;
 
-    requires layout;
-    requires kernel;
+    requires itextpdf;
 
     requires java.desktop;
     //requires javafx.swing;
