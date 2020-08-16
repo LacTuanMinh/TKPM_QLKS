@@ -81,18 +81,30 @@ public class PhieuDatPhong {
         this.ngayTra = ngayTra;
     }
 
+    @Column(name = "TongTien")
+    private Float tongTien;
+
+    public float getTongTien() {
+        return tongTien;
+    }
+
+    public void setTongTien(Float TongTien) {
+        this.tongTien = TongTien;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "phieuDatPhong", cascade = CascadeType.REMOVE)
     private Set<HoaDonThanhToan> dsHoaDonThanhToan;
 
     public PhieuDatPhong() {
     }
 
-    public PhieuDatPhong(Phong phong, NhanVien nhanVien, KhachHang khachHang, Date ngayThue, Date ngayTra, Set<HoaDonThanhToan> dsHoaDonThanhToan) {
+    public PhieuDatPhong(Phong phong, NhanVien nhanVien, KhachHang khachHang, Date ngayThue, Date ngayTra,Float tongTien, Set<HoaDonThanhToan> dsHoaDonThanhToan) {
         this.phong = phong;
         this.nhanVien = nhanVien;
         this.khachHang = khachHang;
         this.ngayThue = ngayThue;
         this.ngayTra = ngayTra;
+        this.tongTien = tongTien;
         this.dsHoaDonThanhToan = dsHoaDonThanhToan;
     }
 }

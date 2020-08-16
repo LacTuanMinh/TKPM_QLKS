@@ -31,6 +31,17 @@ public class NhanVien {
         this.hoTen = hoTen;
     }
 
+    @Column(name = "CMND", unique = true)
+    private String cmnd;
+
+    public void setCmnd(String cmnd) {
+        this.cmnd = cmnd;
+    }
+
+    public String getCmnd() {
+        return cmnd;
+    }
+
     @Column(name = "NgaySinh")
     private Date ngaySinh;
 

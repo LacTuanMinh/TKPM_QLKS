@@ -1,6 +1,8 @@
 package ql.khachsan.controllers;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,6 +38,7 @@ public class QlNhanVienController implements Initializable {
     public TableView<NhanVien> nhanVienTableView = new TableView<>();
     public RadioButton maleButton;
     public RadioButton femaleButton;
+    public TextField cmnd;
 
     private ObservableList<LoaiNhanVien> dsChucVuData;
     private List<LoaiNhanVien> dsChucVu;
@@ -77,7 +80,9 @@ public class QlNhanVienController implements Initializable {
         luongThang.setText("");
         ngayBatDauDiLam.setText("");
         queQuan.setText("");
+        cmnd.setText("");
 
+        cmnd.setDisable(false);
         hoTen.setDisable(false);
         ngaySinh.setDisable(false);
         soDienThoai.setDisable(false);
@@ -110,14 +115,15 @@ public class QlNhanVienController implements Initializable {
         TableColumn<NhanVien, String> diaChiCol = new TableColumn<>("Địa chỉ");
         TableColumn<NhanVien, String> queQuanCol = new TableColumn<>("Quê quán");
         TableColumn<NhanVien, NhanVien> seeDetailCol = new TableColumn<>("Xem");
-
-        hoTenCol.setMinWidth(150);
+        TableColumn<NhanVien, String> cmndCol = new TableColumn<>("CMND");
+        hoTenCol.setMinWidth(100);
+        cmndCol.setMinWidth(100);
         ngaySinhCol.setMinWidth(80);
         chucVuCol.setMinWidth(100);
         ngayBatDauDiLamCol.setMinWidth(120);
         soDienThoaiCol.setMinWidth(100);
         gioiTinhCol.setMinWidth(70);
-        diaChiCol.setMinWidth(200);
+        diaChiCol.setMinWidth(150);
         queQuanCol.setMinWidth(100);
         luongThangCol.setMinWidth(90);
         seeDetailCol.setMinWidth(50);
@@ -129,13 +135,13 @@ public class QlNhanVienController implements Initializable {
         luongThangCol.setStyle("-fx-alignment: CENTER;");
         chucVuCol.setStyle("-fx-alignment: CENTER;");
         seeDetailCol.setStyle("-fx-alignment: CENTER;");
-
+        cmndCol.setStyle("-fx-alignment: CENTER;");
         hoTenCol.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
         soDienThoaiCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
         gioiTinhCol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
         diaChiCol.setCellValueFactory(new PropertyValueFactory<>("diaChi"));
         queQuanCol.setCellValueFactory(new PropertyValueFactory<>("queQuan"));
-
+        cmndCol.setCellValueFactory(new PropertyValueFactory<>("cmnd"));
         ngaySinhCol.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
         ngaySinhCol.setCellFactory(param -> new TableCell<NhanVien, Date>() {
             private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -212,6 +218,7 @@ public class QlNhanVienController implements Initializable {
                     queQuan.setDisable(true);
                     maleButton.setDisable(true);
                     femaleButton.setDisable(true);
+                    cmnd.setDisable(true);
 
                     addButton.setDisable(true);
                     updateButton.setDisable(false);
@@ -222,7 +229,7 @@ public class QlNhanVienController implements Initializable {
 
         nhanVienTableView.getItems().addAll(dsNhanVienData);
 
-        nhanVienTableView.getColumns().addAll(hoTenCol, ngaySinhCol, chucVuCol, luongThangCol,
+        nhanVienTableView.getColumns().addAll(hoTenCol,cmndCol, ngaySinhCol, chucVuCol, luongThangCol,
                 ngayBatDauDiLamCol, soDienThoaiCol, gioiTinhCol, diaChiCol, queQuanCol, seeDetailCol);
     }
 
@@ -240,6 +247,16 @@ public class QlNhanVienController implements Initializable {
         maleButton.setSelected(true);
 
         createTableView();
+
+        cmnd.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                if (!t1.matches("\\d*")) {
+                    t1 = t1.replaceAll("[^\\d]", "");
+                    cmnd.setText(t1);
+                }
+            }
+        });
     }
 
 
@@ -252,7 +269,7 @@ public class QlNhanVienController implements Initializable {
         if (hoTen.getText().equals("") || ngaySinh.getText().equals("") ||
                 luongThang.getText().equals("") || queQuan.getText().equals("") ||
                 diaChi.getText().equals("") || ngayBatDauDiLam.getText().equals("") ||
-                soDienThoai.getText().equals("")) {
+                soDienThoai.getText().equals("") || cmnd.getText().equals("")) {
             return -1;
         }
         else if (chucVuComboBox.getValue() == null) {
@@ -314,11 +331,11 @@ public class QlNhanVienController implements Initializable {
             nhanVien.setLuongThang(Float.parseFloat(luongThang.getText()));
             nhanVien.setNgayBatDauDiLam(format.parse(ngayBatDauDiLam.getText()));
             nhanVien.setQueQuan(queQuan.getText());
-
-            // Tên tài khoản và mật khẩu mặc định là: ddMMyyyy
-            // Ví dụ: ngày sinh: 30/04/1999 thì tên tài khoản và mật khẩu là: 30041999
-            nhanVien.setTenTaiKhoan(ngaySinh.getText().replaceAll("/", "").toLowerCase());
-            nhanVien.setMatKhau(PasswordUtils.hash(ngaySinh.getText().replaceAll("/", "")));
+            nhanVien.setCmnd(cmnd.getText());
+            // Tên tài khoản và mật khẩu mặc định là CMND
+            // Ví dụ: 123456789 thì tên tài khoản và mật khẩu là: 123456789
+            nhanVien.setTenTaiKhoan(cmnd.getText());
+            nhanVien.setMatKhau(PasswordUtils.hash(cmnd.getText()));
 
             LoaiNhanVien loaiNhanVien = chucVuComboBox.getSelectionModel().getSelectedItem();
             nhanVien.setLoaiNhanVien(loaiNhanVien);

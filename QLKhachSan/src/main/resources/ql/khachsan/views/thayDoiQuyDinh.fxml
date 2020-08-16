@@ -15,12 +15,12 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <RadioButton fx:id="enable" layoutX="23.0" layoutY="64.0" mnemonicParsing="false" onAction="#enableBtn_Clicked" selected="true" text="Áp dụng ">
+      <RadioButton fx:id="enable" layoutX="23.0" layoutY="64.0" mnemonicParsing="false"  selected="true" text="Áp dụng ">
          <font>
             <Font size="15.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="disable" layoutX="23.0" layoutY="92.0" mnemonicParsing="false" onAction="#disableBtn_Clicked" text="Tắt">
+      <RadioButton fx:id="disable" layoutX="23.0" layoutY="92.0" mnemonicParsing="false"  text="Tắt">
          <font>
             <Font size="15.0" />
          </font>
@@ -55,7 +55,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="luuThayDoiBtn" layoutX="270.0" layoutY="220.0" mnemonicParsing="false" text="Lưu thay đổi">
+      <Button fx:id="luuThayDoiBtn" onAction="#luuThayDoiBtn" layoutX="270.0" layoutY="220.0" mnemonicParsing="false" text="Lưu thay đổi">
          <font>
             <Font size="15.0" />
          </font>

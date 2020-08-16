@@ -69,6 +69,7 @@ public class DoiMatKhauController {
         else {
             String hashPass = PasswordUtils.hash(newPass.getText());
             NhanVienDAO.updatePassword(App.nhanvien.getValue().getIdNhanVien(), hashPass);
+            App.nhanvien.getValue().setMatKhau(hashPass);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Chúc mừng!!!");

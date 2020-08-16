@@ -1,13 +1,5 @@
 package ql.khachsan.controllers;
 
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.borders.Border;
-import com.itextpdf.layout.element.IElement;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
@@ -49,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
@@ -182,8 +175,8 @@ public class HoaDonController implements Initializable {
         int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(),
                 phieu.getNgayTra().toInstant()));
 
-        this.tongTien.setText(String.format("%.0f",
-                LapPhieuController.tongTien(soNgay, p.getLoaiPhong().getGia())));
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        this.tongTien.setText(formatter.format(phieu.getTongTien()));
         this.tenPhong.setText(p.getTenPhong());
         this.loaiPhong.setText(p.getLoaiPhong().getTenLoaiPhong());
         this.soNgay.setText(soNgay + "");

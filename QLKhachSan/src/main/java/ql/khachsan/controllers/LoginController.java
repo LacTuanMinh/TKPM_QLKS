@@ -66,34 +66,34 @@ public class LoginController implements Initializable {
         }
     }
 
-
-    public void qlPhongButtonClicked(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = App.getFXMLLoader("qlPhong");
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 420, 520);
-        Stage stage = new Stage();
-        stage.setTitle("Quản lý phòng");
-        stage.setScene(scene);
-        stage.setResizable(false);
-
-        // Wait until this stage is complete
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(App.homeStage);
-        stage.show();
-    }
-
-    public void qlLoaiPhongButtonClicked(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = App.getFXMLLoader("qlLoaiPhong");
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 420, 520);
-        Stage stage = new Stage();
-        stage.setTitle("Quản lý loại phòng");
-        stage.setScene(scene);
-        stage.setResizable(false);
-
-        // Wait until this stage is complete
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(App.homeStage);
-        stage.show();
-    }
+//
+//    public void qlPhongButtonClicked(ActionEvent actionEvent) throws IOException {
+//        FXMLLoader loader = App.getFXMLLoader("qlPhong");
+//        Parent root = loader.load();
+//        Scene scene = new Scene(root, 420, 520);
+//        Stage stage = new Stage();
+//        stage.setTitle("Quản lý phòng");
+//        stage.setScene(scene);
+//        stage.setResizable(false);
+//
+//        // Wait until this stage is complete
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initOwner(App.homeStage);
+//        stage.show();
+//    }
+//
+//    public void qlLoaiPhongButtonClicked(ActionEvent actionEvent) throws IOException {
+//        FXMLLoader loader = App.getFXMLLoader("qlLoaiPhong");
+//        Parent root = loader.load();
+//        Scene scene = new Scene(root, 420, 520);
+//        Stage stage = new Stage();
+//        stage.setTitle("Quản lý loại phòng");
+//        stage.setScene(scene);
+//        stage.setResizable(false);
+//
+//        // Wait until this stage is complete
+//        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initOwner(App.homeStage);
+//        stage.show();
+//    }
 }

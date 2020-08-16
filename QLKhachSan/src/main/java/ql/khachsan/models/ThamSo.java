@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class ThamSo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IDPhong")
+    @Column(name = "ID")
     private int id;
 
     public int getId() {
@@ -38,5 +38,16 @@ public class ThamSo {
 
     public void setPhanTram20Ngay(float phanTram20Ngay) {
         this.phanTram20Ngay = phanTram20Ngay;
+    }
+
+    @Column(name = "IsDiable")
+    private boolean isDisable;
+
+    public boolean getIsDisable() {
+        return isDisable;
+    }
+
+    public void setIsDisable(boolean disable) {
+        isDisable = disable;
     }
 }

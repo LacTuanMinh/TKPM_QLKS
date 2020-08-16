@@ -37,7 +37,6 @@ public class HomeController implements Initializable {
     public AnchorPane container;
     public HBox quanLy;
 
-    @FXML
     public void homeWindow() throws IOException {
         FXMLLoader loader = App.getFXMLLoader("home");
         Parent root = loader.load();
@@ -60,7 +59,6 @@ public class HomeController implements Initializable {
             container.getChildren().add(scrollPane);
         }
         if (loaiNhanVien == 2 || loaiNhanVien == 3) {
-
             container.getChildren().add(quanLy);
             displayStatisticCard();
             displayQuanLyNhanVienCard();
@@ -70,7 +68,6 @@ public class HomeController implements Initializable {
             }
             if(loaiNhanVien == 3){
                 displayThayDoiQuyDinhCard();
-
             }
         }
     }
@@ -138,16 +135,16 @@ public class HomeController implements Initializable {
     public void displayThayDoiQuyDinhCard() {
         AnchorPane anchorPane = new AnchorPane();
 
-        Image img = new Image(getClass().getResourceAsStream("/assets/img/setting.png"), 133, 151, true, true);
+        Image img = new Image(getClass().getResourceAsStream("/assets/img/setting.png"), 113, 125, true, true);
         ImageView imgView = new ImageView();
         imgView.setImage(img);
-        imgView.setLayoutX(8);
+        imgView.setLayoutX(15);
         AnchorPane.setTopAnchor(imgView, 10.0);
 
         Label quanLyNhanVien = new Label("Thay đổi quy định");
         quanLyNhanVien.setPrefHeight(40);
         quanLyNhanVien.setPrefWidth(200);
-        quanLyNhanVien.setLayoutX(7);
+        quanLyNhanVien.setLayoutX(10);
         quanLyNhanVien.setLayoutY(117);
         quanLyNhanVien.setAlignment(Pos.CENTER);
         quanLyNhanVien.setTextFill(Color.web("#fc0000"));
@@ -172,25 +169,15 @@ public class HomeController implements Initializable {
         btn.setGraphic(anchorPane);
         btn.setPrefHeight(155);
         btn.setPrefWidth(160);
-//        btn.setOnAction(actionEvent -> {
-//            FXMLLoader loader = null;
-//            try {
-//                loader = App.getFXMLLoader("qlNhanVien");
-//                Parent root = loader.load();
-//                Scene scene = new Scene(root, 1120, 620);
-//                Stage stage = new Stage();
-//                stage.setTitle("Quản lý nhân viên");
-//                stage.setScene(scene);
-//                stage.setResizable(false);
-//
-//                // Wait until this stage is complete
-//                stage.initModality(Modality.APPLICATION_MODAL);
-//                stage.initOwner(App.homeStage);
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
+        btn.setOnAction(actionEvent -> {
+
+            ThayDoiQuyDinhController controller = new ThayDoiQuyDinhController();
+            try {
+                controller.thayDoiQuyDinhWindow();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         quanLy.getChildren().add(btn);
     }
 
