@@ -47,7 +47,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -222,7 +221,6 @@ public class LapPhieuController implements Initializable {
             refresh.setDisable(true);
             phieu = PhieuDatPhongDAO.getPhieuDatPhongByIDPhong(phong.getIdPhong());
 
-            assert phieu != null;
             this.khachHang = phieu.getKhachHang();
             ngayThue.setValue(phieu.getNgayThue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             ngayTra.setValue(phieu.getNgayTra().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -242,7 +240,6 @@ public class LapPhieuController implements Initializable {
             diaChi.setEditable(true);
             soDienThoai.setEditable(true);
             lapHoaDon.setDisable(false);
-
         }
 
         ngayTra.valueProperty().addListener(new ChangeListener<LocalDate>() {
@@ -251,11 +248,14 @@ public class LapPhieuController implements Initializable {
                 if (t1 != null) {
                     long dayBetween = 1 + DAYS.between(ngayThue.getValue(), ngayTra.getValue());
 
+                    System.out.println(phieu);
                     if (phieu == null)// phòng trống
-                        tongTien.setText(formatter.format(
-                                LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia(), ThamSoDAO.getThamSo().getIsDisable())));
-                    else tongTien.setText(formatter.format(
-                            LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia(), phieu.isHasDisCount())));
+                        {
+                            System.out.println("Phòng trống");
+                            tongTien.setText(formatter.format(
+                                LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia(), !ThamSoDAO.getThamSo().getIsDisable())));// áp dụng trạng thái khuyem61 mãi hiện tại
+                    }else tongTien.setText(formatter.format(
+                            LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia(), phieu.isHasDisCount())));// áp dụng trạng thái khuyến mãi lúc lập phiếu
                 } else tongTien.setText("");
             }
         });
@@ -325,8 +325,7 @@ public class LapPhieuController implements Initializable {
         if (this.khachHang == null) {
             this.khachHang = new KhachHang(tenKhach.getText(), cmnd.getText(),
                     soDienThoai.getText(), diaChi.getText(), null);
-        }
-        else {
+        } else {
             this.khachHang.setCmnd(cmnd.getText());
             this.khachHang.setDiaChi(diaChi.getText());
             this.khachHang.setSoDienThoai(soDienThoai.getText());
@@ -339,7 +338,9 @@ public class LapPhieuController implements Initializable {
                 this.khachHang,
                 Date.from(ngayThue.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), //new Date(),
                 Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                Float.parseFloat(tongTien.getText().replaceAll(",", "")));
+                Float.parseFloat(tongTien.getText().replaceAll(",", "")),
+                ThamSoDAO.getThamSo().getIsDisable()
+        );
 
         this.phieu = phieuDatPhong;
         PhieuDatPhongDAO.addOrUpdatePhieu(phieuDatPhong);
@@ -420,8 +421,7 @@ public class LapPhieuController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Không tìm thấy khách hàng. Vui lòng nhập thông tin chi tiết");
             alert.showAndWait();
-        }
-        else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Đã tìm thấy khách hàng");
             alert.showAndWait();

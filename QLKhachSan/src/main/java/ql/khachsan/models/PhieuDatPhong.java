@@ -107,12 +107,13 @@ public class PhieuDatPhong {
     }
 
     public PhieuDatPhong(Phong phong, NhanVien nhanVien, KhachHang khachHang,
-                         Date ngayThue, Date ngayTra,Float tongTien) {
+                         Date ngayThue, Date ngayTra,Float tongTien, boolean hasDisCount) {
         this.phong = phong;
         this.nhanVien = nhanVien;
         this.khachHang = khachHang;
         this.ngayThue = ngayThue;
         this.ngayTra = ngayTra;
         this.tongTien = tongTien;
+        this.hasDisCount = hasDisCount;
     }
 }
