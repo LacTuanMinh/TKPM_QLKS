@@ -54,6 +54,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -76,6 +77,9 @@ public class LapPhieuController implements Initializable {
     public TextField giaPhong;
     public TextField tongTien;
     public Button refresh;
+    public Label ngay;
+    public Label nam;
+    public Label thang;
 
     private Phong phong = new Phong();
     public static Stage stage = new Stage();
@@ -177,15 +181,14 @@ public class LapPhieuController implements Initializable {
         });
     }
 
-    public static float tongTien(int soNgay, float donGia) {
+    public static float tongTien(int soNgay, float donGia, boolean isDiscountApplied) {
 
+        if (!isDiscountApplied)// không có giảm giá
+            return soNgay * donGia;
+
+        // có giảm giá
         ThamSo ts = ThamSoDAO.getThamSo();
         assert ts != null;
-        if (ts.getIsDisable()) {
-            return soNgay * donGia;
-        }
-
-        // enable
         if (soNgay < 10)
             return soNgay * donGia;
         if (soNgay < 20)
@@ -193,25 +196,15 @@ public class LapPhieuController implements Initializable {
         return (9 * donGia) + (10 * donGia * (1 - ts.getPhanTram10Ngay())) + ((soNgay - 19) * donGia * (1 - ts.getPhanTram20Ngay() / 100));
     }
 
+
+    private DecimalFormat formatter = new DecimalFormat("#,###");
+
     private void setWindow(Phong phong) {
         this.phong = phong;
         this.tenPhong.setText(phong.getTenPhong());
         this.loaiPhong.setText(phong.getLoaiPhong().getTenLoaiPhong());
         this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
-        this.giaPhong.setText(String.format("%.0f", phong.getLoaiPhong().getGia()));
-
-        ngayTra.valueProperty().addListener(new ChangeListener<LocalDate>() {
-            @Override
-            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
-                if (t1 != null) {
-                    long dayBetween = 1 + DAYS.between(ngayThue.getValue(), ngayTra.getValue());
-                    DecimalFormat formatter = new DecimalFormat("#,###");
-
-                    tongTien.setText(formatter.format(
-                            LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia())));
-                } else tongTien.setText("");
-            }
-        });
+        this.giaPhong.setText(formatter.format(this.phong.getLoaiPhong().getGia()));
 
         if (phong.getTrangThai() == 1) {
             // phòng trống
@@ -235,7 +228,7 @@ public class LapPhieuController implements Initializable {
             diaChi.setText(phieu.getKhachHang().getDiaChi());
             soDienThoai.setText(phieu.getKhachHang().getSoDienThoai());
             cmnd.setText(phieu.getKhachHang().getCmnd());
-
+            tongTien.setText(formatter.format(phieu.getTongTien()));
             tenKhach.setDisable(false);
             diaChi.setDisable(false);
             soDienThoai.setDisable(false);
@@ -247,7 +240,33 @@ public class LapPhieuController implements Initializable {
             diaChi.setEditable(true);
             soDienThoai.setEditable(true);
             lapHoaDon.setDisable(false);
+
         }
+
+        ngayTra.valueProperty().addListener(new ChangeListener<LocalDate>() {
+            @Override
+            public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
+                if (t1 != null) {
+                    long dayBetween = 1 + DAYS.between(ngayThue.getValue(), ngayTra.getValue());
+
+                    if (phieu == null)// phòng trống
+                        tongTien.setText(formatter.format(
+                                LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia(), ThamSoDAO.getThamSo().getIsDisable())));
+                    else tongTien.setText(formatter.format(
+                            LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia(), phieu.isHasDisCount())));
+                } else tongTien.setText("");
+            }
+        });
+
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        this.ngay.setText(String.format("%2d", day));
+        this.thang.setText(String.format("%2d", month + 1));
+        this.nam.setText(String.format("%2d", year));
     }
 
     private boolean existEmptyField() {
@@ -316,7 +335,7 @@ public class LapPhieuController implements Initializable {
                 this.khachHang,
                 Date.from(ngayThue.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), //new Date(),
                 Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                Float.parseFloat(tongTien.getText().replaceAll(",","")),
+                Float.parseFloat(tongTien.getText().replaceAll(",", "")),
                 null);
         this.phieu = phieuDatPhong;
         PhieuDatPhongDAO.addOrUpdatePhieu(phieuDatPhong);
@@ -382,7 +401,7 @@ public class LapPhieuController implements Initializable {
             }
         });
         FlowPane.setMargin(btn, new Insets(5));
-        xuatPhieuButtonClicked(actionEvent);
+        xuatPhieuButtonClicked(actionEvent);// thêm vào databse sau đó sẽ xuất PDF
     }
 
     public void searchBtn_Clicked(ActionEvent actionEvent) {
@@ -431,11 +450,11 @@ public class LapPhieuController implements Initializable {
         return true;
     }
 
-    public void luuThayDoiBtn_Clicked(ActionEvent actionEvent) {
+    public void luuThayDoiBtn_Clicked(ActionEvent actionEvent) throws IOException, DocumentException {
         if (existEmptyField())
             return;
 
-        if (ngayTra.getValue().isBefore(LocalDate.now())) {
+        if (ngayTra.getValue().isBefore(ngayThue.getValue())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Thông báo");
             alert.setContentText("Ngày trả không được nhỏ hơn ngày hiện tại");
@@ -449,8 +468,9 @@ public class LapPhieuController implements Initializable {
         this.khachHang.setTenKhachHang(tenKhach.getText());
         KhachHangDAO.addOrUpdateKhachHang(khachHang);
         this.phieu.setNgayTra(Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        this.phieu.setTongTien(Float.parseFloat(tongTien.getText().replaceAll(",", "")));
         PhieuDatPhongDAO.addOrUpdatePhieu(this.phieu);
-
+        xuatPhieuButtonClicked(actionEvent);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Thông báo");
         alert.setContentText("Điều chỉnh thành công");
@@ -520,8 +540,7 @@ public class LapPhieuController implements Initializable {
             tb1.addCell(cell);
 
             cell.setPhrase(new Phrase("Giá: " +
-                    String.format("%.0f", phieu.getPhong()
-                            .getLoaiPhong().getGia()) + " VNĐ/ngày", smallFont));
+                    giaPhong.getText() + " VNĐ/ngày", smallFont));
             tb1.addCell(cell);
 
             cell.setPhrase(new Phrase("Số điện thoại: " +
@@ -585,6 +604,7 @@ public class LapPhieuController implements Initializable {
         }
     }
 
+    // xuất pdf nếu có nhu cầu, bản pdf đầu tiên đã được xuất khi thêm vào db
     public void xuatPhieuButtonClicked(ActionEvent actionEvent) throws IOException, DocumentException {
         Button button = (Button) actionEvent.getTarget();
         Scene scene = button.getScene();

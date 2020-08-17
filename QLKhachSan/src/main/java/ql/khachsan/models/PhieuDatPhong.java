@@ -92,6 +92,17 @@ public class PhieuDatPhong {
         this.tongTien = TongTien;
     }
 
+    @Column(name = "HasDiscount")
+    private boolean hasDisCount;
+
+    public boolean isHasDisCount() {
+        return hasDisCount;
+    }
+
+    public void setHasDisCount(boolean hasDisCount) {
+        this.hasDisCount = hasDisCount;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "phieuDatPhong", cascade = CascadeType.REMOVE)
     private Set<HoaDonThanhToan> dsHoaDonThanhToan;
 

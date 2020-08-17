@@ -1,7 +1,7 @@
 package ql.khachsan.controllers;
 
-import com.itextpdf.text.*;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -36,7 +36,6 @@ import ql.khachsan.models.*;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +46,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HoaDonController implements Initializable {
     public Label kyTenKhach;
@@ -71,24 +71,45 @@ public class HoaDonController implements Initializable {
 
     private PhieuDatPhong phieuDatPhong;
 
-    public void luuHoaDonBtn_Clicked(ActionEvent actionEvent) {
+    private DecimalFormat formatter = new DecimalFormat("#,###");
 
+    public void luuHoaDonBtn_Clicked(ActionEvent actionEvent) throws IOException, DocumentException {
+
+        AtomicBoolean wanToDo = new AtomicBoolean(false);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText("Xác nhận");
+        alert.setContentText("Bạn chắc chắn muốn xuất hóa đơn");
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                wanToDo.set(true);
+            } else wanToDo.set(false);
+        });
+
+        if (!wanToDo.get())
+            return;
+
+        // thêm hóa đơn
         HoaDonThanhToan hoaDon = new HoaDonThanhToan(phieuDatPhong, App.nhanvien.getValue(), null);
         HoaDonThanhToanDAO.add(hoaDon);
-
+        // cập nhật tình trạng phòng
         hoaDon.getPhieuDatPhong().getPhong().setTrangThai(1);
         PhongDAO.update(hoaDon.getPhieuDatPhong().getPhong());
+        // xuất pdf
+        xuatHoaDonButtonClicked(actionEvent);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Đã xuất hóa đơn");
-        alert.setContentText(hoaDon.getIdHoaDon() + "");
-        alert.showAndWait();
+        Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+        alert2.setHeaderText("Đã xuất hóa đơn");
+        alert2.setContentText(hoaDon.getIdHoaDon() + "");
+        alert2.showAndWait();
 
+        // dóng 2 cửa sổ : phiếu & hóa đơn
         ((Stage) luuHoaDon.getScene().getWindow()).close();
         ((Stage) ((Stage) luuHoaDon.getScene().getWindow()).getOwner()).close();
 
         Button btn = (Button) this.card.lookup("#" + phieuDatPhong.getPhong().getIdPhong() + "");
 
+        //reset graphic of home view
         AnchorPane anchorPane = new AnchorPane();
         Image img = new Image(getClass().getResourceAsStream("/assets/img/open.png"), 103, 121, true, true);
         ImageView imgView = new ImageView();
@@ -135,7 +156,6 @@ public class HoaDonController implements Initializable {
             }
         });
         FlowPane.setMargin(btn, new Insets(5));
-
     }
 
     @Override
@@ -168,14 +188,13 @@ public class HoaDonController implements Initializable {
         this.tenKhach.setText(kh.getTenKhachHang());
         this.cmnd.setText(kh.getCmnd());
         this.soDienThoai.setText(kh.getSoDienThoai());
-        this.giaPhong.setText(String.format("%.0f", p.getLoaiPhong().getGia()));
+        this.giaPhong.setText(formatter.format(p.getLoaiPhong().getGia()));
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         this.ngayThue.setText(df.format(phieu.getNgayThue()));
         this.ngayTra.setText(df.format(phieu.getNgayTra()));
         int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(),
                 phieu.getNgayTra().toInstant()));
 
-        DecimalFormat formatter = new DecimalFormat("#,###");
         this.tongTien.setText(formatter.format(phieu.getTongTien()));
         this.tenPhong.setText(p.getTenPhong());
         this.loaiPhong.setText(p.getLoaiPhong().getTenLoaiPhong());
@@ -189,9 +208,8 @@ public class HoaDonController implements Initializable {
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
-//        now.getDay();
         this.ngay.setText(String.format("%2d", day));
-        this.thang.setText(String.format("%2d", month+1));
+        this.thang.setText(String.format("%2d", month + 1));
         this.nam.setText(String.format("%2d", year));
     }
 
@@ -199,8 +217,7 @@ public class HoaDonController implements Initializable {
         if (file != null) {
             int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
                     phieuDatPhong.getNgayTra().toInstant()));
-            float tongTien = LapPhieuController.tongTien(soNgay,
-                    phieuDatPhong.getPhong().getLoaiPhong().getGia());
+            float tongTien = phieuDatPhong.getTongTien();
 
             String str = file.getAbsolutePath();
             com.itextpdf.text.Document document = new Document();
@@ -257,9 +274,8 @@ public class HoaDonController implements Initializable {
                     phieuDatPhong.getPhong().getTenPhong(), smallFont));
             tb1.addCell(cell);
 
-            cell.setPhrase(new Phrase("Giá phòng: " +
-                    String.format("%.0f", phieuDatPhong.getPhong()
-                            .getLoaiPhong().getGia()) + " VNĐ/ngày", smallFont));
+            cell.setPhrase(new Phrase("Giá phòng: " + formatter.format(phieuDatPhong.getPhong()
+                    .getLoaiPhong().getGia()) + " VNĐ/ngày", smallFont));
             tb1.addCell(cell);
 
             cell.setPhrase(new Phrase("Loại phòng: " +
@@ -267,7 +283,7 @@ public class HoaDonController implements Initializable {
             tb1.addCell(cell);
 
             cell.setPhrase(new Phrase("Tổng tiền: " +
-                    String.format("%.0f", tongTien) + " VNĐ", smallFont));
+                    formatter.format(tongTien) + " VNĐ", smallFont));
             tb1.addCell(cell);
 
             tb1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -323,7 +339,7 @@ public class HoaDonController implements Initializable {
     }
 
     public void xuatHoaDonButtonClicked(ActionEvent actionEvent) throws IOException, DocumentException {
-        Button button = (Button)actionEvent.getTarget();
+        Button button = (Button) actionEvent.getTarget();
         Scene scene = button.getScene();
         Window window = scene.getWindow();
         FileChooser fc = new FileChooser();
