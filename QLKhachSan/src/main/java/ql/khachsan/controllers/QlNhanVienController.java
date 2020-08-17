@@ -48,9 +48,9 @@ public class QlNhanVienController implements Initializable {
 
     private NhanVien nhanVienDangXem = null;
 
-    private void seeDetailButtonClicked(NhanVien nhanVien) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
+    private void seeDetailButtonClicked(NhanVien nhanVien) {
         nhanVienDangXem = nhanVien;
 
         if (nhanVien.getGioiTinh().equals("Nam")) {
@@ -144,7 +144,6 @@ public class QlNhanVienController implements Initializable {
         cmndCol.setCellValueFactory(new PropertyValueFactory<>("cmnd"));
         ngaySinhCol.setCellValueFactory(new PropertyValueFactory<>("ngaySinh"));
         ngaySinhCol.setCellFactory(param -> new TableCell<NhanVien, Date>() {
-            private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             @Override
             protected void updateItem(Date date, boolean empty) {
                 super.updateItem(date, empty);
@@ -158,7 +157,6 @@ public class QlNhanVienController implements Initializable {
 
         ngayBatDauDiLamCol.setCellValueFactory(new PropertyValueFactory<>("ngayBatDauDiLam"));
         ngayBatDauDiLamCol.setCellFactory(param -> new TableCell<NhanVien, Date>() {
-            private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             @Override
             protected void updateItem(Date date, boolean empty) {
                 super.updateItem(date, empty);
@@ -321,8 +319,6 @@ public class QlNhanVienController implements Initializable {
         }
         else {
             NhanVien nhanVien = new NhanVien();
-
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             nhanVien.setHoTen(hoTen.getText());
             nhanVien.setNgaySinh(format.parse(ngaySinh.getText()));

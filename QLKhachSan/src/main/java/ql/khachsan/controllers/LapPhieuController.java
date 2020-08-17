@@ -89,6 +89,8 @@ public class LapPhieuController implements Initializable {
 
     private FlowPane cardView;
 
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ngayThue.setEditable(false);
@@ -321,8 +323,10 @@ public class LapPhieuController implements Initializable {
             return;
 
         if (this.khachHang == null) {
-            this.khachHang = new KhachHang(tenKhach.getText(), cmnd.getText(), soDienThoai.getText(), diaChi.getText(), null);
-        } else {
+            this.khachHang = new KhachHang(tenKhach.getText(), cmnd.getText(),
+                    soDienThoai.getText(), diaChi.getText(), null);
+        }
+        else {
             this.khachHang.setCmnd(cmnd.getText());
             this.khachHang.setDiaChi(diaChi.getText());
             this.khachHang.setSoDienThoai(soDienThoai.getText());
@@ -335,13 +339,12 @@ public class LapPhieuController implements Initializable {
                 this.khachHang,
                 Date.from(ngayThue.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), //new Date(),
                 Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                Float.parseFloat(tongTien.getText().replaceAll(",", "")),
-                null);
+                Float.parseFloat(tongTien.getText().replaceAll(",", "")));
+
         this.phieu = phieuDatPhong;
         PhieuDatPhongDAO.addOrUpdatePhieu(phieuDatPhong);
         phong.setTrangThai(2);
         PhongDAO.update(phong);
-
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Thêm phiếu thành công");
@@ -417,8 +420,8 @@ public class LapPhieuController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Không tìm thấy khách hàng. Vui lòng nhập thông tin chi tiết");
             alert.showAndWait();
-
-        } else {
+        }
+        else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Đã tìm thấy khách hàng");
             alert.showAndWait();
@@ -426,6 +429,7 @@ public class LapPhieuController implements Initializable {
             diaChi.setText(khachHang.getDiaChi());
             soDienThoai.setText(khachHang.getSoDienThoai());
         }
+
         tenKhach.setEditable(true);
         diaChi.setEditable(true);
         soDienThoai.setEditable(true);
@@ -499,7 +503,6 @@ public class LapPhieuController implements Initializable {
 
             document.open();
 
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             String path = getClass().getResource("/fonts/times.ttf").getPath();
             BaseFont bf = BaseFont.createFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             com.itextpdf.text.Font bigFont = new com.itextpdf.text.Font(bf, 20);
@@ -523,6 +526,7 @@ public class LapPhieuController implements Initializable {
 
             PdfPCell cell = new PdfPCell();
             cell.setBorder(Rectangle.NO_BORDER);
+
             cell.setPhrase(new Phrase("Tên phòng: " +
                     phieu.getPhong().getTenPhong(), smallFont));
             tb1.addCell(cell);

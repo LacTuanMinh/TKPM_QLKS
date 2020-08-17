@@ -18,9 +18,8 @@ public class HoaDonThanhToan {
         this.idHoaDon = idHoaDon;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDPhieuDatPhong", nullable = false, referencedColumnName = "IDPhieuDatPhong",
-            foreignKey = @ForeignKey(name = "FK_HoaDonThanhToan_PhieuDatPhong"))
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IDPhieuDatPhong", nullable = false)
     private PhieuDatPhong phieuDatPhong;
 
     public PhieuDatPhong getPhieuDatPhong() {
@@ -58,6 +57,7 @@ public class HoaDonThanhToan {
     }
 
     public HoaDonThanhToan() {
+
     }
 
     public HoaDonThanhToan(PhieuDatPhong phieuDatPhong, NhanVien nhanVien, KhuyenMai khuyenMai) {

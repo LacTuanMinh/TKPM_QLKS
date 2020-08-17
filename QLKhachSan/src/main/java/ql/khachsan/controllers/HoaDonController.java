@@ -73,8 +73,9 @@ public class HoaDonController implements Initializable {
 
     private DecimalFormat formatter = new DecimalFormat("#,###");
 
-    public void luuHoaDonBtn_Clicked(ActionEvent actionEvent) throws IOException, DocumentException {
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
+    public void luuHoaDonBtn_Clicked(ActionEvent actionEvent) throws IOException, DocumentException {
         AtomicBoolean wanToDo = new AtomicBoolean(false);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -189,9 +190,8 @@ public class HoaDonController implements Initializable {
         this.cmnd.setText(kh.getCmnd());
         this.soDienThoai.setText(kh.getSoDienThoai());
         this.giaPhong.setText(formatter.format(p.getLoaiPhong().getGia()));
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        this.ngayThue.setText(df.format(phieu.getNgayThue()));
-        this.ngayTra.setText(df.format(phieu.getNgayTra()));
+        this.ngayThue.setText(format.format(phieu.getNgayThue()));
+        this.ngayTra.setText(format.format(phieu.getNgayTra()));
         int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieu.getNgayThue().toInstant(),
                 phieu.getNgayTra().toInstant()));
 
@@ -215,7 +215,7 @@ public class HoaDonController implements Initializable {
 
     private void printPDF(File file) throws IOException, DocumentException {
         if (file != null) {
-            int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
+            int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
                     phieuDatPhong.getNgayTra().toInstant()));
             float tongTien = phieuDatPhong.getTongTien();
 
@@ -225,7 +225,6 @@ public class HoaDonController implements Initializable {
 
             document.open();
 
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             String path = getClass().getResource("/fonts/times.ttf").getPath();
             BaseFont bf = BaseFont.createFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             com.itextpdf.text.Font bigFont = new com.itextpdf.text.Font(bf, 20);
