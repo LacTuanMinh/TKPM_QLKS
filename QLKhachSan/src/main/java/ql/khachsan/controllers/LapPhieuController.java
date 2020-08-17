@@ -247,11 +247,8 @@ public class LapPhieuController implements Initializable {
             public void changed(ObservableValue<? extends LocalDate> observableValue, LocalDate localDate, LocalDate t1) {
                 if (t1 != null) {
                     long dayBetween = 1 + DAYS.between(ngayThue.getValue(), ngayTra.getValue());
-
-                    System.out.println(phieu);
                     if (phieu == null)// phòng trống
                         {
-                            System.out.println("Phòng trống");
                             tongTien.setText(formatter.format(
                                 LapPhieuController.tongTien((int) dayBetween, phong.getLoaiPhong().getGia(), !ThamSoDAO.getThamSo().getIsDisable())));// áp dụng trạng thái khuyem61 mãi hiện tại
                     }else tongTien.setText(formatter.format(
