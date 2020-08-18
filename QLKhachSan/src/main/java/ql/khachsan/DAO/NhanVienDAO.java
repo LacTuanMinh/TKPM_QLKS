@@ -14,8 +14,8 @@ public class NhanVienDAO {
         List<Object[]> objects = null;
         try {
             session.getTransaction().begin();
-            objects = session.createNativeQuery(
-                    "select idnhanvien, matkhau from nhanvien where tentaikhoan = :username").setParameter("username", username).getResultList();
+            String sql = "SELECT IDNhanVien, MatKhau FROM NhanVien WHERE TenTaiKhoan = :username";
+            objects = session.createNativeQuery(sql).setParameter("username", username).getResultList();
             session.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -51,6 +51,24 @@ public class NhanVienDAO {
 
             String sql = "SELECT NV FROM NhanVien NV JOIN FETCH NV.loaiNhanVien LNV ORDER BY NV.idNhanVien";
             list = session.createQuery(sql, NhanVien.class).getResultList();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+            return list;
+        }
+    }
+
+    public static List<String> getAllTenTaiKhoan() {
+        Session session = App.sessionFactory.getCurrentSession();
+        List<String> list = null;
+        try {
+            session.getTransaction().begin();
+
+            String sql = "SELECT NV.tenTaiKhoan FROM NhanVien NV";
+            list = session.createQuery(sql, String.class).getResultList();
             session.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();

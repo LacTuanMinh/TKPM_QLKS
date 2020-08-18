@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ql.khachsan.DAO.LoaiNhanVienDAO;
 import ql.khachsan.DAO.NhanVienDAO;
+import ql.khachsan.DAO.PhongDAO;
 import ql.khachsan.models.LoaiNhanVien;
 import ql.khachsan.models.NhanVien;
 import ql.khachsan.utils.PasswordUtils;
@@ -21,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QlNhanVienController implements Initializable {
     public TextField hoTen;
@@ -70,6 +73,12 @@ public class QlNhanVienController implements Initializable {
         ngayBatDauDiLam.setText(format.format(nhanVien.getNgayBatDauDiLam()));
         queQuan.setText(nhanVien.getQueQuan());
         chucVuComboBox.getSelectionModel().select(nhanVien.getLoaiNhanVien().getIdLoaiNhanVien() - 1);
+    }
+
+    private void updateView() {
+        dsNhanVien = NhanVienDAO.getAllNhanVien();
+        dsNhanVienData = FXCollections.observableArrayList(dsNhanVien);
+        nhanVienTableView.getItems().addAll(dsNhanVienData);
     }
 
     private void resetValues() {
@@ -136,6 +145,7 @@ public class QlNhanVienController implements Initializable {
         chucVuCol.setStyle("-fx-alignment: CENTER;");
         seeDetailCol.setStyle("-fx-alignment: CENTER;");
         cmndCol.setStyle("-fx-alignment: CENTER;");
+
         hoTenCol.setCellValueFactory(new PropertyValueFactory<>("hoTen"));
         soDienThoaiCol.setCellValueFactory(new PropertyValueFactory<>("soDienThoai"));
         gioiTinhCol.setCellValueFactory(new PropertyValueFactory<>("gioiTinh"));
@@ -224,7 +234,6 @@ public class QlNhanVienController implements Initializable {
             }
         });
 
-
         nhanVienTableView.getItems().addAll(dsNhanVienData);
 
         nhanVienTableView.getColumns().addAll(hoTenCol,cmndCol, ngaySinhCol, chucVuCol, luongThangCol,
@@ -263,6 +272,8 @@ public class QlNhanVienController implements Initializable {
     }
 
     private int checkInput() {
+        String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
+        Pattern pattern = Pattern.compile(regex);
         // Ô nhập liệu rỗng
         if (hoTen.getText().equals("") || ngaySinh.getText().equals("") ||
                 luongThang.getText().equals("") || queQuan.getText().equals("") ||
@@ -275,6 +286,12 @@ public class QlNhanVienController implements Initializable {
         }
         else if (!luongThang.getText().matches("[0-9]*")) {
             return -3;
+        }
+        else if (!pattern.matcher(ngaySinh.getText()).matches()) {
+            return -4;
+        }
+        else if (!pattern.matcher(ngayBatDauDiLam.getText()).matches()) {
+            return -5;
         }
         return 0;
     }
@@ -304,6 +321,28 @@ public class QlNhanVienController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ô nhập liệu lương tháng không hợp hệ");
             alert.setContentText("Lương tháng phải là 1 con số");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
+                }
+            });
+        }
+        else if (check == -4) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ô nhập liệu ngày sinh không hợp hệ");
+            alert.setHeaderText("Ngày sinh phải theo định dạng: dd/MM/yyyy");
+            alert.setContentText("Ví dụ: 24/12/1999");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
+                }
+            });
+        }
+        else if (check == -5) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Ô nhập liệu ngày bắt đầu đi làm không hợp hệ");
+            alert.setHeaderText("Ngày bắt đầu đi làm phải theo định dạng: dd/MM/yyyy");
+            alert.setContentText("Ví dụ: 24/12/1999");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
                     System.out.println("Pressed OK.");
@@ -354,6 +393,7 @@ public class QlNhanVienController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }
@@ -371,6 +411,7 @@ public class QlNhanVienController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }
@@ -395,6 +436,7 @@ public class QlNhanVienController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }

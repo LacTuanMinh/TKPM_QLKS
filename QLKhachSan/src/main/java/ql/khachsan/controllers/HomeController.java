@@ -2,9 +2,9 @@ package ql.khachsan.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import ql.khachsan.App;
 import ql.khachsan.DAO.PhongDAO;
 import ql.khachsan.models.Phong;
@@ -36,6 +37,9 @@ public class HomeController implements Initializable {
     public ScrollPane scrollPane;
     public AnchorPane container;
     public HBox quanLy;
+    public AnchorPane navBar;
+
+    List<Phong> list = null;
 
     public void homeWindow() throws IOException {
         FXMLLoader loader = App.getFXMLLoader("home");
@@ -47,13 +51,11 @@ public class HomeController implements Initializable {
         App.homeStage.show();
     }
 
-    List<Phong> list = null;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         list = PhongDAO.getAllPhong();
         container.getChildren().removeAll(scrollPane, quanLy);
-        int loaiNhanVien = App.nhanvien.getValue().getLoaiNhanVien().getIdLoaiNhanVien();
+        int loaiNhanVien = App.nhanVien.getValue().getLoaiNhanVien().getIdLoaiNhanVien();
         if (loaiNhanVien == 1) {
             displayAllRoomCard();
             container.getChildren().add(scrollPane);
@@ -66,7 +68,7 @@ public class HomeController implements Initializable {
                 displayQuanLyPhongCard();
                 displayQuanLyLoaiPhongCard();
             }
-            if(loaiNhanVien == 3){
+            if (loaiNhanVien == 3){
                 displayThayDoiQuyDinhCard();
             }
         }
@@ -92,42 +94,31 @@ public class HomeController implements Initializable {
         AnchorPane.setLeftAnchor(quanLyNhanVien, 4.0);
         AnchorPane.setRightAnchor(quanLyNhanVien, 4.0);
 
-//        Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
-//        loaiPhong.setPrefHeight(25);
-//        loaiPhong.setPrefWidth(139);
-//        loaiPhong.setLayoutX(20);
-//        loaiPhong.setLayoutY(155);
-//        loaiPhong.setAlignment(Pos.CENTER_RIGHT);
-//        loaiPhong.setFont(new Font(13));
-//        loaiPhong.setTextAlignment(TextAlignment.RIGHT);
-//        AnchorPane.setLeftAnchor(loaiPhong, 10.0);
-//        AnchorPane.setRightAnchor(loaiPhong, 5.0);
-
         anchorPane.getChildren().addAll(imgView, quanLyNhanVien);
         Button btn = new Button();
         btn.setId("setting");
         btn.setGraphic(anchorPane);
         btn.setPrefHeight(155);
         btn.setPrefWidth(160);
-//        btn.setOnAction(actionEvent -> {
-//            FXMLLoader loader = null;
-//            try {
-//                loader = App.getFXMLLoader("qlNhanVien");
-//                Parent root = loader.load();
-//                Scene scene = new Scene(root, 1120, 620);
-//                Stage stage = new Stage();
-//                stage.setTitle("Quản lý nhân viên");
-//                stage.setScene(scene);
-//                stage.setResizable(false);
-//
-//                // Wait until this stage is complete
-//                stage.initModality(Modality.APPLICATION_MODAL);
-//                stage.initOwner(App.homeStage);
-//                stage.show();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
+        btn.setOnAction(actionEvent -> {
+            FXMLLoader loader = null;
+            try {
+                loader = App.getFXMLLoader("baoCaoThongKe");
+                Parent root = loader.load();
+                Scene scene = new Scene(root, 920, 620);
+                Stage stage = new Stage();
+                stage.setTitle("Báo cáo thống kê");
+                stage.setScene(scene);
+                stage.setResizable(false);
+
+                // Wait until this stage is complete
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(App.homeStage);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         quanLy.getChildren().add(btn);
     }
 
@@ -152,17 +143,6 @@ public class HomeController implements Initializable {
         AnchorPane.setLeftAnchor(quanLyNhanVien, 4.0);
         AnchorPane.setRightAnchor(quanLyNhanVien, 4.0);
 
-//        Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
-//        loaiPhong.setPrefHeight(25);
-//        loaiPhong.setPrefWidth(139);
-//        loaiPhong.setLayoutX(20);
-//        loaiPhong.setLayoutY(155);
-//        loaiPhong.setAlignment(Pos.CENTER_RIGHT);
-//        loaiPhong.setFont(new Font(13));
-//        loaiPhong.setTextAlignment(TextAlignment.RIGHT);
-//        AnchorPane.setLeftAnchor(loaiPhong, 10.0);
-//        AnchorPane.setRightAnchor(loaiPhong, 5.0);
-
         anchorPane.getChildren().addAll(imgView, quanLyNhanVien);
         Button btn = new Button();
         btn.setId("setting");
@@ -170,7 +150,6 @@ public class HomeController implements Initializable {
         btn.setPrefHeight(155);
         btn.setPrefWidth(160);
         btn.setOnAction(actionEvent -> {
-
             ThayDoiQuyDinhController controller = new ThayDoiQuyDinhController();
             try {
                 controller.thayDoiQuyDinhWindow();
@@ -200,17 +179,6 @@ public class HomeController implements Initializable {
         quanLyNhanVien.setFont(new Font("System Bold", 15));
         AnchorPane.setLeftAnchor(quanLyNhanVien, 4.0);
         AnchorPane.setRightAnchor(quanLyNhanVien, 4.0);
-
-//        Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
-//        loaiPhong.setPrefHeight(25);
-//        loaiPhong.setPrefWidth(139);
-//        loaiPhong.setLayoutX(20);
-//        loaiPhong.setLayoutY(155);
-//        loaiPhong.setAlignment(Pos.CENTER_RIGHT);
-//        loaiPhong.setFont(new Font(13));
-//        loaiPhong.setTextAlignment(TextAlignment.RIGHT);
-//        AnchorPane.setLeftAnchor(loaiPhong, 10.0);
-//        AnchorPane.setRightAnchor(loaiPhong, 5.0);
 
         anchorPane.getChildren().addAll(imgView, quanLyNhanVien);
         Button btn = new Button();
@@ -260,8 +228,6 @@ public class HomeController implements Initializable {
         AnchorPane.setLeftAnchor(quanLyNhanVien, 4.0);
         AnchorPane.setRightAnchor(quanLyNhanVien, 4.0);
 
-//        ...
-
         anchorPane.getChildren().addAll(imgView, quanLyNhanVien);
         Button btn = new Button();
         btn.setId("qlPhong");
@@ -310,8 +276,6 @@ public class HomeController implements Initializable {
         AnchorPane.setLeftAnchor(quanLyNhanVien, 4.0);
         AnchorPane.setRightAnchor(quanLyNhanVien, 4.0);
 
-//        ...
-
         anchorPane.getChildren().addAll(imgView, quanLyNhanVien);
         Button btn = new Button();
         btn.setId("qlPhong");
@@ -353,7 +317,6 @@ public class HomeController implements Initializable {
                 img = new Image(getClass().getResourceAsStream("/assets/img/closed.png"), 103, 121, true, true);
             else img = new Image(getClass().getResourceAsStream("/assets/img/repairing.png"), 103, 121, true, true);
 
-
             ImageView imgView = new ImageView();
             imgView.setImage(img);
             imgView.setLayoutX(12);
@@ -361,25 +324,21 @@ public class HomeController implements Initializable {
             AnchorPane.setTopAnchor(imgView, 10.0);
 
             Label tenPhong = new Label("P." + phong_i.getTenPhong());
+            tenPhong.setAlignment(Pos.CENTER);
             tenPhong.setPrefHeight(40);
             tenPhong.setPrefWidth(115);
             tenPhong.setLayoutX(7);
             tenPhong.setLayoutY(117);
-            tenPhong.setTextAlignment(TextAlignment.CENTER);
             tenPhong.setTextFill(Color.web("#fc0000"));
             tenPhong.setFont(new Font("System Bold", 15));
-            AnchorPane.setLeftAnchor(tenPhong, 4.0);
-            AnchorPane.setRightAnchor(tenPhong, 55.0);
 
-
-            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
+            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());
+            loaiPhong.setAlignment(Pos.CENTER);
             loaiPhong.setPrefHeight(25);
             loaiPhong.setPrefWidth(139);
             loaiPhong.setLayoutX(20);
             loaiPhong.setLayoutY(155);
-            loaiPhong.setAlignment(Pos.CENTER_RIGHT);
             loaiPhong.setFont(new Font(13));
-            loaiPhong.setTextAlignment(TextAlignment.RIGHT);
             AnchorPane.setLeftAnchor(loaiPhong, 10.0);
             AnchorPane.setRightAnchor(loaiPhong, 5.0);
 

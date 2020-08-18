@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ThongTinCaNhanController implements Initializable {
@@ -44,28 +45,28 @@ public class ThongTinCaNhanController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
-        oldValue = App.nhanvien.get();
+        oldValue = App.nhanVien.get();
 
         ToggleGroup group = new ToggleGroup();
         maleButton.setToggleGroup(group);
         femaleButton.setToggleGroup(group);
 
-        if (App.nhanvien.getValue().getGioiTinh().equals("Nam")) {
+        if (App.nhanVien.getValue().getGioiTinh().equals("Nam")) {
             maleButton.setSelected(true);
         }
         else {
             femaleButton.setSelected(true);
         }
 
-        tenTaiKhoan.setText(App.nhanvien.getValue().getTenTaiKhoan());
-        hoTen.setText(App.nhanvien.getValue().getHoTen());
-        ngaySinh.setText(format.format(App.nhanvien.getValue().getNgaySinh()));
-        soDienThoai.setText(App.nhanvien.getValue().getSoDienThoai());
-        queQuan.setText(App.nhanvien.getValue().getQueQuan());
-        diaChi.setText(App.nhanvien.getValue().getDiaChi());
-        ngayBatDauDiLam.setText(format.format(App.nhanvien.getValue().getNgayBatDauDiLam()));
-        luongThang.setText(String.format("%.0f", App.nhanvien.getValue().getLuongThang()));
-        chucVu.setText(App.nhanvien.get().getLoaiNhanVien().getTenLoaiNhanVien());
+        tenTaiKhoan.setText(App.nhanVien.getValue().getTenTaiKhoan());
+        hoTen.setText(App.nhanVien.getValue().getHoTen());
+        ngaySinh.setText(format.format(App.nhanVien.getValue().getNgaySinh()));
+        soDienThoai.setText(App.nhanVien.getValue().getSoDienThoai());
+        queQuan.setText(App.nhanVien.getValue().getQueQuan());
+        diaChi.setText(App.nhanVien.getValue().getDiaChi());
+        ngayBatDauDiLam.setText(format.format(App.nhanVien.getValue().getNgayBatDauDiLam()));
+        luongThang.setText(String.format("%.0f", App.nhanVien.getValue().getLuongThang()));
+        chucVu.setText(App.nhanVien.get().getLoaiNhanVien().getTenLoaiNhanVien());
     }
 
     public void changePasswordButtonClicked(ActionEvent actionEvent) throws IOException {
@@ -104,6 +105,7 @@ public class ThongTinCaNhanController implements Initializable {
         ngayBatDauDiLam.setText(format.format(oldValue.getNgayBatDauDiLam()));
         luongThang.setText(String.format("%.0f", oldValue.getLuongThang()));
         chucVu.setText(oldValue.getLoaiNhanVien().getTenLoaiNhanVien());
+        matKhau.setText("");
 
         tenTaiKhoan.setEditable(false);
         hoTen.setEditable(false);
@@ -120,6 +122,8 @@ public class ThongTinCaNhanController implements Initializable {
     }
 
     private int checkInput() {
+        List<String> tenTaiKhoanList = NhanVienDAO.getAllTenTaiKhoan();
+        tenTaiKhoanList.remove(App.nhanVien.getValue().getTenTaiKhoan());
         // Ô nhập liệu rỗng
         if (tenTaiKhoan.getText().equals("") || hoTen.getText().equals("") ||
                 ngaySinh.getText().equals("") || luongThang.getText().equals("") ||
@@ -127,8 +131,13 @@ public class ThongTinCaNhanController implements Initializable {
                 ngayBatDauDiLam.getText().equals("") || soDienThoai.getText().equals("")) {
             return -1;
         }
-        else if (!PasswordUtils.verifyHash(matKhau.getText(), App.nhanvien.getValue().getMatKhau())) {
+        // Kiểm tra nhập mật khẩu hiện tại
+        else if (!PasswordUtils.verifyHash(matKhau.getText(), App.nhanVien.getValue().getMatKhau())) {
             return -2;
+        }
+        // Kiểm tra trùng tên tài khoản
+        else if (tenTaiKhoanList.contains(tenTaiKhoan.getText())) {
+            return -3;
         }
         return 0;
     }
@@ -154,6 +163,16 @@ public class ThongTinCaNhanController implements Initializable {
                 }
             });
         }
+        else if (check == -3) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Tên tài khoản không hợp lệ");
+            alert.setContentText("Đã tồn tại tên tài khoản này, hãy chọn tên tài khoản khác");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
+                }
+            });
+        }
     }
 
     public void cancelButtonClicked(ActionEvent actionEvent) {
@@ -166,7 +185,7 @@ public class ThongTinCaNhanController implements Initializable {
             showAlert(check);
         }
         else {
-            NhanVien nhanVien = App.nhanvien.getValue();
+            NhanVien nhanVien = App.nhanVien.getValue();
 
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -189,7 +208,8 @@ public class ThongTinCaNhanController implements Initializable {
                 }
             });
 
-            App.nhanvien.setValue(nhanVien);
+            App.nhanVien.setValue(null);
+            App.nhanVien.setValue(nhanVien);
             resetValues();
         }
     }

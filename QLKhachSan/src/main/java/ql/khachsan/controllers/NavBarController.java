@@ -40,9 +40,8 @@ public class NavBarController implements Initializable {
     @FXML
     HBox btnContainer;
 
-
     public void dangXuat_Clicked(ActionEvent actionEvent) throws IOException {
-        App.nhanvien.setValue(null);
+        App.nhanVien.setValue(null);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Bạn đã đăng xuất khỏi hệ thống");
         alert.showAndWait();
@@ -58,11 +57,17 @@ public class NavBarController implements Initializable {
         App.homeStage.show();
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        userName.setText(App.nhanvien.getValue().getTenTaiKhoan());
-
+        userName.setText(App.nhanVien.getValue().getTenTaiKhoan());
+        App.nhanVien.addListener(new ChangeListener<NhanVien>() {
+            @Override
+            public void changed(ObservableValue<? extends NhanVien> observableValue, NhanVien nhanVien, NhanVien t1) {
+                if (t1 != null) {
+                    userName.setText(t1.getTenTaiKhoan());
+                }
+            }
+        });
     }
 
     public void taiKhoan_Clicked(ActionEvent actionEvent) throws IOException {

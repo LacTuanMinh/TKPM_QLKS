@@ -3,6 +3,8 @@ package ql.khachsan;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +25,7 @@ public class App extends Application {
     public static Stage homeStage;
     public static LoginController controller;
     public static SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
-    public static ObjectProperty<NhanVien> nhanvien = new SimpleObjectProperty<>();
+    public static ObjectProperty<NhanVien> nhanVien = new SimpleObjectProperty<>();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -35,7 +37,6 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Đăng nhập");
-//        homeStage = new Stage();
         homeStage = stage;
         stage.show();
     }

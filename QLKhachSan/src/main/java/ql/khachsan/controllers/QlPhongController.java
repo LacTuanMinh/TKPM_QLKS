@@ -55,6 +55,12 @@ public class QlPhongController implements Initializable {
         trangThaiComboBox.setValue(trangThai);
     }
 
+    private void updateView() {
+        dsPhong = PhongDAO.getAllPhong();
+        dsPhongData = FXCollections.observableArrayList(dsPhong);
+        phongTableView.getItems().addAll(dsPhongData);
+    }
+
     private void createTableView() {
         dsPhongData = FXCollections.observableArrayList(dsPhong);
 
@@ -129,7 +135,6 @@ public class QlPhongController implements Initializable {
             }
         });
 
-
         phongTableView.getItems().addAll(dsPhongData);
 
         phongTableView.getColumns().addAll(tenPhongCol, loaiPhongCol, trangThaiCol, seeDetailCol);
@@ -160,6 +165,10 @@ public class QlPhongController implements Initializable {
     }
 
     private int checkInput() {
+        List<String> tenPhongList = PhongDAO.getAllTenPhong();
+        if (phongDangXem != null) {
+            tenPhongList.remove(phongDangXem.getTenPhong());
+        }
         // Ô nhập liệu rỗng
         if (tenPhong.getText().equals("")) {
             return -1;
@@ -169,6 +178,9 @@ public class QlPhongController implements Initializable {
         }
         else if (trangThaiComboBox.getValue() == null) {
             return -3;
+        }
+        else if (tenPhongList.contains(tenPhong.getText())) {
+            return -4;
         }
         return 0;
     }
@@ -198,6 +210,16 @@ public class QlPhongController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Các vùng nhập liệu không hợp lệ");
             alert.setContentText("Bạn chưa chọn trạng thái cho phòng");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
+                }
+            });
+        }
+        else if (check == -4) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Tên phòng không hợp lệ");
+            alert.setContentText("Đã tồn tại tên phòng này, hãy chọn tên khác");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
                     System.out.println("Pressed OK.");
@@ -240,6 +262,7 @@ public class QlPhongController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }
@@ -257,6 +280,7 @@ public class QlPhongController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }
@@ -293,6 +317,7 @@ public class QlPhongController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }

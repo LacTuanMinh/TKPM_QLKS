@@ -5,6 +5,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+
 import ql.khachsan.App;
 import ql.khachsan.DAO.NhanVienDAO;
 import ql.khachsan.utils.PasswordUtils;
@@ -22,7 +23,7 @@ public class DoiMatKhauController {
         else if (!newPass.getText().equals(reEnterPass.getText())) {
             return -2;
         }
-        else if (!PasswordUtils.verifyHash(oldPass.getText(), App.nhanvien.getValue().getMatKhau())) {
+        else if (!PasswordUtils.verifyHash(oldPass.getText(), App.nhanVien.getValue().getMatKhau())) {
             return -3;
         }
         return 0;
@@ -68,8 +69,8 @@ public class DoiMatKhauController {
         }
         else {
             String hashPass = PasswordUtils.hash(newPass.getText());
-            NhanVienDAO.updatePassword(App.nhanvien.getValue().getIdNhanVien(), hashPass);
-            App.nhanvien.getValue().setMatKhau(hashPass);
+            NhanVienDAO.updatePassword(App.nhanVien.getValue().getIdNhanVien(), hashPass);
+            App.nhanVien.getValue().setMatKhau(hashPass);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Chúc mừng!!!");

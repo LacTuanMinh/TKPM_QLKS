@@ -91,7 +91,7 @@ public class HoaDonController implements Initializable {
             return;
 
         // thêm hóa đơn
-        HoaDonThanhToan hoaDon = new HoaDonThanhToan(phieuDatPhong, App.nhanvien.getValue(), null);
+        HoaDonThanhToan hoaDon = new HoaDonThanhToan(phieuDatPhong, App.nhanVien.getValue(), null);
         HoaDonThanhToanDAO.add(hoaDon);
         // cập nhật tình trạng phòng
         hoaDon.getPhieuDatPhong().getPhong().setTrangThai(1);
@@ -299,7 +299,7 @@ public class HoaDonController implements Initializable {
             cell.setPhrase(new Phrase("\nThu ngân", smallFont));
             tb2.addCell(cell);
 
-            cell.setPhrase(new Phrase("(Ký tên)\n\n\n\n\n"));
+            cell.setPhrase(new Phrase("(Ký tên)\n\n\n\n\n", smallFont));
             tb2.addCell(cell);
             tb2.addCell(cell);
 

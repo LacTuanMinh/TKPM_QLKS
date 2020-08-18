@@ -332,7 +332,7 @@ public class LapPhieuController implements Initializable {
         KhachHangDAO.addOrUpdateKhachHang(this.khachHang);
         PhieuDatPhong phieuDatPhong = new PhieuDatPhong(
                 this.phong,
-                App.nhanvien.getValue(),
+                App.nhanVien.getValue(),
                 this.khachHang,
                 Date.from(ngayThue.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), //new Date(),
                 Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
