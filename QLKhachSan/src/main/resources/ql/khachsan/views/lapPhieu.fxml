@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ql.khachsan.controllers.LapPhieuController">
    <children>
-      <Label layoutX="323.0" layoutY="21.0" text="PHIẾU THUÊ PHÒNG">
+      <Label layoutX="343.0" layoutY="20.0" text="PHIẾU THUÊ PHÒNG">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
@@ -162,32 +162,32 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Label layoutX="308.0" layoutY="53.0" text="Ngày">
+      <Label layoutX="328.0" layoutY="52.0" text="Ngày">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="486.0" layoutY="53.0" text="Năm">
+      <Label layoutX="506.0" layoutY="52.0" text="Năm">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="391.0" layoutY="53.0" text="Tháng">
+      <Label layoutX="411.0" layoutY="52.0" text="Tháng">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="ngay" layoutX="360.0" layoutY="53.0" text="00">
+      <Label fx:id="ngay" layoutX="380.0" layoutY="52.0" text="00">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="nam" layoutX="534.0" layoutY="53.0" text="00">
+      <Label fx:id="nam" layoutX="554.0" layoutY="52.0" text="00">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="thang" layoutX="454.0" layoutY="53.0" text="00">
+      <Label fx:id="thang" layoutX="474.0" layoutY="52.0" text="00">
          <font>
             <Font size="18.0" />
          </font>

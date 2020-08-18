@@ -79,6 +79,7 @@ public class LapPhieuController implements Initializable {
     public Label ngay;
     public Label nam;
     public Label thang;
+    public Button xuatPhieuButton;
 
     private Phong phong = new Phong();
     public static Stage stage = new Stage();
@@ -208,13 +209,15 @@ public class LapPhieuController implements Initializable {
 
         if (phong.getTrangThai() == 1) {
             // phòng trống
-            this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
+            this.nhanVien.setText(App.nhanVien.getValue().getHoTen());
             this.ngayThue.setValue(LocalDate.now());
             themPhieu.setDisable(false);
             luuThayDoi.setDisable(true);
             lapHoaDon.setDisable(true);
+            xuatPhieuButton.setDisable(true);
         } else {
             // có khách
+            xuatPhieuButton.setDisable(false);
             themPhieu.setDisable(true);
             luuThayDoi.setDisable(false);
             searchKhachHang.setDisable(true);
@@ -369,7 +372,7 @@ public class LapPhieuController implements Initializable {
         tenPhong.setPrefWidth(115);
         tenPhong.setLayoutX(7);
         tenPhong.setLayoutY(117);
-        tenPhong.setTextAlignment(TextAlignment.CENTER);
+        tenPhong.setAlignment(Pos.CENTER);
         tenPhong.setTextFill(Color.web("#fc0000"));
         tenPhong.setFont(new Font("System Bold", 15));
         AnchorPane.setLeftAnchor(tenPhong, 4.0);
@@ -490,7 +493,7 @@ public class LapPhieuController implements Initializable {
     public void lapHoaDonBtn_Clicked(ActionEvent actionEvent) throws IOException {
         HoaDonController controller = new HoaDonController();
         PhieuDatPhong phieu = PhieuDatPhongDAO.getPhieuDatPhongByIDPhong(phong.getIdPhong());
-        controller.LapHoaDonWindow(this.cardView, phieu);
+        controller.LapHoaDonWindow(this.cardView, phieu, this.phong);
     }
 
     private void printPDF(File file) throws IOException, DocumentException {

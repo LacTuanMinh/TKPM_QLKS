@@ -4,14 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -19,10 +16,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import ql.khachsan.App;
 import ql.khachsan.DAO.PhongDAO;
 import ql.khachsan.models.Phong;
@@ -38,6 +33,11 @@ public class HomeController implements Initializable {
     public AnchorPane container;
     public HBox quanLy;
     public AnchorPane navBar;
+    public ComboBox<String> filterCombobox;
+    public Label filterLabel;
+    public TextField searchField;
+    public Button refreshBtn;
+    public Button searchPhongBtn;
 
     List<Phong> list = null;
 
@@ -59,6 +59,34 @@ public class HomeController implements Initializable {
         if (loaiNhanVien == 1) {
             displayAllRoomCard();
             container.getChildren().add(scrollPane);
+            searchField.setVisible(true);
+            searchPhongBtn.setVisible(true);
+            refreshBtn.setVisible(true);
+            filterCombobox.setVisible(true);
+            filterLabel.setVisible(true);
+            filterCombobox.getItems().addAll("Trống", "Có khách", "Không dùng", "Tất cả");
+
+            filterCombobox.showingProperty().addListener((obs, wasShowing, isShowing) -> {
+                if (!isShowing) {
+                    String item = (String) filterCombobox.getSelectionModel().getSelectedItem();
+                    if (item != null) {
+                        if (item.equals("Trống")) {
+                            displayRoomCardDependingOnStatus(1);
+                            System.out.println("ccmm");
+                        }
+                        if (item.equals("Có khách")) {
+                            displayRoomCardDependingOnStatus(2);
+                        }
+                        if (item.equals("Không dùng")) {
+                            displayRoomCardDependingOnStatus(3);
+                        }
+                        if (item.equals("Tất cả")) {
+                            displayAllRoomCard();
+                        }
+                    }
+                }
+            });
+
         }
         if (loaiNhanVien == 2 || loaiNhanVien == 3) {
             container.getChildren().add(quanLy);
@@ -68,7 +96,7 @@ public class HomeController implements Initializable {
                 displayQuanLyPhongCard();
                 displayQuanLyLoaiPhongCard();
             }
-            if (loaiNhanVien == 3){
+            if (loaiNhanVien == 3) {
                 displayThayDoiQuyDinhCard();
             }
         }
@@ -121,7 +149,6 @@ public class HomeController implements Initializable {
         });
         quanLy.getChildren().add(btn);
     }
-
 
     public void displayThayDoiQuyDinhCard() {
         AnchorPane anchorPane = new AnchorPane();
@@ -305,7 +332,7 @@ public class HomeController implements Initializable {
     }
 
     public void displayAllRoomCard() {
-        roomCardView.getChildren().removeAll();
+        roomCardView.getChildren().clear();
         for (int i = 0; i < list.size(); i++) {
             Phong phong_i = list.get(i);
             AnchorPane anchorPane = new AnchorPane();
@@ -364,5 +391,153 @@ public class HomeController implements Initializable {
             FlowPane.setMargin(btn, new Insets(5));
             roomCardView.getChildren().add(btn);
         }
+    }
+
+    public void displayRoomCardDependingOnStatus(int status) {
+        roomCardView.getChildren().clear();
+        for (int i = 0; i < list.size(); i++) {
+            Phong phong_i = list.get(i);
+            if (phong_i.getTrangThai() != status)
+                continue;
+
+            AnchorPane anchorPane = new AnchorPane();
+
+            Image img = null;
+            if (phong_i.getTrangThai() == 1)
+                img = new Image(getClass().getResourceAsStream("/assets/img/open.png"), 103, 121, true, true);
+            else if (phong_i.getTrangThai() == 2)
+                img = new Image(getClass().getResourceAsStream("/assets/img/closed.png"), 103, 121, true, true);
+            else img = new Image(getClass().getResourceAsStream("/assets/img/repairing.png"), 103, 121, true, true);
+
+            ImageView imgView = new ImageView();
+            imgView.setImage(img);
+            imgView.setLayoutX(12);
+
+            AnchorPane.setTopAnchor(imgView, 10.0);
+
+            Label tenPhong = new Label("P." + phong_i.getTenPhong());
+            tenPhong.setAlignment(Pos.CENTER);
+            tenPhong.setPrefHeight(40);
+            tenPhong.setPrefWidth(115);
+            tenPhong.setLayoutX(7);
+            tenPhong.setLayoutY(117);
+            tenPhong.setTextFill(Color.web("#fc0000"));
+            tenPhong.setFont(new Font("System Bold", 15));
+
+            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());
+            loaiPhong.setAlignment(Pos.CENTER);
+            loaiPhong.setPrefHeight(25);
+            loaiPhong.setPrefWidth(139);
+            loaiPhong.setLayoutX(20);
+            loaiPhong.setLayoutY(155);
+            loaiPhong.setFont(new Font(13));
+            AnchorPane.setLeftAnchor(loaiPhong, 10.0);
+            AnchorPane.setRightAnchor(loaiPhong, 5.0);
+
+            anchorPane.getChildren().addAll(imgView, tenPhong, loaiPhong);
+            Button btn = new Button();
+            btn.setId(phong_i.getIdPhong() + "");
+            btn.setGraphic(anchorPane);
+            btn.setPrefHeight(135);
+            btn.setPrefWidth(140);
+            btn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (phong_i.getTrangThai() != 3) {
+                        LapPhieuController controller = new LapPhieuController();
+                        try {
+                            controller.LapPhieuWindow(roomCardView, phong_i);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            FlowPane.setMargin(btn, new Insets(5));
+            roomCardView.getChildren().add(btn);
+        }
+    }
+
+    public void displayRoomCardDependingOnRoomName(String name) {
+        roomCardView.getChildren().clear();
+        for (int i = 0; i < list.size(); i++) {
+            Phong phong_i = list.get(i);
+            if (!phong_i.getTenPhong().toLowerCase().contains(name.toLowerCase()))
+                continue;
+
+            AnchorPane anchorPane = new AnchorPane();
+
+            Image img = null;
+            if (phong_i.getTrangThai() == 1)
+                img = new Image(getClass().getResourceAsStream("/assets/img/open.png"), 103, 121, true, true);
+            else if (phong_i.getTrangThai() == 2)
+                img = new Image(getClass().getResourceAsStream("/assets/img/closed.png"), 103, 121, true, true);
+            else img = new Image(getClass().getResourceAsStream("/assets/img/repairing.png"), 103, 121, true, true);
+
+            ImageView imgView = new ImageView();
+            imgView.setImage(img);
+            imgView.setLayoutX(12);
+
+            AnchorPane.setTopAnchor(imgView, 10.0);
+
+            Label tenPhong = new Label("P." + phong_i.getTenPhong());
+            tenPhong.setAlignment(Pos.CENTER);
+            tenPhong.setPrefHeight(40);
+            tenPhong.setPrefWidth(115);
+            tenPhong.setLayoutX(7);
+            tenPhong.setLayoutY(117);
+            tenPhong.setTextFill(Color.web("#fc0000"));
+            tenPhong.setFont(new Font("System Bold", 15));
+
+            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());
+            loaiPhong.setAlignment(Pos.CENTER);
+            loaiPhong.setPrefHeight(25);
+            loaiPhong.setPrefWidth(139);
+            loaiPhong.setLayoutX(20);
+            loaiPhong.setLayoutY(155);
+            loaiPhong.setFont(new Font(13));
+            AnchorPane.setLeftAnchor(loaiPhong, 10.0);
+            AnchorPane.setRightAnchor(loaiPhong, 5.0);
+
+            anchorPane.getChildren().addAll(imgView, tenPhong, loaiPhong);
+            Button btn = new Button();
+            btn.setId(phong_i.getIdPhong() + "");
+            btn.setGraphic(anchorPane);
+            btn.setPrefHeight(135);
+            btn.setPrefWidth(140);
+            btn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (phong_i.getTrangThai() != 3) {
+                        LapPhieuController controller = new LapPhieuController();
+                        try {
+                            controller.LapPhieuWindow(roomCardView, phong_i);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            FlowPane.setMargin(btn, new Insets(5));
+            roomCardView.getChildren().add(btn);
+        }
+    }
+
+
+    public void searchBtn_Clicked(ActionEvent actionEvent) {
+        if (searchField.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Vui lòng nhập nội dung cần tìm vào ô tìm kiếm");
+            alert.showAndWait();
+            return;
+        }
+
+        displayRoomCardDependingOnRoomName(searchField.getText());
+
+    }
+
+    public void refreshBtn_Clicked(ActionEvent actionEvent) {
+
+        displayAllRoomCard();
     }
 }

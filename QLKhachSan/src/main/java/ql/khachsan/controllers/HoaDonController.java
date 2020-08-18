@@ -39,7 +39,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
@@ -69,6 +68,8 @@ public class HoaDonController implements Initializable {
 
     private FlowPane card;
 
+    private Phong phong;
+
     private PhieuDatPhong phieuDatPhong;
 
     private DecimalFormat formatter = new DecimalFormat("#,###");
@@ -94,6 +95,7 @@ public class HoaDonController implements Initializable {
         HoaDonThanhToan hoaDon = new HoaDonThanhToan(phieuDatPhong, App.nhanVien.getValue(), null);
         HoaDonThanhToanDAO.add(hoaDon);
         // cập nhật tình trạng phòng
+        phong.setTrangThai(1);
         hoaDon.getPhieuDatPhong().getPhong().setTrangThai(1);
         PhongDAO.update(hoaDon.getPhieuDatPhong().getPhong());
         // xuất pdf
@@ -123,7 +125,7 @@ public class HoaDonController implements Initializable {
         tenPhong.setPrefWidth(115);
         tenPhong.setLayoutX(7);
         tenPhong.setLayoutY(117);
-        tenPhong.setTextAlignment(TextAlignment.CENTER);
+        tenPhong.setAlignment(Pos.CENTER);
         tenPhong.setTextFill(Color.web("#fc0000"));
         tenPhong.setFont(new Font("System Bold", 15));
         AnchorPane.setLeftAnchor(tenPhong, 4.0);
@@ -164,11 +166,11 @@ public class HoaDonController implements Initializable {
 
     }
 
-    public void LapHoaDonWindow(FlowPane cardView, PhieuDatPhong phieuDatPhong) throws IOException {
+    public void LapHoaDonWindow(FlowPane cardView, PhieuDatPhong phieuDatPhong, Phong phong) throws IOException {
         FXMLLoader loader = App.getFXMLLoader("hoaDon");
         Parent root = loader.load();
         HoaDonController controller = loader.getController();
-        controller.setWindow(cardView, phieuDatPhong);
+        controller.setWindow(cardView, phieuDatPhong, phong);
         Stage stage = new Stage();
         stage.setTitle("Lập hóa đơn");
         stage.setScene(new Scene(root));
@@ -178,9 +180,10 @@ public class HoaDonController implements Initializable {
         stage.show();
     }
 
-    public void setWindow(FlowPane cardView, PhieuDatPhong phieu) {
+    public void setWindow(FlowPane cardView, PhieuDatPhong phieu, Phong phong) {
         this.card = cardView;
         this.phieuDatPhong = phieu;
+        this.phong = phong;
 
         KhachHang kh = phieu.getKhachHang();
         NhanVien nv = phieu.getNhanVien();
@@ -215,7 +218,7 @@ public class HoaDonController implements Initializable {
 
     private void printPDF(File file) throws IOException, DocumentException {
         if (file != null) {
-            int soNgay = (int)(1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
+            int soNgay = (int) (1 + ChronoUnit.DAYS.between(phieuDatPhong.getNgayThue().toInstant(),
                     phieuDatPhong.getNgayTra().toInstant()));
             float tongTien = phieuDatPhong.getTongTien();
 
