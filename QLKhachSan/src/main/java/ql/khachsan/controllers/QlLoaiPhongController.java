@@ -92,7 +92,6 @@ public class QlLoaiPhongController implements Initializable {
             }
         });
 
-
         loaiPhongTableView.getItems().addAll(dsLoaiPhongData);
 
         loaiPhongTableView.getColumns().addAll(tenLoaiPhongCol, soNguoiToiDaCol, giaCol, seeDetailCol);
@@ -103,6 +102,12 @@ public class QlLoaiPhongController implements Initializable {
         dsLoaiPhong = LoaiPhongDAO.getAllLoaiPhong();
 
         createTableView();
+    }
+
+    private void updateView() {
+        dsLoaiPhong = LoaiPhongDAO.getAllLoaiPhong();
+        dsLoaiPhongData = FXCollections.observableArrayList(dsLoaiPhong);
+        loaiPhongTableView.getItems().addAll(dsLoaiPhongData);
     }
 
     private void resetValues() {
@@ -187,6 +192,7 @@ public class QlLoaiPhongController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }
@@ -204,6 +210,7 @@ public class QlLoaiPhongController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }
@@ -229,6 +236,7 @@ public class QlLoaiPhongController implements Initializable {
                 }
             });
 
+            updateView();
             resetValues();
         }
     }

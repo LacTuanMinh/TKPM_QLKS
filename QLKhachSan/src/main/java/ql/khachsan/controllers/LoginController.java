@@ -24,10 +24,6 @@ public class LoginController implements Initializable {
     public Button loginBtn;
     public Label alert;
 
-    public Button qlNhanVienButton;
-    public Button qlPhongButton;
-    public Button qlLoaiPhongButton;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -48,8 +44,7 @@ public class LoginController implements Initializable {
             }
             else {
                 if (PasswordUtils.verifyHash(password.getText(), (String)object[1])) {
-
-                    App.nhanvien.setValue(NhanVienDAO.getNhanVienById((int)object[0]));
+                    App.nhanVien.setValue(NhanVienDAO.getNhanVienById((int)object[0]));
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setHeaderText("Đăng nhập thành công!");
                     alert.showAndWait();
@@ -65,35 +60,4 @@ public class LoginController implements Initializable {
             }
         }
     }
-
-//
-//    public void qlPhongButtonClicked(ActionEvent actionEvent) throws IOException {
-//        FXMLLoader loader = App.getFXMLLoader("qlPhong");
-//        Parent root = loader.load();
-//        Scene scene = new Scene(root, 420, 520);
-//        Stage stage = new Stage();
-//        stage.setTitle("Quản lý phòng");
-//        stage.setScene(scene);
-//        stage.setResizable(false);
-//
-//        // Wait until this stage is complete
-//        stage.initModality(Modality.APPLICATION_MODAL);
-//        stage.initOwner(App.homeStage);
-//        stage.show();
-//    }
-//
-//    public void qlLoaiPhongButtonClicked(ActionEvent actionEvent) throws IOException {
-//        FXMLLoader loader = App.getFXMLLoader("qlLoaiPhong");
-//        Parent root = loader.load();
-//        Scene scene = new Scene(root, 420, 520);
-//        Stage stage = new Stage();
-//        stage.setTitle("Quản lý loại phòng");
-//        stage.setScene(scene);
-//        stage.setResizable(false);
-//
-//        // Wait until this stage is complete
-//        stage.initModality(Modality.APPLICATION_MODAL);
-//        stage.initOwner(App.homeStage);
-//        stage.show();
-//    }
 }

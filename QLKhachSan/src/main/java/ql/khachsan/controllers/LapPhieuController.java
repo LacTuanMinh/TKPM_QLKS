@@ -204,7 +204,7 @@ public class LapPhieuController implements Initializable {
         this.phong = phong;
         this.tenPhong.setText(phong.getTenPhong());
         this.loaiPhong.setText(phong.getLoaiPhong().getTenLoaiPhong());
-        this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
+        this.nhanVien.setText(App.nhanVien.getValue().getHoTen());
         this.giaPhong.setText(formatter.format(this.phong.getLoaiPhong().getGia()));
 
         if (phong.getTrangThai() == 1) {
@@ -331,7 +331,7 @@ public class LapPhieuController implements Initializable {
         KhachHangDAO.addOrUpdateKhachHang(this.khachHang);
         PhieuDatPhong phieuDatPhong = new PhieuDatPhong(
                 this.phong,
-                App.nhanvien.getValue(),
+                App.nhanVien.getValue(),
                 this.khachHang,
                 Date.from(ngayThue.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), //new Date(),
                 Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
