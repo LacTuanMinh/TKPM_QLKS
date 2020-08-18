@@ -1,5 +1,7 @@
 package ql.khachsan.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ql.khachsan.App;
+import ql.khachsan.models.NhanVien;
 
 import java.io.IOException;
 import java.net.URL;
@@ -59,6 +62,7 @@ public class NavBarController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userName.setText(App.nhanvien.getValue().getTenTaiKhoan());
+
     }
 
     public void taiKhoan_Clicked(ActionEvent actionEvent) throws IOException {

@@ -204,11 +204,11 @@ public class LapPhieuController implements Initializable {
         this.phong = phong;
         this.tenPhong.setText(phong.getTenPhong());
         this.loaiPhong.setText(phong.getLoaiPhong().getTenLoaiPhong());
-        this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
         this.giaPhong.setText(formatter.format(this.phong.getLoaiPhong().getGia()));
 
         if (phong.getTrangThai() == 1) {
             // phòng trống
+            this.nhanVien.setText(App.nhanvien.getValue().getHoTen());
             this.ngayThue.setValue(LocalDate.now());
             themPhieu.setDisable(false);
             luuThayDoi.setDisable(true);
@@ -221,6 +221,7 @@ public class LapPhieuController implements Initializable {
             refresh.setDisable(true);
             phieu = PhieuDatPhongDAO.getPhieuDatPhongByIDPhong(phong.getIdPhong());
 
+            this.nhanVien.setText(phieu.getNhanVien().getHoTen());
             this.khachHang = phieu.getKhachHang();
             ngayThue.setValue(phieu.getNgayThue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             ngayTra.setValue(phieu.getNgayTra().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
