@@ -65,6 +65,7 @@ public class QlNhanVienController implements Initializable {
             femaleButton.setSelected(true);
         }
 
+        cmnd.setText(nhanVien.getCmnd());
         hoTen.setText(nhanVien.getHoTen());
         ngaySinh.setText(format.format(nhanVien.getNgaySinh()));
         soDienThoai.setText(nhanVien.getSoDienThoai());
@@ -76,6 +77,7 @@ public class QlNhanVienController implements Initializable {
     }
 
     private void updateView() {
+        nhanVienTableView.getItems().clear();
         dsNhanVien = NhanVienDAO.getAllNhanVien();
         dsNhanVienData = FXCollections.observableArrayList(dsNhanVien);
         nhanVienTableView.getItems().addAll(dsNhanVienData);

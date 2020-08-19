@@ -105,9 +105,12 @@ public class QlLoaiPhongController implements Initializable {
     }
 
     private void updateView() {
+        loaiPhongTableView.getItems().clear();
         dsLoaiPhong = LoaiPhongDAO.getAllLoaiPhong();
         dsLoaiPhongData = FXCollections.observableArrayList(dsLoaiPhong);
-        loaiPhongTableView.getItems().addAll(dsLoaiPhongData);
+//        loaiPhongTableView.getItems().addAll(dsLoaiPhongData);
+        loaiPhongTableView.setItems(dsLoaiPhongData);
+        loaiPhongTableView.refresh();
     }
 
     private void resetValues() {

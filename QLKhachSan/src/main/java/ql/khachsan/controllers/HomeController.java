@@ -359,15 +359,15 @@ public class HomeController implements Initializable {
             tenPhong.setTextFill(Color.web("#fc0000"));
             tenPhong.setFont(new Font("System Bold", 15));
 
-            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());
+            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong() + " (" + phong_i.getLoaiPhong().getSoNguoiToiDa() + ")");
             loaiPhong.setAlignment(Pos.CENTER);
             loaiPhong.setPrefHeight(25);
             loaiPhong.setPrefWidth(139);
             loaiPhong.setLayoutX(20);
             loaiPhong.setLayoutY(155);
-            loaiPhong.setFont(new Font(13));
-            AnchorPane.setLeftAnchor(loaiPhong, 10.0);
-            AnchorPane.setRightAnchor(loaiPhong, 5.0);
+            loaiPhong.setFont(new Font(11));
+            AnchorPane.setLeftAnchor(loaiPhong, 4.0);
+            AnchorPane.setRightAnchor(loaiPhong, 4.0);
 
             anchorPane.getChildren().addAll(imgView, tenPhong, loaiPhong);
             Button btn = new Button();
@@ -424,15 +424,15 @@ public class HomeController implements Initializable {
             tenPhong.setTextFill(Color.web("#fc0000"));
             tenPhong.setFont(new Font("System Bold", 15));
 
-            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());
+            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong() + " (" + phong_i.getLoaiPhong().getSoNguoiToiDa() + ")");
             loaiPhong.setAlignment(Pos.CENTER);
             loaiPhong.setPrefHeight(25);
             loaiPhong.setPrefWidth(139);
             loaiPhong.setLayoutX(20);
             loaiPhong.setLayoutY(155);
-            loaiPhong.setFont(new Font(13));
-            AnchorPane.setLeftAnchor(loaiPhong, 10.0);
-            AnchorPane.setRightAnchor(loaiPhong, 5.0);
+            loaiPhong.setFont(new Font(11));
+            AnchorPane.setLeftAnchor(loaiPhong, 4.0);
+            AnchorPane.setRightAnchor(loaiPhong, 4.0);
 
             anchorPane.getChildren().addAll(imgView, tenPhong, loaiPhong);
             Button btn = new Button();
@@ -489,15 +489,15 @@ public class HomeController implements Initializable {
             tenPhong.setTextFill(Color.web("#fc0000"));
             tenPhong.setFont(new Font("System Bold", 15));
 
-            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong());
+            Label loaiPhong = new Label(phong_i.getLoaiPhong().getTenLoaiPhong() + " (" + phong_i.getLoaiPhong().getSoNguoiToiDa() + ")");
             loaiPhong.setAlignment(Pos.CENTER);
             loaiPhong.setPrefHeight(25);
             loaiPhong.setPrefWidth(139);
             loaiPhong.setLayoutX(20);
             loaiPhong.setLayoutY(155);
-            loaiPhong.setFont(new Font(13));
-            AnchorPane.setLeftAnchor(loaiPhong, 10.0);
-            AnchorPane.setRightAnchor(loaiPhong, 5.0);
+            loaiPhong.setFont(new Font(11));
+            AnchorPane.setLeftAnchor(loaiPhong, 4.0);
+            AnchorPane.setRightAnchor(loaiPhong, 4.0);
 
             anchorPane.getChildren().addAll(imgView, tenPhong, loaiPhong);
             Button btn = new Button();
@@ -531,13 +531,10 @@ public class HomeController implements Initializable {
             alert.showAndWait();
             return;
         }
-
         displayRoomCardDependingOnRoomName(searchField.getText());
-
     }
 
     public void refreshBtn_Clicked(ActionEvent actionEvent) {
-
         displayAllRoomCard();
     }
 }

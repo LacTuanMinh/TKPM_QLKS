@@ -57,6 +57,7 @@ public class QlPhongController implements Initializable {
     }
 
     private void updateView() {
+        phongTableView.getItems().clear();
         dsPhong = PhongDAO.getAllPhong();
         dsPhongData = FXCollections.observableArrayList(dsPhong);
         phongTableView.getItems().addAll(dsPhongData);
