@@ -108,14 +108,14 @@ public class LoaiPhongDAO {
             // Xem theo ngày
             if (watchType == 1) {
                 sql.append("WHERE PDP.NgayThue = :date) AS PDP ON P.IDPhong = PDP.IDPhong JOIN " +
-                        "LoaiPhong LP ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY LP.IDLoaiPhong");
+                        "LoaiPhong LP ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY P.IDLoaiPhong");
                 list = session.createNativeQuery(sql.toString()).setParameter("date", date).list();
             }
             // Xem theo tháng
             else if (watchType == 2) {
                 sql.append("WHERE MONTH(PDP.NgayThue) = :month AND YEAR(PDP.NgayThue) = :year) AS PDP " +
                         "ON P.IDPhong = PDP.IDPhong JOIN LoaiPhong LP ON P.IDLoaiPhong = LP.IDLoaiPhong " +
-                        "GROUP BY LP.IDLoaiPhong");
+                        "GROUP BY P.IDLoaiPhong");
                 list = session.createNativeQuery(sql.toString())
                         .setParameter("month", month)
                         .setParameter("year", year)
@@ -125,7 +125,7 @@ public class LoaiPhongDAO {
             else if (watchType == 3) {
                 sql.append("WHERE MONTH(PDP.NgayThue) >= :from AND MONTH(PDP.NgayThue) <= :to AND " +
                         "YEAR(PDP.NgayThue) = :year) AS PDP ON P.IDPhong = PDP.IDPhong JOIN LoaiPhong LP " +
-                        "ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY LP.IDLoaiPhong");
+                        "ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY P.IDLoaiPhong");
                 list = session.createNativeQuery(sql.toString())
                         .setParameter("from", from)
                         .setParameter("to", to)
@@ -135,13 +135,13 @@ public class LoaiPhongDAO {
             // Xem theo năm
             else if (watchType == 4) {
                 sql.append("WHERE YEAR(PDP.NgayThue) = :year) AS PDP ON P.IDPhong = PDP.IDPhong " +
-                        "JOIN LoaiPhong LP ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY LP.IDLoaiPhong");
+                        "JOIN LoaiPhong LP ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY P.IDLoaiPhong");
                 list = session.createNativeQuery(sql.toString()).setParameter("year", year).list();
             }
             // Xem tất cả
             else {
                 sql.append(") AS PDP ON P.IDPhong = PDP.IDPhong JOIN LoaiPhong LP " +
-                        "ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY LP.IDLoaiPhong");
+                        "ON P.IDLoaiPhong = LP.IDLoaiPhong GROUP BY P.IDLoaiPhong");
                 list = session.createNativeQuery(sql.toString()).list();
             }
 
