@@ -40,13 +40,14 @@ public class QlPhongController implements Initializable {
 
         tenPhong.setText(phong.getTenPhong());
         loaiPhongComboBox.setValue(phong.getLoaiPhong());
-
+        trangThaiComboBox.setDisable(false);
         String trangThai = "";
         if (phong.getTrangThai() == 1) {
             trangThai = "Trống";
         }
         else if (phong.getTrangThai() == 2) {
             trangThai = "Có khách";
+            trangThaiComboBox.setDisable(true);
         }
         else if (phong.getTrangThai() == 3) {
             trangThai = "Không sử dụng được";
@@ -148,7 +149,7 @@ public class QlPhongController implements Initializable {
         dsLoaiPhongData = FXCollections.observableArrayList(dsLoaiPhong);
         loaiPhongComboBox.getItems().addAll(dsLoaiPhongData);
 
-        trangThaiComboBox.getItems().addAll("Trống", "Có khách", "Không sử dụng được");
+        trangThaiComboBox.getItems().addAll("Trống", "Không sử dụng được");
 
         createTableView();
     }

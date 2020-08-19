@@ -19,7 +19,7 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <TextField fx:id="userName" text="giamdoc" layoutX="21.0" layoutY="131.0" prefHeight="39.0" prefWidth="308.0" style="-fx-background-radius: 5;">
+        <TextField fx:id="userName" text="quanly1" layoutX="21.0" layoutY="131.0" prefHeight="39.0" prefWidth="308.0" style="-fx-background-radius: 5;">
             <font>
                 <Font size="18.0" />
             </font>
@@ -29,7 +29,7 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <PasswordField fx:id="password" text="giamdoc" layoutX="22.0" layoutY="212.0" prefHeight="39.0" prefWidth="308.0" style="-fx-background-radius: 5;" />
+        <PasswordField fx:id="password" text="quanly" layoutX="22.0" layoutY="212.0" prefHeight="39.0" prefWidth="308.0" style="-fx-background-radius: 5;" />
         <Button fx:id="loginBtn" defaultButton="true" layoutX="202.0" layoutY="291.0" mnemonicParsing="false" onAction="#loginBtn_Clicked" prefHeight="39.0" prefWidth="119.0" style="-fx-background-radius: 8; -fx-background-color: #20b7e6;" text="Đăng nhập" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="17.0" />

@@ -129,7 +129,7 @@ public class HoaDonController implements Initializable {
         tenPhong.setTextFill(Color.web("#fc0000"));
         tenPhong.setFont(new Font("System Bold", 15));
         AnchorPane.setLeftAnchor(tenPhong, 4.0);
-        AnchorPane.setRightAnchor(tenPhong, 55.0);
+        AnchorPane.setRightAnchor(tenPhong, 4.0);
 
         Label loaiPhong = new Label(phieuDatPhong.getPhong().getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
         loaiPhong.setPrefHeight(25);

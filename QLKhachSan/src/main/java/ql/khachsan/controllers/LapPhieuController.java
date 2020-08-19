@@ -340,7 +340,7 @@ public class LapPhieuController implements Initializable {
                 Date.from(ngayThue.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), //new Date(),
                 Date.from(ngayTra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                 Float.parseFloat(tongTien.getText().replaceAll(",", "")),
-                ThamSoDAO.getThamSo().getIsDisable()
+                !ThamSoDAO.getThamSo().getIsDisable()
         );
 
         this.phieu = phieuDatPhong;
@@ -352,6 +352,7 @@ public class LapPhieuController implements Initializable {
         alert.setHeaderText("Thêm phiếu thành công");
         alert.setContentText(phieuDatPhong.getIdPhieuDatPhong() + "");
         alert.showAndWait();
+        xuatPhieuButton.setDisable(false);
         themPhieu.setDisable(true);
         luuThayDoi.setDisable(false);
         lapHoaDon.setDisable(false);
@@ -376,7 +377,7 @@ public class LapPhieuController implements Initializable {
         tenPhong.setTextFill(Color.web("#fc0000"));
         tenPhong.setFont(new Font("System Bold", 15));
         AnchorPane.setLeftAnchor(tenPhong, 4.0);
-        AnchorPane.setRightAnchor(tenPhong, 55.0);
+        AnchorPane.setRightAnchor(tenPhong, 4.0);
 
         Label loaiPhong = new Label(phong.getLoaiPhong().getTenLoaiPhong());//Label("Tham gia: " + model.soNguoiDuocDuyetThamDuHoiNghi(hoiNghi_i.getId()) + "/" + hoiNghi_i.getSoNguoiMax() + " người");
         loaiPhong.setPrefHeight(25);
