@@ -75,7 +75,12 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Label>
-            <Button fx:id="exportButton" mnemonicParsing="false" onAction="#exportButtonClicked" text="Xuất báo cáo" />
+            <Button fx:id="exportButton" mnemonicParsing="false" onAction="#exportButtonClicked" text="Xuất báo cáo">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="saveImageButton" mnemonicParsing="false" onAction="#saveImageButtonClicked" text="Lưu hình biểu đồ" visible="false" />
          </children>
       </HBox>
    </children>

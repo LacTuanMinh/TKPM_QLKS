@@ -1,24 +1,39 @@
 package ql.khachsan.controllers;
 
-import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javafx.stage.Window;
 import ql.khachsan.App;
 import ql.khachsan.DAO.DoanhThuDAO;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -49,6 +64,7 @@ public class BaoCaoThongKeController implements Initializable {
     public Label tongDoanhThu;
     public Label tongSoLuotThue;
     public Button exportButton;
+    public Button saveImageButton;
 
     private ObservableList<Object[]> reportData;
     private List<Object[]> reportList;
@@ -323,6 +339,7 @@ public class BaoCaoThongKeController implements Initializable {
         else {
             reportTableView.getItems().clear();
             reportTableView.getColumns().clear();
+            saveImageButton.setVisible(false);
             hbox.setVisible(true);
 
             int watchValue = watchValueComboBox.getSelectionModel().getSelectedIndex();
@@ -648,9 +665,10 @@ public class BaoCaoThongKeController implements Initializable {
         reportTableView.getColumns().addAll(ngayCol, soLuotThueCol, doanhThuCol);
     }
 
+    private Scene bieuDoDoanhThu;
     public void exportButtonClicked(ActionEvent actionEvent) {
+        saveImageButton.setVisible(true);
         int value = watchValueComboBox.getSelectionModel().getSelectedIndex();
-
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         StackedBarChart<String, Number> sbc = new StackedBarChart<String, Number>(xAxis, yAxis);
@@ -724,6 +742,7 @@ public class BaoCaoThongKeController implements Initializable {
         sbc.setLegendVisible(false);
 
         Scene scene = new Scene(sbc, 1200, 600);
+        bieuDoDoanhThu = scene;
         Stage stage = new Stage();
         stage.setTitle("Báo cáo doanh thu");
         stage.setScene(scene);
@@ -733,5 +752,30 @@ public class BaoCaoThongKeController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(App.homeStage);
         stage.show();
+    }
+
+    private void saveAsImage(Scene scene) {
+        WritableImage image = scene.snapshot(null);
+        Window window = scene.getWindow();
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image PNG files (*.png)", "*.png", "*.PNG"));
+        File file = fc.showSaveDialog(window);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        // open file just got created
+        try {
+            Desktop.getDesktop().open(file.getAbsoluteFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveImageButtonClicked(ActionEvent actionEvent) {
+        saveAsImage(bieuDoDoanhThu);
     }
 }

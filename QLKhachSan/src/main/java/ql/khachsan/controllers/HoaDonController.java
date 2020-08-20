@@ -6,6 +6,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -223,7 +224,7 @@ public class HoaDonController implements Initializable {
             float tongTien = phieuDatPhong.getTongTien();
 
             String str = file.getAbsolutePath();
-            com.itextpdf.text.Document document = new Document();
+            Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(str));
 
             document.open();

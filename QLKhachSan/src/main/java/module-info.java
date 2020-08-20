@@ -15,7 +15,7 @@ module ql.khachsan {
     requires itextpdf;
 
     requires java.desktop;
-    //requires javafx.swing;
+    requires javafx.swing;
 
     opens ql.khachsan to javafx.fxml;
     opens ql.khachsan.controllers to javafx.fxml;

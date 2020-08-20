@@ -116,7 +116,8 @@ public class DoanhThuDAO {
 
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT LP.IDLoaiPhong, LP.TenLoaiPhong, CAST(COUNT(PDP.IDPhong) AS CHAR(32)) AS SoLuotThue, " +
-                    "CAST(IFNULL(SUM(PDP.TongTien), 0) AS CHAR(32)) AS DoanhThu FROM Phong P LEFT JOIN (SELECT PDP.* FROM PhieuDatPhong PDP ");
+                    "CAST(IFNULL(SUM(PDP.TongTien), 0) AS CHAR(32)) AS DoanhThu FROM " +
+                    "Phong P LEFT JOIN (SELECT PDP.* FROM PhieuDatPhong PDP ");
 
             // Xem theo ngày
             if (watchType == 1) {
