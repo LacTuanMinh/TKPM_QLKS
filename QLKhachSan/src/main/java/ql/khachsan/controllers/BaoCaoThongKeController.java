@@ -52,7 +52,6 @@ public class BaoCaoThongKeController implements Initializable {
 
     private ObservableList<Object[]> reportData;
     private List<Object[]> reportList;
-    private List<Object[]> data;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,8 +84,8 @@ public class BaoCaoThongKeController implements Initializable {
                     monthComboBox.setVisible(false);
                     quarterLabel.setVisible(false);
                     quarterComboBox.setVisible(false);
-
                     showButton.setVisible(false);
+                    hbox.setVisible(false);
 
                     yearLabel.setLayoutX(481);
                     yearComboBox.setLayoutX(542);
@@ -94,6 +93,10 @@ public class BaoCaoThongKeController implements Initializable {
                     monthComboBox.setLayoutX(718);
 
                     watchTypeComboBox.setValue(null);
+                    fromYearComboBox.setValue(null);
+                    toYearComboBox.setValue(null);
+                    yearComboBox.setValue(null);
+                    monthComboBox.setValue(null);
 
                     if (t1.equals("Theo loại phòng") || t1.equals("Theo phòng")) {
                         watchTypeLabel.setVisible(true);
@@ -652,7 +655,33 @@ public class BaoCaoThongKeController implements Initializable {
         NumberAxis yAxis = new NumberAxis();
         StackedBarChart<String, Number> sbc = new StackedBarChart<String, Number>(xAxis, yAxis);
 
-        if (value == 2) {
+        if (value == 0) {
+            sbc.setTitle("Báo cáo doanh thu tổng thể");
+            xAxis.setLabel("Loại phòng");
+            yAxis.setLabel("Doanh thu");
+
+            for (Object[] item : reportList) {
+                XYChart.Series series = new XYChart.Series();
+                series.setName((String)item[1]);
+                series.getData().add(new XYChart.Data(item[1],
+                        Float.parseFloat((String)item[3])));
+                sbc.getData().add(series);
+            }
+        }
+        else if (value == 1) {
+            sbc.setTitle("Báo cáo doanh thu tổng thể");
+            xAxis.setLabel("Phòng");
+            yAxis.setLabel("Doanh thu");
+
+            for (Object[] item : reportList) {
+                XYChart.Series series = new XYChart.Series();
+                series.setName((String)item[1]);
+                series.getData().add(new XYChart.Data("Phòng " + item[1],
+                        Float.parseFloat((String)item[4])));
+                sbc.getData().add(series);
+            }
+        }
+        else if (value == 2) {
             sbc.setTitle("Báo cáo doanh thu tổng thể");
             xAxis.setLabel("Năm");
             yAxis.setLabel("Doanh thu");
@@ -694,7 +723,7 @@ public class BaoCaoThongKeController implements Initializable {
 
         sbc.setLegendVisible(false);
 
-        Scene scene = new Scene(sbc, 1280, 700);
+        Scene scene = new Scene(sbc, 1200, 600);
         Stage stage = new Stage();
         stage.setTitle("Báo cáo doanh thu");
         stage.setScene(scene);
