@@ -268,7 +268,6 @@ public class QlNhanVienController implements Initializable {
         });
     }
 
-
     public void cancelButtonClicked(ActionEvent actionEvent) {
         resetValues();
     }

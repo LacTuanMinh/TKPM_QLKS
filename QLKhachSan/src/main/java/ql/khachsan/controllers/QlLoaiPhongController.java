@@ -86,6 +86,7 @@ public class QlLoaiPhongController implements Initializable {
                 button.setOnAction(event -> {
                     seeDetailButtonClicked(loaiPhong);
 
+                    addButton.setDisable(true);
                     updateButton.setDisable(false);
                     deleteButton.setDisable(false);
                 });
@@ -108,7 +109,6 @@ public class QlLoaiPhongController implements Initializable {
         loaiPhongTableView.getItems().clear();
         dsLoaiPhong = LoaiPhongDAO.getAllLoaiPhong();
         dsLoaiPhongData = FXCollections.observableArrayList(dsLoaiPhong);
-//        loaiPhongTableView.getItems().addAll(dsLoaiPhongData);
         loaiPhongTableView.setItems(dsLoaiPhongData);
         loaiPhongTableView.refresh();
     }
@@ -118,6 +118,7 @@ public class QlLoaiPhongController implements Initializable {
         soNguoiToiDa.setText("");
         gia.setText("");
 
+        addButton.setDisable(false);
         updateButton.setDisable(true);
         deleteButton.setDisable(true);
 
@@ -152,7 +153,7 @@ public class QlLoaiPhongController implements Initializable {
         }
         else if (check == -2) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Ô nhập liệu lương tháng không hợp hệ");
+            alert.setTitle("Ô nhập liệu số người tối đa không hợp hệ");
             alert.setContentText("Số người tối đa phải là 1 con số");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
@@ -162,7 +163,7 @@ public class QlLoaiPhongController implements Initializable {
         }
         else if (check == -3) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Ô nhập liệu lương tháng không hợp hệ");
+            alert.setTitle("Ô nhập liệu giá loại phòng không hợp hệ");
             alert.setContentText("Giá loại phòng phải là 1 con số");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {

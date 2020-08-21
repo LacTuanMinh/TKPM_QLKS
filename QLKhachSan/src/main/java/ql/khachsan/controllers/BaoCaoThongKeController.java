@@ -1,10 +1,5 @@
 package ql.khachsan.controllers;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfWriter;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import javafx.stage.FileChooser;
@@ -33,10 +27,10 @@ import ql.khachsan.DAO.DoanhThuDAO;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -69,6 +63,8 @@ public class BaoCaoThongKeController implements Initializable {
 
     private ObservableList<Object[]> reportData;
     private List<Object[]> reportList;
+
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -675,7 +671,25 @@ public class BaoCaoThongKeController implements Initializable {
         StackedBarChart<String, Number> sbc = new StackedBarChart<String, Number>(xAxis, yAxis);
 
         if (value == 0) {
-            sbc.setTitle("Báo cáo doanh thu tổng thể");
+            int type = watchTypeComboBox.getSelectionModel().getSelectedIndex();
+            if (type == 0) {
+                sbc.setTitle("Báo cáo doanh thu tổng thể");
+            }
+            else if (type == 1) {
+                Date date = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                sbc.setTitle("Báo cáo doanh thu ngày " + format.format(date));
+            }
+            else if (type == 2) {
+                sbc.setTitle("Báo cáo doanh thu tháng " + monthComboBox.getValue() + "/" +
+                        yearComboBox.getValue());
+            }
+            else if (type == 3) {
+                sbc.setTitle("Báo cáo doanh thu quý " + quarterComboBox.getValue() + " năm " +
+                        yearComboBox.getValue());
+            }
+            else if (type == 4) {
+                sbc.setTitle("Báo cáo doanh thu năm " + yearComboBox.getValue());
+            }
             xAxis.setLabel("Loại phòng");
             yAxis.setLabel("Doanh thu");
 
@@ -688,7 +702,25 @@ public class BaoCaoThongKeController implements Initializable {
             }
         }
         else if (value == 1) {
-            sbc.setTitle("Báo cáo doanh thu tổng thể");
+            int type = watchTypeComboBox.getSelectionModel().getSelectedIndex();
+            if (type == 0) {
+                sbc.setTitle("Báo cáo doanh thu tổng thể");
+            }
+            else if (type == 1) {
+                Date date = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                sbc.setTitle("Báo cáo doanh thu ngày " + format.format(date));
+            }
+            else if (type == 2) {
+                sbc.setTitle("Báo cáo doanh thu tháng " + monthComboBox.getValue() + "/" +
+                        yearComboBox.getValue());
+            }
+            else if (type == 3) {
+                sbc.setTitle("Báo cáo doanh thu quý " + quarterComboBox.getValue() + " năm " +
+                        yearComboBox.getValue());
+            }
+            else if (type == 4) {
+                sbc.setTitle("Báo cáo doanh thu năm " + yearComboBox.getValue());
+            }
             xAxis.setLabel("Phòng");
             yAxis.setLabel("Doanh thu");
 
@@ -701,7 +733,8 @@ public class BaoCaoThongKeController implements Initializable {
             }
         }
         else if (value == 2) {
-            sbc.setTitle("Báo cáo doanh thu tổng thể");
+            sbc.setTitle("Báo cáo doanh thu từ năm " + fromYearComboBox.getValue() +
+                    " đến năm " + toYearComboBox.getValue());
             xAxis.setLabel("Năm");
             yAxis.setLabel("Doanh thu");
 
@@ -714,7 +747,7 @@ public class BaoCaoThongKeController implements Initializable {
             }
         }
         else if (value == 3) {
-            sbc.setTitle("Báo cáo doanh thu năm " + yearComboBox.getValue());
+            sbc.setTitle("Báo cáo doanh thu giữa các tháng trong năm " + yearComboBox.getValue());
             xAxis.setLabel("Tháng");
             yAxis.setLabel("Doanh thu");
 
@@ -727,7 +760,8 @@ public class BaoCaoThongKeController implements Initializable {
             }
         }
         else if (value == 4) {
-            sbc.setTitle("Báo cáo doanh thu tháng: " + monthComboBox.getValue() + "/" + yearComboBox.getValue());
+            sbc.setTitle("Báo cáo doanh thu giữa các ngày trong tháng " +
+                    monthComboBox.getValue() + "/" + yearComboBox.getValue());
             xAxis.setLabel("Ngày");
             yAxis.setLabel("Doanh thu");
 

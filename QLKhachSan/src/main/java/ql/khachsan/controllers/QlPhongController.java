@@ -40,14 +40,25 @@ public class QlPhongController implements Initializable {
 
         tenPhong.setText(phong.getTenPhong());
         loaiPhongComboBox.setValue(phong.getLoaiPhong());
+
+        tenPhong.setDisable(false);
+        loaiPhongComboBox.setDisable(false);
         trangThaiComboBox.setDisable(false);
+        updateButton.setDisable(false);
+        deleteButton.setDisable(false);
+
         String trangThai = "";
         if (phong.getTrangThai() == 1) {
             trangThai = "Trống";
         }
         else if (phong.getTrangThai() == 2) {
             trangThai = "Có khách";
+            updateButton.setDisable(true);
+            deleteButton.setDisable(true);
+            tenPhong.setDisable(true);
+            loaiPhongComboBox.setDisable(true);
             trangThaiComboBox.setDisable(true);
+
         }
         else if (phong.getTrangThai() == 3) {
             trangThai = "Không sử dụng được";
@@ -131,8 +142,7 @@ public class QlPhongController implements Initializable {
                 button.setOnAction(event -> {
                     seeDetailButtonClicked(phong);
 
-                    updateButton.setDisable(false);
-                    deleteButton.setDisable(false);
+                    addButton.setDisable(true);
                 });
             }
         });
@@ -150,7 +160,7 @@ public class QlPhongController implements Initializable {
         dsLoaiPhongData = FXCollections.observableArrayList(dsLoaiPhong);
         loaiPhongComboBox.getItems().addAll(dsLoaiPhongData);
 
-        trangThaiComboBox.getItems().addAll("Trống", "Không sử dụng được");
+        trangThaiComboBox.getItems().addAll("Trống", "Có khách", "Không sử dụng được");
 
         createTableView();
     }
@@ -162,6 +172,7 @@ public class QlPhongController implements Initializable {
 
         updateButton.setDisable(true);
         deleteButton.setDisable(true);
+        addButton.setDisable(false);
 
         phongDangXem = null;
     }
@@ -312,7 +323,7 @@ public class QlPhongController implements Initializable {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Chúc mừng!!!");
-            alert.setContentText("Đã thêm mới thành công");
+            alert.setContentText("Đã chỉnh sửa thành công");
             alert.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
                     System.out.println("Pressed OK.");
