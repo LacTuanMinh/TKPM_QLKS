@@ -28,6 +28,7 @@ public class ThongTinCaNhanController implements Initializable {
     public TextField soDienThoai;
     public RadioButton maleButton;
     public RadioButton femaleButton;
+    public TextField cmnd;
     public TextField queQuan;
     public TextField diaChi;
     public Text ngayBatDauDiLam;
@@ -62,6 +63,7 @@ public class ThongTinCaNhanController implements Initializable {
         hoTen.setText(App.nhanVien.getValue().getHoTen());
         ngaySinh.setText(format.format(App.nhanVien.getValue().getNgaySinh()));
         soDienThoai.setText(App.nhanVien.getValue().getSoDienThoai());
+        cmnd.setText(App.nhanVien.getValue().getCmnd());
         queQuan.setText(App.nhanVien.getValue().getQueQuan());
         diaChi.setText(App.nhanVien.getValue().getDiaChi());
         ngayBatDauDiLam.setText(format.format(App.nhanVien.getValue().getNgayBatDauDiLam()));
@@ -100,6 +102,7 @@ public class ThongTinCaNhanController implements Initializable {
         hoTen.setText(oldValue.getHoTen());
         ngaySinh.setText(format.format(oldValue.getNgaySinh()));
         soDienThoai.setText(oldValue.getSoDienThoai());
+        cmnd.setText(oldValue.getCmnd());
         queQuan.setText(oldValue.getQueQuan());
         diaChi.setText(oldValue.getDiaChi());
         ngayBatDauDiLam.setText(format.format(oldValue.getNgayBatDauDiLam()));
@@ -112,6 +115,7 @@ public class ThongTinCaNhanController implements Initializable {
         ngaySinh.setEditable(false);
         soDienThoai.setEditable(false);
         diaChi.setEditable(false);
+        cmnd.setEditable(false);
         queQuan.setEditable(false);
         matKhau.setEditable(false);
         maleButton.setDisable(true);
@@ -127,8 +131,9 @@ public class ThongTinCaNhanController implements Initializable {
         // Ô nhập liệu rỗng
         if (tenTaiKhoan.getText().equals("") || hoTen.getText().equals("") ||
                 ngaySinh.getText().equals("") || luongThang.getText().equals("") ||
-                queQuan.getText().equals("") || diaChi.getText().equals("") ||
-                ngayBatDauDiLam.getText().equals("") || soDienThoai.getText().equals("")) {
+                cmnd.getText().equals("") || queQuan.getText().equals("") ||
+                diaChi.getText().equals("") || ngayBatDauDiLam.getText().equals("") ||
+                soDienThoai.getText().equals("")) {
             return -1;
         }
         // Kiểm tra nhập mật khẩu hiện tại
@@ -194,6 +199,7 @@ public class ThongTinCaNhanController implements Initializable {
             nhanVien.setNgaySinh(format.parse(ngaySinh.getText()));
             nhanVien.setSoDienThoai(soDienThoai.getText());
             nhanVien.setDiaChi(diaChi.getText());
+            nhanVien.setCmnd(cmnd.getText());
             nhanVien.setQueQuan(queQuan.getText());
             nhanVien.setGioiTinh(maleButton.isSelected() ? "Nam" : "Nữ");
 
@@ -220,6 +226,7 @@ public class ThongTinCaNhanController implements Initializable {
         ngaySinh.setEditable(true);
         soDienThoai.setEditable(true);
         diaChi.setEditable(true);
+        cmnd.setEditable(true);
         queQuan.setEditable(true);
         matKhau.setEditable(true);
         maleButton.setDisable(false);

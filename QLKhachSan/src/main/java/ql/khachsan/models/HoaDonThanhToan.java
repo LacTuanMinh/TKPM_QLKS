@@ -19,7 +19,7 @@ public class HoaDonThanhToan {
     }
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDPhieuDatPhong", nullable = false)
+    @JoinColumn(name = "IDPhieuDatPhong", nullable = false, unique = true)
     private PhieuDatPhong phieuDatPhong;
 
     public PhieuDatPhong getPhieuDatPhong() {

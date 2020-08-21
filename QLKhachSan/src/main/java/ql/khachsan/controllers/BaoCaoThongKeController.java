@@ -4,6 +4,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -740,6 +741,7 @@ public class BaoCaoThongKeController implements Initializable {
         }
 
         sbc.setLegendVisible(false);
+        sbc.setCategoryGap((double)950 / reportList.size() - 10);
 
         Scene scene = new Scene(sbc, 1200, 600);
         bieuDoDoanhThu = scene;

@@ -265,15 +265,20 @@ public class DoanhThuDAO {
         try {
             session.getTransaction().begin();
 
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            StringBuilder date = new StringBuilder();
+            date.append("01/01/");
+            date.append(toYear);
+
             int gap = toYear - fromYear;
 
             StringBuilder sql = new StringBuilder();
             sql.append("SELECT Years.Year AS Nam, CAST(IFNULL(SUM(Temp.SoLuong), 0) AS CHAR(32)) AS SoLuotThue, " +
                     "CAST(IFNULL(SUM(Temp.DoanhThu), 0) AS CHAR(32)) AS DoanhThu " +
-                    "FROM (SELECT DATE_FORMAT(NOW(), '%Y') AS Year ");
+                    "FROM (SELECT DATE_FORMAT(:date, '%Y') AS Year ");
 
             for (int i = 0; i < gap; i++) {
-                sql.append("UNION SELECT DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ");
+                sql.append("UNION SELECT DATE_FORMAT(DATE_SUB(:date, INTERVAL ");
                 sql.append(i + 1);
                 sql.append(" YEAR), '%Y')");
             }
@@ -285,7 +290,9 @@ public class DoanhThuDAO {
                     "GROUP BY P.IDLoaiPhong, YEAR(PDP.NgayThue) ORDER BY PDP.NgayThue) AS Temp ON " +
                     "Temp.Nam = Years.Year GROUP BY Years.Year ORDER BY Years.Year");
 
-            list = session.createNativeQuery(sql.toString()).list();
+            list = session.createNativeQuery(sql.toString())
+                    .setParameter("date", format.parse(date.toString()))
+                    .list();
 
             session.getTransaction().commit();
         } catch (Exception ex) {
