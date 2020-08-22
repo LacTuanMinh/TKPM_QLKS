@@ -73,7 +73,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.4</version>
                 <configuration>
-                    <mainClass>ql.khachsan.App</mainClass>
+                    <mainClass>ql.khachsan.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
