@@ -173,6 +173,10 @@ public class QlPhongController implements Initializable {
         updateButton.setDisable(true);
         deleteButton.setDisable(true);
         addButton.setDisable(false);
+        
+        tenPhong.setDisable(false);
+        loaiPhongComboBox.setDisable(false);
+        trangThaiComboBox.setDisable(false);
 
         phongDangXem = null;
     }
