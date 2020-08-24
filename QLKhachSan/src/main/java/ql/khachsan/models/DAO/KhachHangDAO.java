@@ -1,9 +1,9 @@
-package ql.khachsan.DAO;
+package ql.khachsan.models.DAO;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ql.khachsan.App;
-import ql.khachsan.models.KhachHang;
+import ql.khachsan.models.entities.KhachHang;
 
 import java.util.List;
 

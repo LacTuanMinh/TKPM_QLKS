@@ -31,9 +31,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import ql.khachsan.App;
-import ql.khachsan.DAO.HoaDonThanhToanDAO;
-import ql.khachsan.DAO.PhongDAO;
-import ql.khachsan.models.*;
+import ql.khachsan.models.DAO.HoaDonThanhToanDAO;
+import ql.khachsan.models.DAO.PhongDAO;
+import ql.khachsan.models.entities.*;
 
 import java.awt.*;
 import java.io.File;
@@ -229,7 +229,7 @@ public class HoaDonController implements Initializable {
 
             document.open();
 
-            String path = getClass().getResource("/fonts/times.ttf").getPath();
+            String path = getClass().getResource("/assets/fonts/times.ttf").getPath();
             BaseFont bf = BaseFont.createFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             com.itextpdf.text.Font bigFont = new com.itextpdf.text.Font(bf, 20);
             com.itextpdf.text.Font smallFont = new com.itextpdf.text.Font(bf, 14);

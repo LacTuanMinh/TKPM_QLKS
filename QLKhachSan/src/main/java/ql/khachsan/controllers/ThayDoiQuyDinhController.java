@@ -11,8 +11,8 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ql.khachsan.App;
-import ql.khachsan.DAO.ThamSoDAO;
-import ql.khachsan.models.ThamSo;
+import ql.khachsan.models.DAO.ThamSoDAO;
+import ql.khachsan.models.entities.ThamSo;
 
 import java.io.IOException;
 import java.net.URL;

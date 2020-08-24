@@ -35,15 +35,15 @@
         <property name = "hibernate.jdbc.batch_versioned_data">true</property>
 
         <!-- Add more models class here-->
-        <mapping class="ql.khachsan.models.Phong" />
-        <mapping class="ql.khachsan.models.LoaiPhong" />
-        <mapping class="ql.khachsan.models.NhanVien" />
-        <mapping class="ql.khachsan.models.LoaiNhanVien" />
-        <mapping class="ql.khachsan.models.KhachHang" />
-        <mapping class="ql.khachsan.models.PhieuDatPhong" />
-        <mapping class="ql.khachsan.models.HoaDonThanhToan" />
-        <mapping class="ql.khachsan.models.KhuyenMai" />
-        <mapping class="ql.khachsan.models.ThamSo" />
+        <mapping class="ql.khachsan.models.entities.Phong" />
+        <mapping class="ql.khachsan.models.entities.LoaiPhong" />
+        <mapping class="ql.khachsan.models.entities.NhanVien" />
+        <mapping class="ql.khachsan.models.entities.LoaiNhanVien" />
+        <mapping class="ql.khachsan.models.entities.KhachHang" />
+        <mapping class="ql.khachsan.models.entities.PhieuDatPhong" />
+        <mapping class="ql.khachsan.models.entities.HoaDonThanhToan" />
+        <mapping class="ql.khachsan.models.entities.KhuyenMai" />
+        <mapping class="ql.khachsan.models.entities.ThamSo" />
 
     </session-factory>
 </hibernate-configuration>

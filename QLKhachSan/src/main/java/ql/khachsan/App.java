@@ -3,8 +3,6 @@ package ql.khachsan;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +10,7 @@ import javafx.stage.Stage;
 
 import org.hibernate.SessionFactory;
 import ql.khachsan.controllers.LoginController;
-import ql.khachsan.models.NhanVien;
+import ql.khachsan.models.entities.NhanVien;
 import ql.khachsan.utils.HibernateUtils;
 
 import java.io.IOException;

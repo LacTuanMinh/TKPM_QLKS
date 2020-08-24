@@ -9,11 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import ql.khachsan.DAO.LoaiNhanVienDAO;
-import ql.khachsan.DAO.NhanVienDAO;
-import ql.khachsan.DAO.PhongDAO;
-import ql.khachsan.models.LoaiNhanVien;
-import ql.khachsan.models.NhanVien;
+import ql.khachsan.models.DAO.LoaiNhanVienDAO;
+import ql.khachsan.models.DAO.NhanVienDAO;
+import ql.khachsan.models.entities.LoaiNhanVien;
+import ql.khachsan.models.entities.NhanVien;
 import ql.khachsan.utils.PasswordUtils;
 
 import java.net.URL;
@@ -22,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class QlNhanVienController implements Initializable {

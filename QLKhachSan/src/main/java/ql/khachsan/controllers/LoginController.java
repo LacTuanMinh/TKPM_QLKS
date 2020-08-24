@@ -1,21 +1,15 @@
 package ql.khachsan.controllers;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ql.khachsan.App;
-import ql.khachsan.DAO.NhanVienDAO;
-import ql.khachsan.models.NhanVien;
+import ql.khachsan.models.DAO.NhanVienDAO;
 import ql.khachsan.utils.PasswordUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {

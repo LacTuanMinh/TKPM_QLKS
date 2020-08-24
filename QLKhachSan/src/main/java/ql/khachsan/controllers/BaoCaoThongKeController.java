@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 import javafx.stage.Window;
 import ql.khachsan.App;
-import ql.khachsan.DAO.DoanhThuDAO;
+import ql.khachsan.models.DAO.DoanhThuDAO;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

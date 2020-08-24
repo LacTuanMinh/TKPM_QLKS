@@ -1,10 +1,9 @@
-package ql.khachsan.DAO;
+package ql.khachsan.models.DAO;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ql.khachsan.App;
-import ql.khachsan.models.PhieuDatPhong;
+import ql.khachsan.models.entities.PhieuDatPhong;
 
 import java.util.List;
 

@@ -8,10 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import ql.khachsan.DAO.LoaiPhongDAO;
-import ql.khachsan.DAO.PhongDAO;
-import ql.khachsan.models.LoaiPhong;
-import ql.khachsan.models.Phong;
+import ql.khachsan.models.DAO.LoaiPhongDAO;
+import ql.khachsan.models.DAO.PhongDAO;
+import ql.khachsan.models.entities.LoaiPhong;
+import ql.khachsan.models.entities.Phong;
 
 import java.net.URL;
 import java.util.List;

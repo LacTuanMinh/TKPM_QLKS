@@ -16,13 +16,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ql.khachsan.App;
-import ql.khachsan.models.NhanVien;
+import ql.khachsan.models.entities.NhanVien;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static ql.khachsan.App.getFXMLLoader;
 
 public class NavBarController implements Initializable {
     @FXML

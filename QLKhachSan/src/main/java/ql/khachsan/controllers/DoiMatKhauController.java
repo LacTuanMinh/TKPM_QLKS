@@ -7,7 +7,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 
 import ql.khachsan.App;
-import ql.khachsan.DAO.NhanVienDAO;
+import ql.khachsan.models.DAO.NhanVienDAO;
 import ql.khachsan.utils.PasswordUtils;
 
 public class DoiMatKhauController {

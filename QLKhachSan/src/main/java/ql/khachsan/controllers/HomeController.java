@@ -19,8 +19,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ql.khachsan.App;
-import ql.khachsan.DAO.PhongDAO;
-import ql.khachsan.models.Phong;
+import ql.khachsan.models.DAO.PhongDAO;
+import ql.khachsan.models.entities.Phong;
 
 import java.io.IOException;
 import java.net.URL;

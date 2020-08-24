@@ -33,14 +33,14 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 import ql.khachsan.App;
-import ql.khachsan.DAO.KhachHangDAO;
-import ql.khachsan.DAO.PhieuDatPhongDAO;
-import ql.khachsan.DAO.PhongDAO;
-import ql.khachsan.DAO.ThamSoDAO;
-import ql.khachsan.models.KhachHang;
-import ql.khachsan.models.PhieuDatPhong;
-import ql.khachsan.models.Phong;
-import ql.khachsan.models.ThamSo;
+import ql.khachsan.models.DAO.KhachHangDAO;
+import ql.khachsan.models.DAO.PhieuDatPhongDAO;
+import ql.khachsan.models.DAO.PhongDAO;
+import ql.khachsan.models.DAO.ThamSoDAO;
+import ql.khachsan.models.entities.KhachHang;
+import ql.khachsan.models.entities.PhieuDatPhong;
+import ql.khachsan.models.entities.Phong;
+import ql.khachsan.models.entities.ThamSo;
 
 import java.awt.*;
 import java.io.File;
@@ -505,7 +505,7 @@ public class LapPhieuController implements Initializable {
 
             document.open();
 
-            String path = getClass().getResource("/fonts/times.ttf").getPath();
+            String path = getClass().getResource("/assets/fonts/times.ttf").getPath();
             BaseFont bf = BaseFont.createFont(path, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             com.itextpdf.text.Font bigFont = new com.itextpdf.text.Font(bf, 20);
             com.itextpdf.text.Font smallFont = new com.itextpdf.text.Font(bf, 14);

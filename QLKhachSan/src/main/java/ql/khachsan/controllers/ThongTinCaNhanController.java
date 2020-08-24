@@ -10,8 +10,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ql.khachsan.App;
-import ql.khachsan.DAO.NhanVienDAO;
-import ql.khachsan.models.NhanVien;
+import ql.khachsan.models.DAO.NhanVienDAO;
+import ql.khachsan.models.entities.NhanVien;
 import ql.khachsan.utils.PasswordUtils;
 
 import java.io.IOException;

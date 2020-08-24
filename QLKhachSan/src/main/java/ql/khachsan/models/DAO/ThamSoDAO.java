@@ -1,8 +1,8 @@
-package ql.khachsan.DAO;
+package ql.khachsan.models.DAO;
 
 import org.hibernate.Session;
 import ql.khachsan.App;
-import ql.khachsan.models.ThamSo;
+import ql.khachsan.models.entities.ThamSo;
 
 import java.util.List;
 

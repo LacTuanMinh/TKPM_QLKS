@@ -1,11 +1,9 @@
-package ql.khachsan.DAO;
+package ql.khachsan.models.DAO;
 
-import com.itextpdf.text.pdf.PdfPTable;
 import org.hibernate.Session;
 import ql.khachsan.App;
-import ql.khachsan.models.LoaiPhong;
+import ql.khachsan.models.entities.LoaiPhong;
 
-import java.util.Date;
 import java.util.List;
 
 public class LoaiPhongDAO {

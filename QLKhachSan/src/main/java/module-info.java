@@ -19,7 +19,7 @@ module ql.khachsan {
 
     opens ql.khachsan to javafx.fxml;
     opens ql.khachsan.controllers to javafx.fxml;
-    opens ql.khachsan.models to org.hibernate.orm.core, javafx.base;
+    opens ql.khachsan.models.entities to org.hibernate.orm.core, javafx.base;
 
     exports ql.khachsan;
     exports ql.khachsan.controllers;
