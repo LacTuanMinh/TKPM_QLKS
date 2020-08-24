@@ -423,6 +423,9 @@ public class LapPhieuController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Không tìm thấy khách hàng. Vui lòng nhập thông tin chi tiết");
             alert.showAndWait();
+            tenKhach.setText("");
+            diaChi.setText("");
+            soDienThoai.setText("");
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Đã tìm thấy khách hàng");
